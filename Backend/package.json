@@ -5,7 +5,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Development team of the Team26 Noche group, FOOTALENT GROUP, 2024-2025",
   "license": "ISC",
-  "description": ""
+  "description": "Backend of the gestiON app, based on the PRD document prepared by the Team26 Noche group, FOOTALENT GROUP, 2024-2025",
+  "keywords": [
+    "gestiON",
+    "Team26-Footalent"
+  ],
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.4",
+    "nodemon": "^3.1.7"
+  }
 }
