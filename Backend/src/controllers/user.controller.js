@@ -67,8 +67,7 @@ const createUser = async (req, res) => {
 
         await nuevoUser.save();
         // Enviar correo de confirmación
-        const confirmationLink = `http://${process.env.CLIENT_URL}${process.env.PORT}/api/userconfirm?${confirmationToken}`; // Enlace de confirmación
-
+        const confirmationLink = `http://${process.env.CLIENT_URL}${process.env.PORT}/api/userconfirm?token=${confirmationToken}`; // Enlace de confirmación
         const emailData = {
             from: process.env.EMAIL_USER,
             to: userEmail,
@@ -221,31 +220,31 @@ const registerAdmin = async (req, res) => {
 
 const confirmUser = async (req, res) => {
     try {
-        const { token } = req.params;
+        const token = req.query.token;
 
         // Verificar el token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
+        console.log('decoded token ', decoded);
         const user = await User.findOne({
             userEmail: decoded.userEmail,
-            confirmationToken: token,
+            userConfirmationToken: token,
         });
 
         if (!user) return res.status(400).json({ error: 'Token inválido o expirado.' });
 
         // Verificar si el token está expirado
-        if (new Date() > user.confirmationTokenExpires) {
+        if (new Date() > user.userConfirmationTokenExpires) {
             user.userIsActive = false;
-            user.confirmationToken = null;
-            user.confirmationTokenExpires = null;
+            user.userConfirmationToken = null;
+            user.userConfirmationTokenExpires = null;
             await user.save();
             return res.status(400).json({ error: 'Token expirado. Contacte al administrador.' });
         }
 
         // Activar el usuario
         user.userIsActive = true;
-        user.confirmationToken = null;
-        user.confirmationTokenExpires = null;
+        user.userConfirmationToken = null;
+        user.userConfirmationTokenExpires = null;
         await user.save();
 
         return res.status(200).json({ message: 'Cuenta confirmada exitosamente.' });

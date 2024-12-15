@@ -40,7 +40,7 @@ router.get('/usercheckadmin', User.hasAdministrator);
 router.post('/user', User.createUser);
 
 // Revisar que existan usuarios U
-router.post('/userconfirm', User.confirmUser);
+router.patch('/userconfirm', User.confirmUser);
 
 module.exports = router
 
