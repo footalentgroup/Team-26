@@ -2,7 +2,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const mail = require('../controllers/mail.controller'); // Para enviar correos electrónicos
 const bcrypt = require('bcrypt');
-
+const {generateToken} = require('../middlewares/jwtGenerate');
 
 // Crear usuario
 const createUser = async (req, res) => {
@@ -62,6 +62,9 @@ const createUser = async (req, res) => {
             process.env.SECRET_KEY, // Usa una clave secreta de tu entorno
             { expiresIn: `${process.env.CONFIRMATION_EXPIRATION}h` }
         );
+        //Encrioptar la contraseña
+        const hashedPassword = await bcrypt.hash(nuevoUser.userPassword, 10);;
+        nuevoUser.userPassword = hashedPassword;
         nuevoUser.userConfirmationToken = confirmationToken;
         nuevoUser.userConfirmationTokenExpires = new Date(Date.now() + process.env.CONFIRMATION_EXPIRATION * 3600000); // hora en milisegundos
 
@@ -109,8 +112,8 @@ const loginUser = async (req, res) => {
         }
 
         // Comparar la contraseña
-        const isPasswordValid = await bcrypt.compare(password, user.userPassword);
-
+        const isPasswordValid = await bcrypt.compareSync(password, user.userPassword);
+        
         if (!isPasswordValid) {
             // Incrementar intentos fallidos
             user.failedAttempts += 1;
@@ -138,10 +141,10 @@ const loginUser = async (req, res) => {
         user.failedAttempts = 0;
 
         // Registrar el intento exitoso
-        const token = await generateToken(user._id, user.userEmail, user.userRole);
-
+        const token = await generateToken(user._id, user.userEmail, user.userRole)
+        
         user.userLoginAttempts.push({
-            status: 'éxito',
+            status: 'success',
             token,
         });
 
