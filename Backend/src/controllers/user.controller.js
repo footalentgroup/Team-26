@@ -67,11 +67,8 @@ const createUser = async (req, res) => {
 
         await nuevoUser.save();
         // Enviar correo de confirmación
-        const confirmationLink = `${process.env.CLIENT_URL}/api/userconfirm/${confirmationToken}`; // Enlace de confirmación
+        const confirmationLink = `http://${process.env.CLIENT_URL}${process.env.PORT}/api/userconfirm?${confirmationToken}`; // Enlace de confirmación
 
-        //     text: `Hola ${name},\n\nTu cuenta ha sido creada exitosamente. Aquí está tu contraseña temporal: ${password}\n\nPor favor, inicia sesión y cambia tu contraseña.\n\nLink de inicio de sesión: ${process.env.LOGIN_URL}\n\nSaludos,\nEl equipo de Footalent`
-        //   };
-        //     const mailOptions = {
         const emailData = {
             from: process.env.EMAIL_USER,
             to: userEmail,
