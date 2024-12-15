@@ -10,7 +10,7 @@ const generateToken = (userData = {}) => {
         const secret = process.env.SECRET_KEY
         const token = jwt.sign(payload, secret, {
             //condiciones adicionales al token
-            expiresIn: '3h'
+            expiresIn: `${process.env.SESSION_EXPIRATION}h`
         })
 
         return token

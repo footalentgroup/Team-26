@@ -6,3 +6,7 @@ node_modules/
 
 # others directories
 reference-documents/
+
+# some files
+src/controllers/roleAccess.js
+userController.js
