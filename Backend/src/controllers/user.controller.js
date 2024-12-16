@@ -1,8 +1,20 @@
+const { ObjectId } = require('mongodb');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const mail = require('../controllers/mail.controller'); // Para enviar correos electrónicos
+const mail = require('./mail.controller'); // Para enviar correos electrónicos
 const bcrypt = require('bcrypt');
-const {generateToken} = require('../middlewares/jwtGenerate');
+const { generateToken } = require('../middlewares/jwtGenerate');
+const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
+const temporalID = new ObjectId(); // ID o nombre del usuario
+
+const auditLogData = {
+    //En espera de accciones en el frontend para capturar usuario logeado
+    auditLogUser: temporalID // ID o nombre del usuario
+    , auditLogAction: 'CREATE'      // Acción realizada e.g., "CREATE", "UPDATE", "DELETE"
+    , auditLogModel: 'User'        // Modelo afectado, e.g., "User"
+    , auditLogDocumentId: null          // ID del documento afectado (puede ser nulo)
+    , auditLogChanges: null          // Cambios realizados o información adicional (no obligatorio)
+}
 
 // Crear usuario
 const createUser = async (req, res) => {
@@ -33,7 +45,9 @@ const createUser = async (req, res) => {
             const validRoles = ['supervisor', 'technician'];
 
             if (!validRoles.includes(nuevoUser.userRole)) {
-                return res.status(400).json({ error: 'El rol debe ser supervisor o técnico' });
+                return res.status(400).json({ 
+                    ok: false,
+                    error: 'El rol debe ser supervisor o técnico' });
             }
         }
 
@@ -69,23 +83,47 @@ const createUser = async (req, res) => {
         nuevoUser.userConfirmationTokenExpires = new Date(Date.now() + process.env.CONFIRMATION_EXPIRATION * 3600000); // hora en milisegundos
 
         await nuevoUser.save();
+        // Registrar en audit_logs
+        //En espera de accciones en el frontend para capturar usuario logeado
+        // auditLogData.auditLogUser = req.user.id;
+        // if (!auditLogData.auditLogUser) {
+        //     auditLogData.auditLogUser = 'req.user.id' // Usuario autenticado
+        // }
+        auditLogData.auditLogAction = 'CREATE'
+        auditLogData.auditLogDocumentId = nuevoUser._id
+        auditLogData.auditLogChanges = { newRecord: nuevoUser.toObject() }
+        // await AuditLogController.createAuditLog(auditLogData);
+
         // Enviar correo de confirmación
         const confirmationLink = `http://${process.env.CLIENT_URL}${process.env.PORT}/api/userconfirm?token=${confirmationToken}`; // Enlace de confirmación
         const emailData = {
-            from: process.env.EMAIL_USER,
             to: userEmail,
             subject: 'Bienvenido a gestiON',
+            text: `Por favor confirma tu registro haciendo clic en el enlace:
+              "${confirmationLink}"
+              Este enlace expirará en ${process.env.CONFIRMATION_EXPIRATION} hora(s)`,
             html: `<p>Por favor confirma tu registro haciendo clic en el enlace de abajo:</p>
               <a href="${confirmationLink}">Confirmar Cuenta</a>
               <p>Este enlace expirará en ${process.env.CONFIRMATION_EXPIRATION} hora.</p>`
         }
         // Reutilizar la función de envío de correos
-        await mail.send(emailData.from, emailData.to, emailData.subject, emailData.html);
-        return res.status(201).json({ message: 'Usuario creado exitosamente. Por favor, revisa tu correo para confirmar tu cuenta.' });
+        const result = await mail.sendEmail(emailData);
+        if(!result.sucess){            
+            const userDelete = await User.findOne({
+                        userEmail : userEmail
+                    })
+            if(userDelete) {        
+            await User.findByIdAndDelete(userDelete._id)
+            }
+             return res.status(201).json({ ok: false, message: 'Usuario No fue creado. No fue posible enviar correo.' });
+         }
+        return res.status(201).json({ ok: true, message: 'Usuario creado exitosamente. Por favor, revisa tu correo para confirmar tu cuenta.' });
 
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
+        return res.status(500).json({ 
+            ok: false,
+            error: 'Error interno del servidor' });
     }
 };
 
@@ -102,9 +140,18 @@ const loginUser = async (req, res) => {
                 message: 'User not found'
             });
         }
+        // Registrar en audit_logs
+        //En espera de accciones en el frontend para capturar usuario logeado
+        // auditLogData.auditLogUser = req.user.id;
+        // if (!auditLogData.auditLogUser) {
+        //     auditLogData.auditLogUser = 'req.user.id' // Usuario autenticado
+        // }
+        auditLogData.auditLogAction = 'UPDATE'
+        auditLogData.auditLogDocumentId = user._id
 
         // Verificar si el usuario está inactivo
         if (!user.userIsActive) {
+            auditLogData.auditLogChanges = { actionDetails: 'Intento fallido, Usuario bloqueado' }
             return res.status(403).json({
                 ok: false,
                 message: 'Usuario bloqueado. Por favor, contacte al administrador.'
@@ -113,10 +160,11 @@ const loginUser = async (req, res) => {
 
         // Comparar la contraseña
         const isPasswordValid = await bcrypt.compareSync(password, user.userPassword);
-        
+
         if (!isPasswordValid) {
             // Incrementar intentos fallidos
             user.failedAttempts += 1;
+            auditLogData.auditLogChanges = { actionDetails: 'Intento fallido, Clave incorrecta' }
 
             // Registrar el intento fallido
             user.userLoginAttempts.push({
@@ -126,10 +174,13 @@ const loginUser = async (req, res) => {
 
             // Bloquear al usuario si supera el límite de intentos
             if (user.failedAttempts >= 3) {
+                auditLogData.auditLogChanges = { actionDetails: 'Tercer Intento fallido, procede a bloquear' }
                 user.userIsActive = false;
             }
 
+            // Registrar en audit_logs
             await user.save();
+            // await AuditLogController.createAuditLog(auditLogData);
 
             return res.status(401).json({
                 ok: false,
@@ -142,23 +193,25 @@ const loginUser = async (req, res) => {
 
         // Registrar el intento exitoso
         const token = await generateToken(user._id, user.userEmail, user.userRole)
-        
+
         user.userLoginAttempts.push({
             status: 'success',
             token,
         });
 
         await user.save();
+        auditLogData.auditLogChanges = { newRecord: user.toObject() } // Detalles del nuevo registro
+        // await AuditLogController.createAuditLog(auditLogData);
 
         return res.status(200).json({
             ok: true,
-            msg: `${user.email}, Bienvendioa app gestiON`,
+            msg: `${user.userEmail}, Bienvendia app gestiON`,
             token: token,
             userId: user._id,
             userName: user.userName,
             userRole: user.userRole
         })
-;
+            ;
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -207,6 +260,11 @@ const registerAdmin = async (req, res) => {
         });
 
         await newUser.save();
+        auditLogData.auditLogAction = 'CREATE'
+        auditLogData.auditLogDocumentId = newUser._id
+        auditLogData.auditLogChanges = { newRecord: newUser.toObject() }
+        // await AuditLogController.createAuditLog(auditLogData);
+
         res.status(201).json({
             ok: true,
             message: 'Administrador registrado exitosamente',
@@ -233,7 +291,10 @@ const confirmUser = async (req, res) => {
             userConfirmationToken: token,
         });
 
-        if (!user) return res.status(400).json({ error: 'Token inválido o expirado.' });
+        if (!user) return res.status(400).json({ 
+            ok: false,
+            
+            error: 'Token inválido o expirado.' });
 
         // Verificar si el token está expirado
         if (new Date() > user.userConfirmationTokenExpires) {
@@ -241,7 +302,15 @@ const confirmUser = async (req, res) => {
             user.userConfirmationToken = null;
             user.userConfirmationTokenExpires = null;
             await user.save();
-            return res.status(400).json({ error: 'Token expirado. Contacte al administrador.' });
+
+            auditLogData.auditLogAction = 'UPDATE'
+            auditLogData.auditLogDocumentId = user._id
+            auditLogData.auditLogChanges = { newRecord: user.toObject() }
+            // await AuditLogController.createAuditLog(auditLogData);
+
+            return res.status(400).json({ 
+                ok: false,
+                error: 'Token expirado. Contacte al administrador.' });
         }
 
         // Activar el usuario
@@ -250,12 +319,44 @@ const confirmUser = async (req, res) => {
         user.userConfirmationTokenExpires = null;
         await user.save();
 
-        return res.status(200).json({ message: 'Cuenta confirmada exitosamente.' });
+        auditLogData.auditLogAction = 'UPDATE'
+        auditLogData.auditLogDocumentId = user._id
+        auditLogData.auditLogChanges = { newRecord: user.toObject() }
+        // await AuditLogController.createAuditLog(auditLogData);
+
+        return res.status(200).json({ 
+            ok: true,
+            message: 'Cuenta confirmada exitosamente.' });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ error: 'Error interno del servidor.' });
+        return res.status(500).json({ 
+            ok: false,
+            
+            error: 'Error interno del servidor.' });
     }
 };
+
+// const testEmail = async (req, res) => {
+//     try {
+//         const emailTo = req.params.id;
+//         if (!emailTo) {
+//             return res.status(400).json({ error: `Falta el email de destino. ${req.params.id}` });
+//         }
+//         const textMessage = 'Hola, este es un mensaje de prueba. Por favor, ignora este mensaje.';
+//         const emailData = {
+//             to: `${emailTo} <${emailTo}>`,
+//             subject: 'Testing app gestiON - Team26 Noche 2024 - FootalentGroup',
+//             text: textMessage,
+//             html: `<p>${textMessage}</p>`
+//         }
+//         // Reutilizar la función de envío de correos
+//         const info = await mail.sendEmail(emailData);
+//         return res.status(200).json({ message: 'Email enviado', data: info });
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).json({ error: 'Error interno del servidor.' });
+//     }
+// }
 
 module.exports = {
     createUser
@@ -264,4 +365,6 @@ module.exports = {
     , registerAdmin
     , confirmUser
     //   , getAuditLogByUser
+    // , testEmail
 };
+

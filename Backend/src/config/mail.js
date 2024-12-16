@@ -12,14 +12,16 @@ const transporter = nodemailer.createTransport({
     tls: {
         rejectUnauthorized: false // Evita errores con certificados auto-firmados (opcional)
     }
-});
+}, {
+    from: `"App gestiON! Notificaciones" <${process.env.SMTP_USER}>` // Remitente predeterminado
+  });
 
 // Verificar conexión al servidor SMTP
 transporter.verify((error, success) => {
     if (error) {
         console.error('SMTP Error:', error);
     } else {
-        console.log('SMTP Configurado y listo para enviar correos.');
+        console.log('SMTP Configurado y listo para enviar correos.', success);
     }
 });
 

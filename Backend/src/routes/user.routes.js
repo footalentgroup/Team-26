@@ -42,5 +42,7 @@ router.post('/user', User.createUser);
 // Revisar que existan usuarios U
 router.patch('/userconfirm', User.confirmUser);
 
+// router.get('/usertestemail/:id', User.testEmail);
+
 module.exports = router
 
