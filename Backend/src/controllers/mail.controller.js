@@ -30,8 +30,8 @@ const sendEmail = async ( emailData ) => {
         }
 
     }
-}
-    ;
+};
+
 module.exports = {
     sendEmail
 };

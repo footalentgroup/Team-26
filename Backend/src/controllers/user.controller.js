@@ -336,6 +336,16 @@ const confirmUser = async (req, res) => {
     }
 };
 
+module.exports = {
+    createUser
+    , loginUser
+    , hasAdministrator
+    , registerAdmin
+    , confirmUser
+    //   , getAuditLogByUser
+    // , testEmail
+};
+
 // const testEmail = async (req, res) => {
 //     try {
 //         const emailTo = req.params.id;
@@ -357,14 +367,3 @@ const confirmUser = async (req, res) => {
 //         return res.status(500).json({ error: 'Error interno del servidor.' });
 //     }
 // }
-
-module.exports = {
-    createUser
-    , loginUser
-    , hasAdministrator
-    , registerAdmin
-    , confirmUser
-    //   , getAuditLogByUser
-    // , testEmail
-};
-
