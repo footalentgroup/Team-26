@@ -47,7 +47,7 @@ export class RegisterAdminComponent {
       })
       .catch((error) => {
         console.error('Error al registrar administrador:', error);
-        this.msg.Load('danger', 'Error al registrar adminitrador ya existe uno en la db');
+        this.msg.Load('danger', 'Error al registrar adminitrador ya existe uno en la dbls');
       });
   }
 }
