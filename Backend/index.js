@@ -17,3 +17,5 @@ app.use('/', api)
 app.listen(port, () => {
     console.log(`Servidor conectado en el puerto ${port}`)
 })
+
+export default app;
