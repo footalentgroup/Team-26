@@ -1,0 +1,101 @@
+/*$$$$$$$$$$$$$$$$styles de encabezado$$$$$$$$$$$$$$$$$$$$$$$$$*/
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #135b9b;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius:0px 0px 25px 25px;
+    position: relative;
+}
+
+.logo{
+    width: 40px;
+    border-radius: 8px;
+}
+
+.info a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+.user-info a {
+    color: #55C1FF; 
+    text-decoration: none; 
+    font-size: 14px
+}
+.user-info span{
+    font-weight: bold; 
+    color: white; 
+    font-size: 16px;
+}
+.user-info img {
+    width: 50px;
+    height: 50px; 
+    border-radius: 50%
+}
+/*$$$$$$$$$$$$$$$$$$$$$$$styles tabala de tecnicos$$$$$$$$$$$$$$$$$$$*/
+.tecnicos {
+    background-color: #fff;
+    margin-top: 50px;
+    width: 35%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid #135b9b;
+    
+}
+.tittle-tecnicos{
+    background-color: #135b9b;
+    border-radius: 8px 8px 0px 0px;
+    color: #fff;
+    padding: 10px;
+}
+.tecnicos_disponibles {
+    list-style: none;
+    padding: 15px;
+}
+.logo-buscar {
+    width: 30px;
+    margin-left: 190px;
+    cursor: pointer;
+}
+.tecnicos li {
+    padding: 10px 0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+.logotecni{
+    width: 40px;
+}
+.tecnicos_disponibles li:hover {
+    background-color: #f4f4f4;
+}
+/*$$$$$$$$$$$$$$$$$$$$$$$Ubicaciones$$$$$$$$$$$$$$$$$$$*/
+
+.ubicacion {
+    background-color: #fff;
+    margin-top: 50px;
+    width: 35%;
+    border: 1px solid #135b9b;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+.tittle-ubicacion{
+    background-color: #135b9b;
+    height: 60px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px 8px 0px 0px;
+    color: #fff;
+}
+
+.map {
+    width: 100%;
+}
