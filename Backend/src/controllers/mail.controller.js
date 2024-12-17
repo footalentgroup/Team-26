@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const transporter = require('../config/mail');
-const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
+// const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
 // const auditLog = require('../models/AuditLog');
 const temporalID = new ObjectId(); // ID o nombre del usuario
 
@@ -18,7 +18,7 @@ const sendEmail = async ( emailData ) => {
         // );
 
         console.log('Correo enviado:', info.messageId);
-        return info;
+        return { success: true, message: `Correo enviado: ${info.messageId}` };
     } catch (error) {
         // Manejo del error sin relanzarlo
         if (error.responseCode === 550) {
@@ -26,9 +26,8 @@ const sendEmail = async ( emailData ) => {
             return { success: false, message: 'El correo no es válido.' };
         } else {
             console.error('Error al enviar el correo:', error.message);
-            return { success: false, message: 'Error al enviar el correo.' };
+            return { success: false, message: `Error al enviar el correo. Código: ${error.responseCode}` };
         }
-
     }
 };
 
