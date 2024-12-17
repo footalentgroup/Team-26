@@ -2,7 +2,7 @@ const RoleAccess = require('./models/RoleAccess');
 const User = require('./models/User');
 
 
-// Buscar todas las roleAccess
+// Buscar todos los registros para roleAccess
 const getAllRoleAccess = async (req, res) => {
     try {
         const roleAccess = await RoleAccess.find()

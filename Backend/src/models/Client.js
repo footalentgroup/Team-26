@@ -50,4 +50,4 @@ const clientSchema = new mongoose.Schema({
 // Crear el índice 2dsphere en el campo geoLocation
 clientSchema.index({ geoLocation: '2dsphere' });
 
-module.exports = mongoose.model('Client', clientSchema);
+module.exports = mongoose.model('Client', clientSchema );
