@@ -45,9 +45,10 @@ const createUser = async (req, res) => {
             const validRoles = ['supervisor', 'technician'];
 
             if (!validRoles.includes(nuevoUser.userRole)) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     ok: false,
-                    error: 'El rol debe ser supervisor o técnico' });
+                    error: 'El rol debe ser supervisor o técnico'
+                });
             }
         }
 
@@ -108,22 +109,22 @@ const createUser = async (req, res) => {
         }
         // Reutilizar la función de envío de correos
         const result = await mail.sendEmail(emailData);
-        if(!result.sucess){            
-            const userDelete = await User.findOne({
-                        userEmail : userEmail
-                    })
-            if(userDelete) {        
-            await User.findByIdAndDelete(userDelete._id)
+        console.log('result sendMail', result);
+        if (!result.success) {
+            const userDelete = await User.findOne({ userEmail: userEmail });
+            if (userDelete) {
+                await User.findByIdAndDelete(userDelete._id)
             }
-             return res.status(201).json({ ok: false, message: 'Usuario No fue creado. No fue posible enviar correo.' });
-         }
-        return res.status(201).json({ ok: true, message: 'Usuario creado exitosamente. Por favor, revisa tu correo para confirmar tu cuenta.' });
-
+            return res.status(201).json({ ok: false, message: 'Usuario No fue creado. No fue posible enviar correo.' });
+        } else {
+            return res.status(201).json({ ok: true, message: 'Usuario creado exitosamente. Por favor, revisa tu correo para confirmar tu cuenta.' });
+        }
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ 
+        return res.status(500).json({
             ok: false,
-            error: 'Error interno del servidor' });
+            error: 'Error interno del servidor'
+        });
     }
 };
 
@@ -291,10 +292,11 @@ const confirmUser = async (req, res) => {
             userConfirmationToken: token,
         });
 
-        if (!user) return res.status(400).json({ 
+        if (!user) return res.status(400).json({
             ok: false,
-            
-            error: 'Token inválido o expirado.' });
+
+            error: 'Token inválido o expirado.'
+        });
 
         // Verificar si el token está expirado
         if (new Date() > user.userConfirmationTokenExpires) {
@@ -308,9 +310,10 @@ const confirmUser = async (req, res) => {
             auditLogData.auditLogChanges = { newRecord: user.toObject() }
             // await AuditLogController.createAuditLog(auditLogData);
 
-            return res.status(400).json({ 
+            return res.status(400).json({
                 ok: false,
-                error: 'Token expirado. Contacte al administrador.' });
+                error: 'Token expirado. Contacte al administrador.'
+            });
         }
 
         // Activar el usuario
@@ -324,15 +327,17 @@ const confirmUser = async (req, res) => {
         auditLogData.auditLogChanges = { newRecord: user.toObject() }
         // await AuditLogController.createAuditLog(auditLogData);
 
-        return res.status(200).json({ 
+        return res.status(200).json({
             ok: true,
-            message: 'Cuenta confirmada exitosamente.' });
+            message: 'Cuenta confirmada exitosamente.'
+        });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ 
+        return res.status(500).json({
             ok: false,
-            
-            error: 'Error interno del servidor.' });
+
+            error: 'Error interno del servidor.'
+        });
     }
 };
 
@@ -350,7 +355,7 @@ const confirmUser = async (req, res) => {
 //             html: `<p>${textMessage}</p>`
 //         }
 //         // Reutilizar la función de envío de correos
-//         const info = await mail.sendEmail(emailData);
+//         const info = await mail.sendEmail(emailData, result);
 //         return res.status(200).json({ message: 'Email enviado', data: info });
 //     } catch (error) {
 //         console.error(error);
