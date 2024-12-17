@@ -1,0 +1,26 @@
+<app-mensajes></app-mensajes>
+<div class="register-container">
+    <div class="register-card">
+        <div class="logo-container">
+        <img src="/assets/logo.PNG" alt="Logo" />
+        </div>
+    <h2>Registro de Administrador</h2>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" [(ngModel)]="name" required placeholder="Ingrese su nombre"/>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" [(ngModel)]="email" required placeholder="Ingrese su correo electrónico"/>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" [(ngModel)]="password" required placeholder="Ingrese su password"/>
+        </div>
+
+        <button type="submit">Registrar</button>
+    </form>
+</div>
