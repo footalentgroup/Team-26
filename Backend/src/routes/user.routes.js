@@ -44,3 +44,4 @@ router.patch('/userconfirm', User.confirmUser);
 
 module.exports = router
 
+// router.get('/usertestemail/:id', User.testEmail);

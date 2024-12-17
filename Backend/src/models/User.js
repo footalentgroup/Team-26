@@ -2,8 +2,29 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
-    userName: { type: String, required: true },
-    userEmail: { type: String, required: true, unique: true },
+    userName: {
+      type: String,
+      unique: true,
+      required: [true, 'Nombre es obligatorio'],
+      uppercase: true,
+      trim: true,
+      minlength: [3, 'El nombre del usuario debe tener al menos 3 caracteres'],
+      maxlength: [100, 'El nombre del usuario no puede exceder los 100 caracteres']
+    },
+    userEmail: {
+      type: String,
+      unique: true,
+      required: [true, 'Email es obligatorio'],
+      lowercase: true,
+      trim: true,
+      validate: {
+        validator: function (review) {
+          // Expresión regular para validar el formato de email
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(review);
+        },
+        msg: props => `${props.value} no es un email válido!`
+      }
+    },
     userPassword: { type: String, required: true },
     userIsActive: { type: Boolean, default: true }, // Active/Inactive status
     userRole: { type: String, enum: ['administrator', 'supervisor', 'technician'], default: 'technician' }, // User role
@@ -23,3 +44,4 @@ const userSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('User', userSchema);
+
