@@ -206,7 +206,7 @@ const loginUser = async (req, res) => {
 
         return res.status(200).json({
             ok: true,
-            msg: `${user.userEmail}, Bienvendia app gestiON`,
+            msg: `${user.userEmail}, Bienvenida app gestiON`,
             token: token,
             userId: user._id,
             userName: user.userName,
