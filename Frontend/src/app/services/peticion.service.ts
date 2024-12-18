@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class PeticionService {
 
-public UrlHost:string= 'http://localhost:3001' 
+public UrlHost:string= 'https://gestion-backend-tan.vercel.app' 
 
   constructor(private http:HttpClient) { }
 
