@@ -281,11 +281,18 @@ const registerAdmin = async (req, res) => {
 };
 
 const confirmUser = async (req, res) => {
-    try {
-        const token = req.query.token;
-
+    const token = req.query.token.trim();
+    if (!token) {
+        return res.status(400).json({
+            ok: false,
+            error: 'Token no proporcionado'
+        });
+    }
+try {
+ 
         // Verificar el token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        
         console.log('decoded token ', decoded);
         const user = await User.findOne({
             userEmail: decoded.userEmail,
