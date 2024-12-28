@@ -63,7 +63,7 @@ const createUser = async (req, res) => {
             });
         }
 
-        // Buscar al usuario por email
+        // Buscar al usuario por name
         user = await User.findOne({ username: nuevoUser.userName });
         if (user) {
             return res.status(404).json({
@@ -71,7 +71,7 @@ const createUser = async (req, res) => {
                 message: 'Ya existe registro con este nombre'
             });
         }
-        // Generar un token de confirmación con expiración de 1 hora
+        // Generar un token de confirmación con expiración de CONFIRMATION_EXPIRATION hora
         const confirmationToken = jwt.sign(
             { userEmail },
             process.env.SECRET_KEY, // Usa una clave secreta de tu entorno
@@ -85,11 +85,11 @@ const createUser = async (req, res) => {
 
         await nuevoUser.save();
         // Registrar en audit_logs
-        //En espera de accciones en el frontend para capturar usuario logeado
-        // auditLogData.auditLogUser = req.user.id;
-        // if (!auditLogData.auditLogUser) {
-        //     auditLogData.auditLogUser = 'req.user.id' // Usuario autenticado
-        // }
+        // En espera de accciones en el frontend para capturar usuario logeado
+        auditLogData.auditLogUser = req.user.id;
+        if (!auditLogData.auditLogUser) {
+            auditLogData.auditLogUser = 'req.user.id' // Usuario autenticado
+        }
         auditLogData.auditLogAction = 'CREATE'
         auditLogData.auditLogDocumentId = nuevoUser._id
         auditLogData.auditLogChanges = { newRecord: nuevoUser.toObject() }
