@@ -34,6 +34,19 @@ const swaggerOptions = {
                 url: `${process.env.CLIENT_URL}:${process.env.PORT}/api`, // Replace with your server URL
             },
         ],
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                },
+            },
+        },
+        security: [
+            {
+                BearerAuth: [],
+            },
+        ],
     },
     apis: ['./src/routes/*.js'], // Adjust to the location of your route files
 };

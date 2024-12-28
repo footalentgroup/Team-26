@@ -13,8 +13,6 @@ const { validateToken } = require('../middlewares/validateToken')
  *   post:
  *     summary: Register a new client
  *     tags: [Clients]
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -70,6 +68,8 @@ const { validateToken } = require('../middlewares/validateToken')
  *             schema:
  *               type: object
  *               example: { "ok": false, "message": "Error al obtener datos", "data":{ ... } } 
+ *     security:
+ *       - BearerAuth: []
  */
 
 router.post('/client', validateToken, Client.createClient);
