@@ -12,7 +12,7 @@ const clientSchema = new mongoose.Schema({
         // Expresión regular para validar el formato de email
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(review);
       },
-      msg: props => `${props.value} no es un email válido!`
+      message: props => `${props.value} no es un email válido!`
     }
   },
   clientCompanyName: {

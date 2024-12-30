@@ -6,18 +6,26 @@ const escapeRegex = (text) => {
     return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escapa caracteres especiales de regex
 };
 
+const auditLogData = {
+    auditLogUser: null          // Usuario que realizó la acción (puede ser nulo)
+    , auditLogAction: null      // Acción realizada e.g., "CREATE", "UPDATE", "DELETE"
+    , auditLogModel: 'Client'        // Modelo afectado, e.g., "User"
+    , auditLogDocumentId: null          // ID del documento afectado (puede ser nulo)
+    , auditLogChanges: null          // Cambios realizados o información adicional (no obligatorio)
+}
+
+
 // Buscar todos los registros para clients
 const getAllClients = async (req, res) => {
     try {
         const clients = await Client.find()
         if (!clients || clients.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron clientes' });
         // Registrar en audit_logs
+        auditLogData.auditLogUser = req.user.id;
+        auditLogData.auditLogAction = 'READ';
+        auditLogData.auditLogChanges = { actionDetails: 'Retrieved all clients' };
         await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'Client', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: 'Retrieved all clients' } // Detalles adicionales
+            auditLogData
         );
 
         return res.status(200).json({
@@ -41,14 +49,12 @@ const createClient = async (req, res) => {
         const nuevoClient = new Client(req.body);
         await nuevoClient.save();
         // Registrar en audit_logs
+        auditLogData.auditLogUser = req.user.id;
+        auditLogData.auditLogChanges = { actionDetails: 'Retrieved all clients' };
         await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario que realizó la acción
-            'CREATE', // Acción
-            'Client', // Modelo afectado
-            nuevoClient._id, // ID del nuevo documento
-            { newRecord: nuevoClient.toObject() } // Detalles del nuevo registro
+            auditLogData
         );
-        res.status(201).json({ ok: true, message: 'Cliente creado exitosamente', data: nuevoClient });
+        return res.status(201).json({ ok: true, message: 'Cliente creado exitosamente', data: nuevoClient });
     } catch (error) {
         if (error.code === 11000) {
             res.status(400).json({
@@ -106,21 +112,20 @@ const updateClientById = async (req, res) => {
                 ok: false,
                 message: 'No fue posible modificar cliente, no fue encontrado o no se detecto modificaciones'
             })
-        const updateclient = await Client.findById(id)
+        // const updateclient = await Client.findById(id)
 
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id',
-            'UPDATE',
-            'Client',
-            id,
-            changes // Detalles de los cambios
+        // // Registrar en audit_logs
+        auditLogData.auditLogUser = req.user.id;
+        auditLogData.auditLogDocumentId = client._id            // ID del documento afectado (puede ser nulo)
+        auditLogData.auditLogChanges = changes                  // Cambios realizados o información adicional (no obligatorio)
+            await AuditLogController.createAuditLog(
+            auditLogData
         );
 
         return res.status(200).json({
             ok: true,
             message: 'cliente actualizado',
-            client: updateclient
+            data: client
         })
     }
     catch (error) {
@@ -143,12 +148,11 @@ const getClientById = async (req, res) => {
             message: `No fue encontrado cliente para ${id}`
         })
         // Registrar en audit_logs
+        auditLogData.auditLogUser = req.user.id;
+        auditLogData.auditLogAction = 'READ';
+        auditLogData.auditLogChanges = { actionDetails: 'Retrieved client by id' };
         await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'Client', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: 'Retrieved client by id' } // Detalles adicionales
+            auditLogData
         );
 
         return res.status(200).json({
@@ -178,13 +182,13 @@ const getClientByEmail = async (req, res) => {
             message: `No fue encontrado cliente para ${clientEmail}`
         })
         // Registrar en audit_logs
+        auditLogData.auditLogUser = req.user.id;
+        auditLogData.auditLogAction = 'READ';
+        auditLogData.auditLogChanges = { actionDetails: 'Retrieved client clientEmail id' } // Detalles adicionales
         await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'Client', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: 'Retrieved client clientEmail id' } // Detalles adicionales
+            auditLogData
         );
+
         return res.status(200).json({
             ok: true,
             message: 'Encontrado cliente',
@@ -244,14 +248,14 @@ const searchClients = async (req, res) => {
             return res.status(404).json({ ok: false, message: 'No se encontraron clientes.' });
         }
         // Registrar en audit_logs
+        // Registrar en audit_logs
+        auditLogData.auditLogUser = req.user.id;
+        auditLogData.auditLogAction = 'READ';
+        auditLogData.auditLogChanges = { actionDetails: `Clientes recuperados mediante búsqueda global: ${querySearch}` } // Detalles adicionales
         await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'Client', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: `Clientes recuperados mediante búsqueda global: ${querySearch}` } // Detalles adicionales
+            auditLogData
         );
-        res.status(200).json({
+        return res.status(200).json({
             ok: true, message: 'Clientes encontrados',
             data: results
         })
@@ -273,13 +277,14 @@ const deleteClientById = async (req, res) => {
                 message: 'No fue posible eliminar cliente, no fue encontrado'
             })
         // Registrar en audit_logs
+        // Registrar en audit_logs
+        auditLogData.auditLogUser = req.user.id;
+        auditLogData.auditLogAction = 'DELETE';
+        auditLogData.auditLogDocumentId = id            // ID del documento
+        auditLogData.auditLogChanges = { deletedRecord: client.toObject() } // Detalles del documento eliminado
         await AuditLogController.createAuditLog(
-            'req.user.id',
-            'DELETE',
-            'Client',
-            id,
-            { deletedRecord: client.toObject() } // Detalles del documento eliminado                 
-        ); // await AuditLogController.createAuditLog(
+            auditLogData
+        );
         return res.status(200).json({
             ok: true,
             message: 'cliente eliminado',
