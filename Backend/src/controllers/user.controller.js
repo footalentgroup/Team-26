@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const mail = require('./mail.controller'); // Para enviar correos electrónicos
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../middlewares/jwtGenerate');
-// const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
+const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
 const temporalID = new ObjectId(); // ID o nombre del usuario
 
 const auditLogData = {
@@ -63,7 +63,7 @@ const createUser = async (req, res) => {
             });
         }
 
-        // Buscar al usuario por email
+        // Buscar al usuario por name
         user = await User.findOne({ username: nuevoUser.userName });
         if (user) {
             return res.status(404).json({
@@ -71,7 +71,7 @@ const createUser = async (req, res) => {
                 message: 'Ya existe registro con este nombre'
             });
         }
-        // Generar un token de confirmación con expiración de 1 hora
+        // Generar un token de confirmación con expiración de CONFIRMATION_EXPIRATION hora
         const confirmationToken = jwt.sign(
             { userEmail },
             process.env.SECRET_KEY, // Usa una clave secreta de tu entorno
@@ -85,15 +85,17 @@ const createUser = async (req, res) => {
 
         await nuevoUser.save();
         // Registrar en audit_logs
-        //En espera de accciones en el frontend para capturar usuario logeado
-        // auditLogData.auditLogUser = req.user.id;
-        // if (!auditLogData.auditLogUser) {
-        //     auditLogData.auditLogUser = 'req.user.id' // Usuario autenticado
-        // }
+        // En espera de accciones en el frontend para capturar usuario logeado
+        auditLogData.auditLogUser = req.user.id;
+        if (!auditLogData.auditLogUser) {
+            auditLogData.auditLogUser = 'not req.user.id in createUser ' // Usuario autenticado
+        }
         auditLogData.auditLogAction = 'CREATE'
         auditLogData.auditLogDocumentId = nuevoUser._id
         auditLogData.auditLogChanges = { newRecord: nuevoUser.toObject() }
-        // await AuditLogController.createAuditLog(auditLogData);
+        await AuditLogController.createAuditLog(
+            auditLogData
+        );
 
         // Enviar correo de confirmación
         const confirmationLink = `http://${process.env.CLIENT_URL}${process.env.PORT}/api/userconfirm?token=${confirmationToken}`; // Enlace de confirmación
@@ -200,24 +202,64 @@ const loginUser = async (req, res) => {
             token,
         });
 
+        // Registrar el token de la Sesiòn
+        user.userLoginToken = token;
+
         await user.save();
         auditLogData.auditLogChanges = { newRecord: user.toObject() } // Detalles del nuevo registro
         // await AuditLogController.createAuditLog(auditLogData);
 
         return res.status(200).json({
             ok: true,
-            msg: `${user.userEmail}, Bienvenida app gestiON`,
+            message: `${user.userEmail}, Bienvendia app gestiON`,
             token: token,
             userId: user._id,
             userName: user.userName,
             userRole: user.userRole
-        })
-            ;
+        });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({
             ok: false,
             message: 'Ocurrió un error durante el inicio de sesión'
+        });
+    }
+};
+
+const closeUserSession = async (req, res) => {
+    const { id } = req.params;
+    try {
+        // Buscar al usuario por ID
+        const user = await User.findById(id);
+        console.log(`userId: ${id}, user: ${user}`)
+
+        if (!user) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Usuario no encontrado'
+            });
+        }
+
+        // Asignar null al token de sesión
+        user.userLoginToken = null;
+
+        await user.save();
+        auditLogData.auditLogUser = user._id;
+        auditLogData.auditLogAction = 'UPDATE';
+        auditLogData.auditLogDocumentId = user._id;
+        auditLogData.auditLogChanges = { actionDetails: 'Cierre de sesión' };
+        // await AuditLogController.createAuditLog(auditLogData);
+
+        return res.status(200).json({
+            ok: true,
+            message: 'Sesión cerrada exitosamente'
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            ok: false,
+            message: 'Error interno del servidor'
         });
     }
 };
@@ -281,11 +323,18 @@ const registerAdmin = async (req, res) => {
 };
 
 const confirmUser = async (req, res) => {
+    const token = req.query.token.trim();
+    if (!token) {
+        return res.status(400).json({
+            ok: false,
+            error: 'Token no proporcionado'
+        });
+    }
     try {
-        const token = req.query.token;
 
         // Verificar el token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
         console.log('decoded token ', decoded);
         const user = await User.findOne({
             userEmail: decoded.userEmail,
@@ -305,10 +354,11 @@ const confirmUser = async (req, res) => {
             user.userConfirmationTokenExpires = null;
             await user.save();
 
+            auditLogData.auditLogUser = req.user.id;
             auditLogData.auditLogAction = 'UPDATE'
             auditLogData.auditLogDocumentId = user._id
             auditLogData.auditLogChanges = { newRecord: user.toObject() }
-            // await AuditLogController.createAuditLog(auditLogData);
+            await AuditLogController.createAuditLog(auditLogData);
 
             return res.status(400).json({
                 ok: false,
@@ -341,12 +391,48 @@ const confirmUser = async (req, res) => {
     }
 };
 
+// Buscar registro por Id
+const getUserById = async (req, res) => {
+    const id = req.params.id
+    try {
+        const user = await User.findById(id)
+        if (!user) return res.status(404).json({
+            ok: false,
+            message: `No fue encontrado usuario para ${id}`
+        })
+        // Registrar en audit_logs
+        await AuditLogController.createAuditLog(
+            'req.user.id', // Usuario autenticado
+            'READ', // Acción
+            'User', // Modelo afectado
+            null, // No aplica a un documento específico
+            { actionDetails: 'Retrieved user by id' } // Detalles adicionales
+        );
+
+        return res.status(200).json({
+            ok: true,
+            message: 'Encontrado usuario',
+            data: user
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            message: 'No fue encontrado usuario, por favor contactar a soporte',
+            data: error
+        })
+    }
+}
+
+
 module.exports = {
     createUser
     , loginUser
     , hasAdministrator
     , registerAdmin
     , confirmUser
+    , closeUserSession
+    , getUserById
     //   , getAuditLogByUser
     // , testEmail
 };

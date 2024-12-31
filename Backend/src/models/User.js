@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
           // Expresión regular para validar el formato de email
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(review);
         },
-        msg: props => `${props.value} no es un email válido!`
+        message: props => `${props.value} no es un email válido!`
       }
     },
     userPassword: { type: String, required: true },
@@ -39,9 +39,13 @@ const userSchema = new mongoose.Schema(
     ],
     userConfirmationToken: { type: String }, // Token de confirmación
     userConfirmationTokenExpires: { type: Date }, // Fecha de expiración del token    
+    userLoginToken: { type: String } // Token de Login
   },
   { timestamps: true }
 );
+
+
+
 
 module.exports = mongoose.model('User', userSchema);
 

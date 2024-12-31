@@ -20,7 +20,6 @@ app.listen(port, () => {
     console.log(`Servidor conectado en el puerto ${port}`)
 })
 
-
 // Swagger configuration
 const swaggerOptions = {
     definition: {
@@ -28,11 +27,24 @@ const swaggerOptions = {
         info: {
             title: 'gestiON API',
             version: '1.0.0',
-            description: 'API documentation for gestiON, our MEAN stack application',
+            description: 'API documentation for gestiON, MEAN stack application by the "Footalent - Team26-Nioche" team; 2024-2025',
         },
         servers: [
             {
                 url: `${process.env.CLIENT_URL}:${process.env.PORT}/api`, // Replace with your server URL
+            },
+        ],
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                },
+            },
+        },
+        security: [
+            {
+                BearerAuth: [],
             },
         ],
     },
@@ -44,4 +56,4 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 // Use Swagger-UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-// module.exports = app;
+console.log(`swaggerSpec ${process.env.CLIENT_URL}:${process.env.PORT}/api-docs`)
