@@ -21,7 +21,8 @@ const validateToken = async (req, res, next) => {
         req.user = decoded
         const { userData } = decoded
         const userValidate = await User.findById(userData);
-        console.log(`token es:${token} y el decoded es:${decoded}, userData: ${userData}, Userfind: ${userValidate}`)
+        // console.log(`token es:${token} y el decoded es:${decoded}, userData: ${userData}, Userfind: ${userValidate}`)
+        console.log(`token es:${token} y el decoded es:${decoded}`)
         if (!userValidate){
             return res.status(404).json({
                 ok: false,
@@ -43,7 +44,7 @@ const validateToken = async (req, res, next) => {
     
         }
         //validar que el usuario que pide la peticion es el mismo del token
-        req.user = decoded
+        // req.user = decoded
         // console.log(`token es:${token} y el decoded es:${decoded}`)
         // console.log(decoded)
 

@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const Client = require("../models/Client");
 const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
 
@@ -17,11 +18,16 @@ const auditLogData = {
 
 // Buscar todos los registros para clients
 const getAllClients = async (req, res) => {
+
     try {
+        const token = req.header('Authorization')?.split(' ')[1]
+        //trae la variable de la llave secreta
+        const secret = process.env.SECRET_KEY
+        const decoded = jwt.verify(token, secret)
+        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
         const clients = await Client.find()
         if (!clients || clients.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron clientes' });
         // Registrar en audit_logs
-        auditLogData.auditLogUser = req.user.id;
         auditLogData.auditLogAction = 'READ';
         auditLogData.auditLogChanges = { actionDetails: 'Retrieved all clients' };
         await AuditLogController.createAuditLog(
@@ -46,14 +52,22 @@ const getAllClients = async (req, res) => {
 // Crear un client
 const createClient = async (req, res) => {
     try {
+
         const nuevoClient = new Client(req.body);
         await nuevoClient.save();
         // Registrar en audit_logs
-        auditLogData.auditLogUser = req.user.id;
-        auditLogData.auditLogChanges = { actionDetails: 'Retrieved all clients' };
+        const token = req.header('Authorization')?.split(' ')[1]
+        //trae la variable de la llave secreta
+        const secret = process.env.SECRET_KEY
+        const decoded = jwt.verify(token, secret)
+        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
+        auditLogData.auditLogAction = 'CREATE';
+        auditLogData.auditLogDocumentId = nuevoClient._id            // ID del documento afectado (puede ser nulo)
+        auditLogData.auditLogChanges = nuevoClient;
         await AuditLogController.createAuditLog(
             auditLogData
         );
+        console.log('Cliente creado exitosamente', auditLogData );
         return res.status(201).json({ ok: true, message: 'Cliente creado exitosamente', data: nuevoClient });
     } catch (error) {
         if (error.code === 11000) {
@@ -114,8 +128,12 @@ const updateClientById = async (req, res) => {
             })
         // const updateclient = await Client.findById(id)
 
-        // // Registrar en audit_logs
-        auditLogData.auditLogUser = req.user.id;
+        // Registrar en audit_logs
+        const token = req.header('Authorization')?.split(' ')[1]
+        //trae la variable de la llave secreta
+        const secret = process.env.SECRET_KEY
+        const decoded = jwt.verify(token, secret)
+        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
         auditLogData.auditLogDocumentId = client._id            // ID del documento afectado (puede ser nulo)
         auditLogData.auditLogChanges = changes                  // Cambios realizados o información adicional (no obligatorio)
             await AuditLogController.createAuditLog(
@@ -148,7 +166,11 @@ const getClientById = async (req, res) => {
             message: `No fue encontrado cliente para ${id}`
         })
         // Registrar en audit_logs
-        auditLogData.auditLogUser = req.user.id;
+        const token = req.header('Authorization')?.split(' ')[1]
+        //trae la variable de la llave secreta
+        const secret = process.env.SECRET_KEY
+        const decoded = jwt.verify(token, secret)
+        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
         auditLogData.auditLogAction = 'READ';
         auditLogData.auditLogChanges = { actionDetails: 'Retrieved client by id' };
         await AuditLogController.createAuditLog(
@@ -182,7 +204,11 @@ const getClientByEmail = async (req, res) => {
             message: `No fue encontrado cliente para ${clientEmail}`
         })
         // Registrar en audit_logs
-        auditLogData.auditLogUser = req.user.id;
+        const token = req.header('Authorization')?.split(' ')[1]
+        //trae la variable de la llave secreta
+        const secret = process.env.SECRET_KEY
+        const decoded = jwt.verify(token, secret)
+        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
         auditLogData.auditLogAction = 'READ';
         auditLogData.auditLogChanges = { actionDetails: 'Retrieved client clientEmail id' } // Detalles adicionales
         await AuditLogController.createAuditLog(
@@ -248,8 +274,11 @@ const searchClients = async (req, res) => {
             return res.status(404).json({ ok: false, message: 'No se encontraron clientes.' });
         }
         // Registrar en audit_logs
-        // Registrar en audit_logs
-        auditLogData.auditLogUser = req.user.id;
+        const token = req.header('Authorization')?.split(' ')[1]
+        //trae la variable de la llave secreta
+        const secret = process.env.SECRET_KEY
+        const decoded = jwt.verify(token, secret)
+        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
         auditLogData.auditLogAction = 'READ';
         auditLogData.auditLogChanges = { actionDetails: `Clientes recuperados mediante búsqueda global: ${querySearch}` } // Detalles adicionales
         await AuditLogController.createAuditLog(
@@ -277,8 +306,11 @@ const deleteClientById = async (req, res) => {
                 message: 'No fue posible eliminar cliente, no fue encontrado'
             })
         // Registrar en audit_logs
-        // Registrar en audit_logs
-        auditLogData.auditLogUser = req.user.id;
+        const token = req.header('Authorization')?.split(' ')[1]
+        //trae la variable de la llave secreta
+        const secret = process.env.SECRET_KEY
+        const decoded = jwt.verify(token, secret)
+        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
         auditLogData.auditLogAction = 'DELETE';
         auditLogData.auditLogDocumentId = id            // ID del documento
         auditLogData.auditLogChanges = { deletedRecord: client.toObject() } // Detalles del documento eliminado

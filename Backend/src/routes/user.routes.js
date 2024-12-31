@@ -113,7 +113,7 @@ router.post('/userlogin', User.loginUser);
  *               example: { "ok": false, "message": "Internal server error" }
  */
 
-router.patch('/userclosesession/:id', User.closeUserSession);
+router.patch('/userclosesession/:id', validateToken, User.closeUserSession);
 
 // Create user administrator
 router.post('/userregisteradmin', User.registerAdmin);
