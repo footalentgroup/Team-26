@@ -6,23 +6,239 @@ const User = require('../controllers/user.controller')
 
 const { validateToken } = require('../middlewares/validateToken')
 
-//traer todos los registros user
-// router.get('/user',  validateToken, User.getAllUsers)
+// get all user records
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     summary: Retrieve all users
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": true, "message": "Usuarios encontrados", "data": [ { "_id": "676fcfeec92c407aed2a6dc3", "userName": "APPGESTION_QA", "userEmail": "appgestion_qa@apoyarte.com", "userRole": "administrator", "userIsActive": true}]}
+ *       404:
+ *         description: No data exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: {"ok":false, "message": "Usuarios no encontrados"}
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "Error interno del servidor" }
+ *     security:
+ *       - BearerAuth: []
+ */
 
-//nuevo usuario
-// router.post('/user',  validateToken, User.createUser)
+router.get('/user', validateToken, User.getAllUsers)
 
-//modificar usuario por el id
-// router.patch('/user/:id',   validateToken, User.updateUserById)
+// get all technician records
+/**
+ * @swagger
+ * /usertechnician:
+ *   get:
+ *     summary: Retrieve all technician
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: A list of users technician
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": true, "message": "Usuarios encontrados", "data": []}
+ *       404:
+ *         description: No data exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: {"ok":false, "message": "Técnicos no encontrados"}
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "Error interno del servidor" }
+ *     security:
+ *       - BearerAuth: []
+ */
+router.get('/usertechnician', validateToken, User.getAllTechnician)
 
-//Borrar usuario por el id
-// router.delete('/user/:id',  validateToken, User.deleteUserById)
+
+// get all supervisor records
+/**
+ * @swagger
+ * /usersupervisor:
+ *   get:
+ *     summary: Retrieve all supervisor
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: A list of users supervisor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": true, "message": "Supervisores encontrados", "data": []}
+ *       404:
+ *         description: No data exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: {"ok":false, "message": "Supervisores no encontrados"}
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "Error interno del servidor" }
+ *     security:
+ *       - BearerAuth: []
+ */
+router.get('/usersupervisor', validateToken, User.getAllSupervisor)
+
+// create new user
+/**
+ * @swagger
+ * /user:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *               type: object
+ *               example: {}
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: {   "ok": true,   "message": "Usuario creado exitosamente",   "data": { }}
+ *       400:
+ *         description: "Error: Bad Request"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: {}
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "Error al obtener datos", "data":{ ... } } 
+ *     security:
+ *       - BearerAuth: []
+ */
+router.post('/user', validateToken, User.createUser)
+
+// update user by id
+/**
+ * @swagger
+ * /user/{id}:
+ *   patch:
+ *     summary: Update a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID
+ *         example: 676fcfeec92c407aed2a6dc3
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             example: { "userAddress": "Other in, Othertown, USA" }
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *             type: object
+ *             example: { "ok": true, "message": "usuario actualizado", "user": { } }
+ *       400:
+ *         description: User not found or no modifications detected
+ *         content:
+ *          application/json:
+ *            schema:
+ *             type: object
+ *             example: { "ok": false, "message": "No fue posible modificar usuario, no se detectó modificaciones" }
+ *       500:
+ *         description: Error updating user
+ *         content:
+ *          application/json:
+ *            schema:
+ *             type: object
+ *             example: { "ok": false, "message": "No fue posible modificar usuario, por favor contactar a soporte", "data": { "stringValue": "\"id\"", "valueType": "string", "kind": "ObjectId", "value": "id", "path": "_id", "reason": {}, "name": "CastError", "message": "Cast to ObjectId failed for value \"id\" (type string) at path \"_id\" for model \"User\"" } }
+ */
+router.patch('/user/:id', validateToken, User.updateUserById)
+
+// delete user by id
+/**
+ * @swagger
+ * /user/{id}:
+ *   delete:
+ *     summary: Delete a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID
+ *         example: 676fcfeec92c407aed2a6dc3
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *             type: object
+ *             example: {}
+ *       400:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *             type: object
+ *             example: {}
+ *       500:
+ *         description: Error deleting user
+ *         content:
+ *           application/json:
+ *             schema:
+ *             type: object
+ *             example: {}
+ */
+
+router.delete('/user/:id', validateToken, User.deleteUserById)
  
-//Buscar usuario por el email
-// router.get('/userbyemail',  validateToken, User.getUserByEmail)
-
-// //Buscar usuario por un texto en general
-//  router.get('/usersearch',  validateToken, User.searchUsers)
 
 // Login
 /**
@@ -118,13 +334,11 @@ router.patch('/userclosesession/:id', validateToken, User.closeUserSession);
 // Create user administrator
 router.post('/userregisteradmin', User.registerAdmin);
 
-// Revisar que existan usuarios U
+// Revisar que exista usuario administrador
 router.get('/usercheckadmin', User.hasAdministrator);
 
-// Revisar que existan usuarios U
-router.post('/user', User.createUser);
 
-// Revisar que existan usuarios U
+// Revisar que confirmen usuario
 router.patch('/userconfirm', User.confirmUser);
 
 // Buscar usuario por el id

@@ -94,7 +94,7 @@ router.post('/client', validateToken, Client.createClient);
  *       content:
  *         application/json:
  *           schema:
- *             tyoe: object
+ *             type: object
  *             example: { "clientAddress": "Other in, Othertown, USA" }
  *     responses:
  *       200:
@@ -102,7 +102,7 @@ router.post('/client', validateToken, Client.createClient);
  *         content:
  *           application/json:
  *             schema:
- *             tyoe: object
+ *             type: object
  *             example: { "ok": true, "message": "cliente actualizado", "client": { "clientGeoLocation": { "type": "Point", "coordinates": [ -58.3816, -34.6037 ] }, "_id": "676d3380ed95db8fa95d006d", "clientEmail": "correcaminos@acme.com", "clientCompanyName": "PRODUCTOS ACME", "clientContactPerson": "Correcaminos", "clientPhone": "5491123456789", "clientAddress": "Other in, Othertown, USA", "createdAt": "2024-12-26T10:44:16.967Z", "updatedAt": "2024-12-27T11:08:37.693Z", "__v": 0 } }
  *       400:
  *         description: Client not found or no modifications detected
@@ -143,21 +143,21 @@ router.patch('/client/:id', validateToken, Client.updateClientById)
  *         content:
  *           application/json:
  *             schema:
- *             tyoe: object
+ *             type: object
  *             example: { "ok": true, "message": "Encontrado cliente", "data": { "clientGeoLocation": { "type": "Point", "coordinates": [ -58.3816, -34.6037 ] }, "_id": "676d3380ed95db8fa95d006d", "clientEmail": "correcaminos@acme.com", "clientCompanyName": "PRODUCTOS ACME", "clientContactPerson": "Correcaminos", "clientPhone": "5491123456789", "clientAddress": "Other in, Othertown, USA", "createdAt": "2024-12-26T10:44:16.967Z", "updatedAt": "2024-12-27T11:17:20.364Z", "__v": 0 } }
  *       404:
  *         description: Client not found
  *         content:
  *           application/json:
  *             schema:
- *             tyoe: object
+ *             type: object
  *             example: { "ok": false, "message": "No fue encontrado cliente para 676d3380ed95db8fa95d005d"}
  *       500:
  *         description: Error retrieving client
  *         content:
  *           application/json:
  *             schema:
- *             tyoe: object
+ *             type: object
  *             example: { "ok": false, "message": "No fue encontrado cliente, por favor contactar a soporte", "data": { "stringValue": "\"{ix}\"", "valueType": "string", "kind": "ObjectId", "value": "{ix}", "path": "_id", "reason": {}, "name": "CastError", "message": "Cast to ObjectId failed for value \"{ix}\" (type string) at path \"_id\" for model \"Client\"" } }
  */
 
@@ -232,14 +232,14 @@ router.get('/clientbyemail', validateToken, Client.getClientByEmail)
  *         content:
  *           application/json:
  *             schema:
- *             tyoe: object
+ *             type: object
  *             example: {"ok": false, "message": "No se encontraron clientes."}
  *       500:
  *         description: Server error
  *         content:
  *           application/json:
  *             schema:
- *             tyoe: object
+ *             type: object
  *             example: { "ok": false, "message": "No fue encontrado cliente, por favor contactar a soporte", "data": { "stringValue": "\"search\"", "valueType": "string", "kind": "ObjectId", "value": "search", "path": "_id", "reason": {}, "name": "CastError", "message": "Cast to ObjectId failed for value \"search\" (type string) at path \"_id\" for model \"Client\"" } }
  */
 
@@ -266,20 +266,21 @@ router.get('/clientsearch',  validateToken, Client.searchClients)
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Client'
+ *             type: object
+ *             example: {}
  *       400:
  *         description: Client not found
  *         content:
  *           application/json:
  *             schema:
- *             tyoe: object
+ *             type: object
  *             example: {}
  *       500:
  *         description: Error deleting client
  *         content:
  *           application/json:
  *             schema:
- *             tyoe: object
+ *             type: object
  *             example: {}
  */
 

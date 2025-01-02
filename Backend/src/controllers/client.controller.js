@@ -1,92 +1,60 @@
 const jwt = require('jsonwebtoken')
 const Client = require("../models/Client");
-const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
+const AuditLogController = require('../controllers/auditLog.controller'); // Audit controller
 
 const escapeRegex = (text) => {
-
-    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escapa caracteres especiales de regex
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special regex characters
 };
 
-const auditLogData = {
-    auditLogUser: null          // Usuario que realizó la acción (puede ser nulo)
-    , auditLogAction: null      // Acción realizada e.g., "CREATE", "UPDATE", "DELETE"
-    , auditLogModel: 'Client'        // Modelo afectado, e.g., "User"
-    , auditLogDocumentId: null          // ID del documento afectado (puede ser nulo)
-    , auditLogChanges: null          // Cambios realizados o información adicional (no obligatorio)
-}
-
-
-// Buscar todos los registros para clients
+// Get all client records
 const getAllClients = async (req, res) => {
-
     try {
-        const token = req.header('Authorization')?.split(' ')[1]
-        //trae la variable de la llave secreta
-        const secret = process.env.SECRET_KEY
-        const decoded = jwt.verify(token, secret)
-        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
         const clients = await Client.find()
         if (!clients || clients.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron clientes' });
-        // Registrar en audit_logs
-        auditLogData.auditLogAction = 'READ';
-        auditLogData.auditLogChanges = { actionDetails: 'Retrieved all clients' };
-        await AuditLogController.createAuditLog(
-            auditLogData
-        );
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'REAd', null, { actionDetails: 'get all clients' });
 
         return res.status(200).json({
             ok: true,
-            message: 'clientes encontrados',
+            message: 'Clientes encontrados',
             data: clients
         })
     } catch (error) {
-
         return res.status(500).json({
             ok: false,
-            message: 'Error al obtener clientes',
+            message: 'Error al recuperar clientes',
             data: error
         })
     }
 }
 
-// Crear un client
+// Create a client
 const createClient = async (req, res) => {
     try {
-
         const nuevoClient = new Client(req.body);
         await nuevoClient.save();
-        // Registrar en audit_logs
-        const token = req.header('Authorization')?.split(' ')[1]
-        //trae la variable de la llave secreta
-        const secret = process.env.SECRET_KEY
-        const decoded = jwt.verify(token, secret)
-        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
-        auditLogData.auditLogAction = 'CREATE';
-        auditLogData.auditLogDocumentId = nuevoClient._id            // ID del documento afectado (puede ser nulo)
-        auditLogData.auditLogChanges = nuevoClient;
-        await AuditLogController.createAuditLog(
-            auditLogData
-        );
-        console.log('Cliente creado exitosamente', auditLogData );
-        return res.status(201).json({ ok: true, message: 'Cliente creado exitosamente', data: nuevoClient });
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'CREATE', nuevoClient._id, { newdRecord: nuevoClient.toObject() });
+
+        return res.status(201).json({ ok: true, message: 'Cliente creado con éxito', data: nuevoClient });
     } catch (error) {
         if (error.code === 11000) {
             res.status(400).json({
                 ok: false,
-                message: 'El email del cliente ya existe',
+                message: 'El correo electrónico del cliente ya existe',
                 data: error
             });
         } else {
             res.status(500).json({
                 ok: false,
-                message: 'Error al crear el cliente',
+                message: 'Error al crear cliente',
                 data: error
             });
         }
     }
 }
 
-// modificar una client por el id
+// Update a client by id
 const updateClientById = async (req, res) => {
     const { id } = req.params;
     const { clientCompanyName, clientContactPerson, clientEmail, clientPhone, clientAddress } = req.body;
@@ -102,10 +70,10 @@ const updateClientById = async (req, res) => {
         if (!originalData)
             return res.status(400).json({
                 ok: false,
-                message: 'No se registra cliente con el id proporcionado'
+                message: 'No se encontró ningún cliente con el id proporcionado'
             })
         if (originalData) {
-            // Identificar cambios
+            // Identify changes
             const changes = {};
             for (let key in updateDataById) {
                 if (originalData[key] !== updateDataById[key]) {
@@ -117,82 +85,60 @@ const updateClientById = async (req, res) => {
         if (!hasChanges)
             return res.status(400).json({
                 ok: false,
-                message: 'No fue posible modificar cliente, no se detectó modificaciones'
+                message: 'No se detectaron cambios, no se puede actualizar el cliente'
             })
         const client = await Client.findByIdAndUpdate(id, updateDataById)
         if (!client)
-
             return res.status(400).json({
                 ok: false,
-                message: 'No fue posible modificar cliente, no fue encontrado o no se detecto modificaciones'
+                message: 'No se puede actualizar el cliente, no encontrado o no se detectaron cambios'
             })
-        // const updateclient = await Client.findById(id)
-
-        // Registrar en audit_logs
-        const token = req.header('Authorization')?.split(' ')[1]
-        //trae la variable de la llave secreta
-        const secret = process.env.SECRET_KEY
-        const decoded = jwt.verify(token, secret)
-        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
-        auditLogData.auditLogDocumentId = client._id            // ID del documento afectado (puede ser nulo)
-        auditLogData.auditLogChanges = changes                  // Cambios realizados o información adicional (no obligatorio)
-            await AuditLogController.createAuditLog(
-            auditLogData
-        );
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'UPDATE', client._id, { updateRecord: changes.toObject() });
 
         return res.status(200).json({
             ok: true,
-            message: 'cliente actualizado',
-            data: client
-        })
-    }
-    catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            ok: false,
-            message: 'No fue posible modificar cliente, por favor contactar a soporte',
-            data: error
-        })
-    }
-}
-
-// Buscar registro por Id
-const getClientById = async (req, res) => {
-    const id = req.params.id
-    try {
-        const client = await Client.findById(id)
-        if (!client) return res.status(404).json({
-            ok: false,
-            message: `No fue encontrado cliente para ${id}`
-        })
-        // Registrar en audit_logs
-        const token = req.header('Authorization')?.split(' ')[1]
-        //trae la variable de la llave secreta
-        const secret = process.env.SECRET_KEY
-        const decoded = jwt.verify(token, secret)
-        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
-        auditLogData.auditLogAction = 'READ';
-        auditLogData.auditLogChanges = { actionDetails: 'Retrieved client by id' };
-        await AuditLogController.createAuditLog(
-            auditLogData
-        );
-
-        return res.status(200).json({
-            ok: true,
-            message: 'Encontrado cliente',
+            message: 'Cliente actualizado',
             data: client
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            message: 'No fue encontrado cliente, por favor contactar a soporte',
+            message: 'No se puede actualizar el cliente, por favor contacte al soporte',
             data: error
         })
     }
 }
 
-// Buscar registro por Id
+// Get client by Id
+const getClientById = async (req, res) => {
+    const id = req.params.id
+    try {
+        const client = await Client.findById(id)
+        if (!client) return res.status(404).json({
+            ok: false,
+            message: `No se encontró cliente para ${id}`
+        })
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'REAd', id, { actionDetails: 'Retrieved client by id' });
+
+        return res.status(200).json({
+            ok: true,
+            message: 'Cliente encontrado',
+            data: client
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            message: 'No se puede encontrar el cliente, por favor contacte al soporte',
+            data: error
+        })
+    }
+}
+
+// Get client by Email
 const getClientByEmail = async (req, res) => {
     const clientEmail = req.query.clientEmail
     try {
@@ -201,41 +147,31 @@ const getClientByEmail = async (req, res) => {
         })
         if (!client) return res.status(404).json({
             ok: false,
-            message: `No fue encontrado cliente para ${clientEmail}`
+            message: `No se encontró cliente para ${clientEmail}`
         })
-        // Registrar en audit_logs
-        const token = req.header('Authorization')?.split(' ')[1]
-        //trae la variable de la llave secreta
-        const secret = process.env.SECRET_KEY
-        const decoded = jwt.verify(token, secret)
-        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
-        auditLogData.auditLogAction = 'READ';
-        auditLogData.auditLogChanges = { actionDetails: 'Retrieved client clientEmail id' } // Detalles adicionales
-        await AuditLogController.createAuditLog(
-            auditLogData
-        );
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'REAd', client._id, { actionDetails: `get client by email: ${clientEmail}` });
 
         return res.status(200).json({
             ok: true,
-            message: 'Encontrado cliente',
+            message: 'Cliente encontrado',
             data: client
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            message: 'No fue encontrado cliente, por favor contactar a soporte'
+            message: 'No se puede encontrar el cliente, por favor contacte al soporte'
         })
     }
 }
 
 const searchClients = async (req, res) => {
-
     try {
         const querySearch = escapeRegex(req.query.search).trim();
 
         if (!querySearch) {
-            return res.status(400).json({ ok: false, message: 'Search query is required.' });
+            return res.status(400).json({ ok: false, message: 'Se requiere una consulta de búsqueda.' });
         }
 
         const searchRegex = new RegExp(querySearch, 'i'); // 'i' makes it case-insensitive
@@ -273,65 +209,60 @@ const searchClients = async (req, res) => {
         if (results.length === 0) {
             return res.status(404).json({ ok: false, message: 'No se encontraron clientes.' });
         }
-        // Registrar en audit_logs
-        const token = req.header('Authorization')?.split(' ')[1]
-        //trae la variable de la llave secreta
-        const secret = process.env.SECRET_KEY
-        const decoded = jwt.verify(token, secret)
-        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
-        auditLogData.auditLogAction = 'READ';
-        auditLogData.auditLogChanges = { actionDetails: `Clientes recuperados mediante búsqueda global: ${querySearch}` } // Detalles adicionales
-        await AuditLogController.createAuditLog(
-            auditLogData
-        );
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'REAd', null, { actionDetails: `get Clients through global search: ${querySearch}` });
+
         return res.status(200).json({
             ok: true, message: 'Clientes encontrados',
             data: results
         })
     } catch (error) {
         console.error(error);
-        res.status(500).json({ ok: false, message: 'Server error', data: error });
+        res.status(500).json({ ok: false, message: 'Error del servidor', data: error });
     }
 };
 
-// eliminar una client por el id
+// Delete a client by id
 const deleteClientById = async (req, res) => {
     const { id } = req.params;
     try {
         const client = await Client.findByIdAndDelete(id)
         if (!client)
-
             return res.status(400).json({
                 ok: false,
-                message: 'No fue posible eliminar cliente, no fue encontrado'
+                message: 'No se puede eliminar el cliente, no encontrado'
             })
-        // Registrar en audit_logs
-        const token = req.header('Authorization')?.split(' ')[1]
-        //trae la variable de la llave secreta
-        const secret = process.env.SECRET_KEY
-        const decoded = jwt.verify(token, secret)
-        auditLogData.auditLogUser = decoded.userData || 'anonymous why?';
-        auditLogData.auditLogAction = 'DELETE';
-        auditLogData.auditLogDocumentId = id            // ID del documento
-        auditLogData.auditLogChanges = { deletedRecord: client.toObject() } // Detalles del documento eliminado
-        await AuditLogController.createAuditLog(
-            auditLogData
-        );
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'DELETE', id, { deletedRecord: client.toObject() });
         return res.status(200).json({
             ok: true,
-            message: 'cliente eliminado',
+            message: 'Cliente eliminado',
             data: client
         })
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            message: 'No fue posible eliminar cliente, por favor contactar a soporte',
+            message: 'No se puede eliminar el cliente, por favor contacte al soporte',
             data: error
         })
     }
 }
+
+const registerAuditLog = async (req, action, documentId, changes) => {
+    const token = req.header('Authorization')?.split(' ')[1];
+    const secret = process.env.SECRET_KEY;
+    const decoded = jwt.verify(token, secret);
+    const auditLogData = {
+        auditLogUser: decoded.userData || 'anonymous why?',         // User who performed the action (can be null)
+        auditLogAction: action,                                     // Action performed e.g., "CREATE", "UPDATE", "DELETE"
+        auditLogModel: 'Client',                                    // Affected model, e.g., "User"
+        auditLogDocumentId: documentId,                             // ID of the affected document (can be null)
+        auditLogChanges: changes                                    // Changes made or additional information (not mandatory)
+    }
+    await AuditLogController.createAuditLog(auditLogData);
+};
+
 
 module.exports = {
     createClient,

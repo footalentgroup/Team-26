@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
       }
     },
     userPassword: { type: String, required: true },
-    userIsActive: { type: Boolean, default: true }, // Active/Inactive status
+    userIsActive: { type: Boolean, default: false }, // Active/Inactive status
     userRole: { type: String, enum: ['administrator', 'supervisor', 'technician'], default: 'technician' }, // User role
     userFailedAttempts: { type: Number, default: 0 }, // Count of failed login attempts
     userLoginAttempts: [
