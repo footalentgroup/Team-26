@@ -1,0 +1,99 @@
+const mongoose = require('mongoose');
+
+const workOrderSchema = new mongoose.Schema({
+    workOrderNumber: {
+        type: String,
+        required: true,
+        unique: true,
+        inmutable: true
+    },
+    workOrderSupervisor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        immutable: true
+    },
+    clientId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Client',
+        required: true,
+        immutable: true
+    },
+    workOrderDescription: {
+        type: String,
+        required: true
+    },
+    serviceType: {
+        type: String,
+        enum: ['Inspection', 'Installation', 'Maintenance'],
+        required: true
+    },
+    workOrderStatus: {
+        type: String,
+        enum: ['Unassigned', 'Assigned', 'In Progress', 'Under Review', 'Approved'],
+        required: true,
+        default: 'Unassigned'
+    },
+    workOrderScheduledDate: {
+        type: Date,
+        required: true
+    },
+    workOrderScheduledTime: {
+        type: String,
+        required: true
+    },
+    workOrderEstimatedDuration: {
+        type: Number,
+        required: true
+    },
+    workOrderAssignedTechnician: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    workOrderAddress: {
+        type: String,
+        required: true
+    },
+    workOrderLocation: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
+    workOrderclientEmail: {
+        type: String,
+        required: true,
+        immutable: true
+    },
+    workOrderClientContactPerson: {
+        type: String,
+        required: true
+    },
+    workOrderClientPhone: {
+        type: String,
+        required: true
+    }
+}, {
+    timestamps: true
+});
+
+workOrderSchema.index({ workOrderLocation: '2dsphere' });
+
+workOrderSchema.pre('save', async function (next) {
+    if (this.isNew) {
+        const currentYear = new Date().getFullYear();
+        const count = await mongoose.model('WorkOrder').countDocuments({
+            workOrderNumber: new RegExp(`^\\d{4}-${currentYear}$`)
+        });
+        this.workOrderNumber = `${String(count + 1).padStart(4, '0')}-${currentYear}`;
+    }
+    next();
+});
+
+module.exports = mongoose.model('WorkOrder', workOrderSchema);
