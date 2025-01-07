@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 
-const TaskTemplateSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const TaskTemplateSchema = new Schema({
     serviceType: {
         type: String,
-        enum: ['inspection', 'installation', 'maintenance'],
-        required: true
+        enum: ['Inspection', 'Installation', 'Maintenance'],
+        required: true,
+        inmutable: true
     },
     taskTemplateOrdering: {
-        type: Number
+        type: Number,
+        inmutable: true
     },
     taskTemplateDescription: {
         type: String,
@@ -17,11 +21,11 @@ const TaskTemplateSchema = new mongoose.Schema({
         type: String
     }
 },
-    {
-        timestamps: true
-    });
+{
+  timestamps: true
+});
 
-TaskTemplateSchema.pre('save', async function (next) {
+TaskTemplateSchema.pre('save', async function(next) {
     if (this.isNew) {
         const lastTaskTemplate = await mongoose.model('TaskTemplate').findOne({ serviceType: this.serviceType }).sort('-taskTemplateOrdering');
         this.taskTemplateOrdering = lastTaskTemplate ? lastTaskTemplate.taskTemplateOrdering + 1 : 1;
