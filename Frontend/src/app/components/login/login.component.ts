@@ -74,39 +74,38 @@ export class LoginComponent {
 
         }
       }
-<<<<<<< HEAD
-
       this.peticion.Post(data.host + data.path, data.payload).then((res: any) => {
         console.log("holla vamos aqui", res)
-          if (!res.ok) {
+        if (!res.ok) {
           this.msg.Load("danger", res.msg || "Error en el login");
         }
-        else {
-          this.msg.Load("dark", res.msg || "Bienvenido");
-          this.router.navigate(["/dashboardadmin"]);
-        }
-
+        else
+          if (res.userRole === "administrator") {
+            this.msg.Load("dark", res.userName || "Bienvenido");
+            this.router.navigate(["/dashboardadmin"]);
+          }
+          else if (res.userRole === "supervisor") {
+            this.msg.Load("dark", res.userName || "Bienvenido");
+            this.router.navigate(["/dashboardsup"]);
+          } else {
+            this.msg.Load("dark", res.userName || "Bienvenido");
+            this.router.navigate(["/"]);
+          }
       }).catch((error: any) => {
         console.log(error);
-//        const {errorMessage } = error.error ? error.error.msg : "Error en el login";
+        //        const {errorMessage } = error.error ? error.error.msg : "Error en el login";
         const { errorMessage } = error
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text:  errorMessage,
+          text: errorMessage,
           footer: '<b>Intente nuevamente</a>'
         });
 
       });
     }
   }
-=======
-      else {
-        this.msg.Load("dark", res.msg || "Bienvenido");
-        this.router.navigate(["/dashboardsup"]);
-      }
-  
-  })
 }
->>>>>>> develop
-}
+
+
+
