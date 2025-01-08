@@ -86,7 +86,6 @@ router.get('/workorderbyclient/:id', validateToken, workOrderController.getAllWo
 
 // getAllWorkOrdersByClient,
 // getAllWorkOrdersByTechnician,
-
 router.get('/workorderreport/:id', validateToken, workOrderController.getReportWorkOrder);
 
 
