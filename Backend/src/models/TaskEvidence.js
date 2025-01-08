@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-const TaskEvidenceSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const TaskEvidenceSchema = new Schema({
     workOrderTaskId: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -64,5 +66,4 @@ const TaskEvidenceSchema = new mongoose.Schema({
         }
         next();
     });
-
 module.exports = mongoose.model('TaskEvidence', TaskEvidenceSchema);

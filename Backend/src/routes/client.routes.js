@@ -6,6 +6,13 @@ const Client = require('../controllers/client.controller')
 
 const { validateToken } = require('../middlewares/validateToken')
 
+/**
+ * @swagger
+ * tags:
+ *   name: Clients
+ *   description: Client management
+ */
+
 // Register a new client
 /**
  * @swagger

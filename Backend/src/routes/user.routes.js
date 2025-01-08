@@ -6,6 +6,14 @@ const User = require('../controllers/user.controller')
 
 const { validateToken } = require('../middlewares/validateToken')
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management
+ */
+
+
 // get all user records
 /**
  * @swagger
@@ -123,7 +131,7 @@ router.get('/usersupervisor', validateToken, User.getAllSupervisor)
  *         application/json:
  *           schema:
  *               type: object
- *               example: {}
+ *               example: { "userName":"Supervisor", "userLastName": "Principal", "userEmail": "enriqueaa@apoyarte.com", "userRole": "supervisor", "userPassword": "654321_A"}
  *     responses:
  *       201:
  *         description: User created successfully
@@ -172,7 +180,7 @@ router.post('/user', validateToken, User.createUser)
  *         application/json:
  *           schema:
  *             type: object
- *             example: { "userAddress": "Other in, Othertown, USA" }
+ *             example: { "userLastName": "Cantillo" }
  *     responses:
  *       200:
  *         description: User updated successfully
@@ -263,7 +271,7 @@ router.delete('/user/:id', validateToken, User.deleteUserById)
  *               password:
  *                 type: string
  *                 description: The user's password
- *             example: { "email": "appgestion_qa@apoyarte.com", "password": "appgestion_qa" }
+ *             example: { "email": "appgestion_qa@apoyarte.com", "password": "" }
  *     responses:
  *       200:
  *         description: User logged in successfully
@@ -335,10 +343,79 @@ router.patch('/userclosesession/:id', validateToken, User.closeUserSession);
 router.post('/userregisteradmin', User.registerAdmin);
 
 // Revisar que exista usuario administrador
+/**
+ * @swagger
+ * /usercheckadmin:
+ *   get:
+ *     summary: Check if an administrator exists
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Administrator exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "hasAdministrator": true }
+ *       404:
+ *         description: Administrator not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "hasAdministrator": false }
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "Internal server error" }
+//  *     security:
+//  *       - BearerAuth: []
+ */
 router.get('/usercheckadmin', User.hasAdministrator);
 
 
 // Revisar que confirmen usuario
+/**
+ * @swagger
+ * /userconfirm:
+ *   patch:
+ *     summary: Confirm a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The token user received
+ *         example: 676fcfeec92c407aed2a6dc3
+ *     responses:
+ *       200:
+ *         description: User confirm successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": true, "message": "User confirm successfully" }
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "error": "Token inválido o expirado."}
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "Internal server error" }
+ */
+
 router.patch('/userconfirm', User.confirmUser);
 
 // Buscar usuario por el id

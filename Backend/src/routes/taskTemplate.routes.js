@@ -6,6 +6,14 @@ const TaskTemplate = require('../controllers/taskTemplate.controller')
 
 const { validateToken } = require('../middlewares/validateToken')
 
+/**
+ * @swagger
+ * tags:
+ *   name: TaskTemplates
+ *   description: Task Template management
+ */
+
+
 // Register a new taskTemplate
 /**
  * @swagger

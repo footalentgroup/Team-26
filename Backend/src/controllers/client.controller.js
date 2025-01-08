@@ -94,7 +94,7 @@ const updateClientById = async (req, res) => {
                 message: 'No se puede actualizar el cliente, no encontrado o no se detectaron cambios'
             })
         // Register in audit_logs (req, action, documentId, changes) 
-        await registerAuditLog(req, 'UPDATE', client._id, { updateRecord: changes.toObject() });
+        await registerAuditLog(req, 'UPDATE', client._id, { updateRecord: changes });
 
         return res.status(200).json({
             ok: true,
