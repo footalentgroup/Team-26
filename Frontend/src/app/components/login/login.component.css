@@ -1,65 +1,144 @@
-.body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f8f9fa;
-}
-.login-container {
-    text-align: center;
-    background-color: #fff;
-    padding: 40px 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    max-width: 300px;
-    width: 100%;
-}
 
-.login-form {
+/*seccion Derecha*/
+.seccion-derecha {
+    background-color: white;
+    width: calc(720 * (100vw / 1440));
     display: flex;
     flex-direction: column;
-}
-.logo img {
-    width: 100px;
-    height: auto;
-    margin-bottom: 20px;
-}
-.login-form label {
-    text-align: left;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #2b3b4b;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    position: relative;
 }
 
-.login-form input {
-    padding: 8px;
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form-group {
     margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: calc(16 * (100vw / 1440));
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #003366;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: calc(14 * (100vw / 1440));
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
 }
 
-.login-form input:focus {
+.form-group a {
+    font-size:  calc(16 * (100vw / 1440));
+    color: #333333;
+    text-decoration: none;
+    text-decoration: underline;
+    display: block;
+    font-weight: 400;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.form-group input:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 
-.login-form button {
-    background-color: #003366;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    text-transform: uppercase;
-    margin-top: 10px;
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-.login-form button:hover {
-    background-color: #002855;
+.form-checkbox input {
+    margin-right: 10px;
+}
+
+.boton-inicio {
+    width: 100%;
+    padding: 10px;
+    background-color: #003366;
+    border: none;
+    color: #fff;
+    font-size: calc(18 * (100vw / 1440));;
+    border-radius: 18px;
+}
+.boton-inicio:hover{
+    background-color: #999;
+}
+
+.parrafo-ayuda {
+    margin-top: 30px;
+    margin-bottom: 0px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.parrafo-ayuda a {
+    color: #333333;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.parrafo-ayuda a:hover {
+    text-decoration: underline;
+} 
+
+/*css para ocultar contraseña y mostrar */
+
+.password-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+/* Wrapper del input y el ícono */
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.password-wrapper .toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-wrapper .toggle-password img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Estilo del enlace "Olvidé mi contraseña" */
+.password-container a {
+    font-size: 14px;
+    color: #003366;
+    text-decoration: none;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.password-container a:hover {
+    text-decoration: underline;
 }

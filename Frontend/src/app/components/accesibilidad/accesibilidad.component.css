@@ -1,0 +1,107 @@
+.fondo{
+    background-color: #121212;
+    width: 100%;
+    position: relative;
+    height: 100vh;
+}
+.accessibilidad-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: calc(339 * (100vh / 1024));
+    left: calc(441 * (100vw / 1440));
+    width: calc(559 * (100vw / 1440));
+    height: calc(357 * (100vh / 1024));
+    font-family: 'Poppins', sans-serif;
+    position: absolute;
+}
+
+.tittle-principal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    width: calc(559 * (100vw / 1440));
+    height: calc(61 * (100vh / 1024));
+    color: #fff;
+
+}
+.titulo-acce {
+    font-size: calc(24 * (100vw / 1440));
+    top:  calc(11 * (100vh / 1024));
+    left:  calc(209 * (100vw / 1440));
+    font-weight: 700;
+}
+
+.content-acce {
+    padding: calc(20 * (100vw / 1440));
+    font-size: calc(14 * (100vw / 1440));
+    background-color: #E0E0E0 ;
+    text-align: justify;
+}
+
+.content-acce p {
+    margin: calc(20 * (100vw / 1440))
+}
+
+.text-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+}
+
+.text {
+    flex: 1; 
+    font-size: calc(14 * (100vw / 1440));
+    line-height: 1.5;
+    color: #555;
+}
+
+.icono {
+    flex-shrink: 0; 
+}
+
+.icon {
+    width: calc(96 * (100vw / 1440));
+    height: calc(96 * (100vh / 1024));
+    top: calc(126 * (100vh / 1024));
+    left: calc(426 * (100vw / 1440));
+}
+
+.content-contact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(193 * (100vw / 1440));
+    height: calc(55 * (100vh / 1024));
+    background-color: #333;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    font-size:calc(16 * (100vw / 1440));
+}
+
+.btn-contact:hover {
+    background-color: #444;
+}
+.btn-circle {
+    width: calc(48 * (100vw / 1440));
+    height: calc(48 * (100vh / 1024));
+    border:transparent;
+    border-radius: 50%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.btn-circle:hover {
+    transform: scale(1.1);
+}
