@@ -12,7 +12,7 @@ const getAllClients = async (req, res) => {
         const clients = await Client.find()
         if (!clients || clients.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron clientes' });
         // Register in audit_logs (req, action, documentId, changes) 
-        await registerAuditLog(req, 'REAd', null, { actionDetails: 'get all clients' });
+        await registerAuditLog(req, 'READ', null, { actionDetails: 'get all clients' });
 
         return res.status(200).json({
             ok: true,
@@ -94,7 +94,7 @@ const updateClientById = async (req, res) => {
                 message: 'No se puede actualizar el cliente, no encontrado o no se detectaron cambios'
             })
         // Register in audit_logs (req, action, documentId, changes) 
-        await registerAuditLog(req, 'UPDATE', client._id, { updateRecord: changes.toObject() });
+        await registerAuditLog(req, 'UPDATE', client._id, { updateRecord: changes });
 
         return res.status(200).json({
             ok: true,
@@ -121,7 +121,7 @@ const getClientById = async (req, res) => {
             message: `No se encontró cliente para ${id}`
         })
         // Register in audit_logs (req, action, documentId, changes) 
-        await registerAuditLog(req, 'REAd', id, { actionDetails: 'Retrieved client by id' });
+        await registerAuditLog(req, 'READ', id, { actionDetails: 'Retrieved client by id' });
 
         return res.status(200).json({
             ok: true,
@@ -150,7 +150,7 @@ const getClientByEmail = async (req, res) => {
             message: `No se encontró cliente para ${clientEmail}`
         })
         // Register in audit_logs (req, action, documentId, changes) 
-        await registerAuditLog(req, 'REAd', client._id, { actionDetails: `get client by email: ${clientEmail}` });
+        await registerAuditLog(req, 'READ', client._id, { actionDetails: `get client by email: ${clientEmail}` });
 
         return res.status(200).json({
             ok: true,
@@ -210,7 +210,7 @@ const searchClients = async (req, res) => {
             return res.status(404).json({ ok: false, message: 'No se encontraron clientes.' });
         }
         // Register in audit_logs (req, action, documentId, changes) 
-        await registerAuditLog(req, 'REAd', null, { actionDetails: `get Clients through global search: ${querySearch}` });
+        await registerAuditLog(req, 'READ', null, { actionDetails: `get Clients through global search: ${querySearch}` });
 
         return res.status(200).json({
             ok: true, message: 'Clientes encontrados',
@@ -263,6 +263,33 @@ const registerAuditLog = async (req, action, documentId, changes) => {
     await AuditLogController.createAuditLog(auditLogData);
 };
 
+const searchClientsByCompanyName = async (req, res) => {
+    const { clientCompanyName } = req.query;
+    if (!clientCompanyName) {
+        return res.status(400).json({ ok: false, message: 'Se requiere el nombre de la empresa para la búsqueda.' });
+    }
+
+    try {
+        const searchPattern = new RegExp('.*' + escapeRegex(clientCompanyName) + '.*', 'i'); // Match any substring case-insensitive
+        const clients = await Client.find({ clientCompanyName: { $regex: searchPattern } });
+
+        if (clients.length === 0) {
+            return res.status(404).json({ ok: false, message: 'No se encontraron clientes con el nombre de la empresa proporcionado.' });
+        }
+
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'READ', null, { actionDetails: `search clients by company name: ${clientCompanyName}` });
+
+        return res.status(200).json({
+            ok: true,
+            message: 'Clientes encontrados',
+            data: clients
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ ok: false, message: 'Error del servidor', data: error });
+    }
+};
 
 module.exports = {
     createClient,
@@ -271,5 +298,6 @@ module.exports = {
     getAllClients,
     getClientById,
     getClientByEmail,
-    searchClients
+    searchClients,
+    searchClientsByCompanyName
 }

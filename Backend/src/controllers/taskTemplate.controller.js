@@ -128,7 +128,7 @@ const getTaskTemplateByServiceType = async (req, res) => {
     const serviceType = req.query.serviceType
     try {
         const taskTemplate = await TaskTemplate.find({
-            "serviceType": { $regex: new RegExp('^' + serviceType + '$', 'i') }
+            "serviceType": serviceType
         })
         if (!taskTemplate) return res.status(404).json({
             ok: false,

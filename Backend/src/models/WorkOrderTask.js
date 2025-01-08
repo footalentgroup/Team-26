@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-const WorkOrderTaskSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const WorkOrderTaskSchema = new Schema({
     workOrderId: {
         type: Schema.Types.ObjectId,
         ref: 'WorkOrder',
