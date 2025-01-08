@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./api/index.js"
+    "dev": "nodemon index.js"
   },
   "author": "Development team of the Team26 Noche group, FOOTALENT GROUP, 2024-2025",
   "license": "ISC",
