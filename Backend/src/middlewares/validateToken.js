@@ -18,6 +18,7 @@ const validateToken = async (req, res, next) => {
         // console.log(`token es:${token} y el decoded es:${decoded}`)
 
         // Buscar al usuario por email
+<<<<<<< HEAD
         req.user = decoded
         const { userData } = decoded
         const userValidate = await User.findById(userData);
@@ -44,6 +45,35 @@ const validateToken = async (req, res, next) => {
         }
         //validar que el usuario que pide la peticion es el mismo del token
         req.user = decoded
+=======
+        req.user = decoded
+        const { userData } = decoded
+        const userValidate = await User.findById(userData);
+        // console.log(`token es:${token} y el decoded es:${decoded}, userData: ${userData}, Userfind: ${userValidate}`)
+        console.log(`token es:${token} y el decoded es:${decoded}`)
+        if (!userValidate){
+            return res.status(404).json({
+                ok: false,
+                message: `Usuario no registra este Token`
+            })    
+        }
+        if (userValidate.userLoginToken === null){
+            return res.status(404).json({
+                ok: false,
+                message: `Token de usuario, con sesiòn cerrada`
+            })
+    
+        }
+        if (userValidate.userLoginToken !== token ){
+            return res.status(404).json({
+                ok: false,
+                message: `Token inválido, no corresponde con login del usuario`
+            })
+    
+        }
+        //validar que el usuario que pide la peticion es el mismo del token
+        // req.user = decoded
+>>>>>>> develop
         // console.log(`token es:${token} y el decoded es:${decoded}`)
         // console.log(decoded)
 

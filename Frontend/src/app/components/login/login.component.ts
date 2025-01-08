@@ -74,6 +74,7 @@ export class LoginComponent {
 
         }
       }
+<<<<<<< HEAD
 
       this.peticion.Post(data.host + data.path, data.payload).then((res: any) => {
         console.log("holla vamos aqui", res)
@@ -99,4 +100,13 @@ export class LoginComponent {
       });
     }
   }
+=======
+      else {
+        this.msg.Load("dark", res.msg || "Bienvenido");
+        this.router.navigate(["/dashboardsup"]);
+      }
+  
+  })
+}
+>>>>>>> develop
 }

@@ -17,7 +17,7 @@ const clientSchema = new mongoose.Schema({
   },
   clientCompanyName: {
     type: String,
-    // unique: true,
+    unique: true,
     required: [true, 'El nombre del cliente es obligatorio'],
     uppercase: true,
     trim: true,
