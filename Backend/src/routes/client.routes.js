@@ -381,5 +381,45 @@ router.delete('/client/:id', validateToken, Client.deleteClientById)
 
 router.get('/client', validateToken, Client.getAllClients);
 
+// Buscar cliente por el nombre de la empresa
+/**
+ * @swagger
+ * /clientbycompanyname:
+ *   get:
+ *     summary: Retrieve clients by company name
+ *     tags: [Clients]
+ *     parameters:
+ *       - in: query
+ *         name: clientCompanyName
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The client company name
+ *         example: Productos ACME
+ *     responses:
+ *       200:
+ *         description: Clients found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": true, "message": "Clientes encontrados", "data": [ { "_id": "676d3380ed95db8fa95d006d", "clientEmail": "correcaminos@acme.com", "clientCompanyName": "PRODUCTOS ACME", "clientContactPerson": "Correcaminos", "clientPhone": "5491123456789", "clientAddress": "Other in, Othertown, USA", "clientGeoLocation": { "type": "Point", "coordinates": [ -58.3816, -34.6037 ] }, "createdAt": "2024-12-26T10:44:16.967Z", "updatedAt": "2024-12-27T11:17:20.364Z", "__v": 0 } ] }
+ *       404:
+ *         description: No clients found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "No se encontraron clientes para Productos ACME" }
+ *       500:
+ *         description: Error retrieving clients
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "No fue encontrado cliente, por favor contactar a soporte", "data": { "stringValue": "\"companyname\"", "valueType": "string", "kind": "ObjectId", "value": "companyname", "path": "_id", "reason": {}, "name": "CastError", "message": "Cast to ObjectId failed for value \"companyname\" (type string) at path \"_id\" for model \"Client\"" } }
+ */
+router.get('/clientbycompanyname', validateToken, Client.searchClientsByCompanyName);
+
 module.exports = router
 
