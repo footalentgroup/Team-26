@@ -31,7 +31,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: `${process.env.DEPLOY_URL}/api`, // Replace with your server URL
+                url: `${process.env.BASE_API_URL}`, // Replace with your server URL
             },
         ],
         components: {
@@ -56,4 +56,4 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 // Use Swagger-UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-console.log(`swaggerSpec ${process.env.DEPLOY_URL}/api-docs`)
+console.log(`swaggerSpec ${process.env.BASE_URL}/api-docs`)
