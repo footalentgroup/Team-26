@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 .container-login {
     display: flex;
     flex-wrap: wrap;
@@ -57,3 +58,4 @@
     position:absolute;
     bottom:calc(10 * (100vh / 1024));
 }
+

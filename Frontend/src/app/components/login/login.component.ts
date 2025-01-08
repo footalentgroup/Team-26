@@ -90,6 +90,7 @@ export class LoginComponent {
         return;
       }
 
+
       this.msg.Load("dark", res.msg || "Bienvenido");
 
       localStorage.setItem("token", res.token);
@@ -105,5 +106,14 @@ export class LoginComponent {
       this.msg.Load("danger", "Error en el servidor. Intente nuevamente más tarde.");
     });
   }
+
+      else {
+        this.msg.Load("dark", res.msg || "Bienvenido");
+        this.router.navigate(["/dashboardsup"]);
+      }
+  
+  })
+}
+
 }
 

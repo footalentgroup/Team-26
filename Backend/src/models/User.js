@@ -2,15 +2,6 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
-    userName: {
-      type: String,
-      unique: true,
-      required: [true, 'Nombre es obligatorio'],
-      uppercase: true,
-      trim: true,
-      minlength: [3, 'El nombre del usuario debe tener al menos 3 caracteres'],
-      maxlength: [100, 'El nombre del usuario no puede exceder los 100 caracteres']
-    },
     userEmail: {
       type: String,
       unique: true,
@@ -22,11 +13,39 @@ const userSchema = new mongoose.Schema(
           // Expresión regular para validar el formato de email
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(review);
         },
-        msg: props => `${props.value} no es un email válido!`
-      }
-    },
-    userPassword: { type: String, required: true },
-    userIsActive: { type: Boolean, default: true }, // Active/Inactive status
+        message: props => `${props.value} no es un email válido!`
+            }
+          },
+          userName: {
+            type: String,
+            required: [true, 'Nombre es obligatorio'],
+            uppercase: true,
+            trim: true,
+            minlength: [3, 'El nombre del usuario debe tener al menos 3 caracteres'],
+            maxlength: [100, 'El nombre del usuario no puede exceder los 50 caracteres'],
+          },
+          userLastName: {
+            type: String,
+            required: [true, 'Apellido es obligatorio'],
+            uppercase: true,
+            trim: true,
+            minlength: [3, 'El nombre del usuario debe tener al menos 3 caracteres'],
+            maxlength: [100, 'El nombre del usuario no puede exceder los 50 caracteres'],
+            },
+            userFullName: {
+            type: String,
+            trim: true,
+            unique: true,
+            default: function() {
+              return `${this.userName} ${this.userLastName}`;
+            }
+          },
+          userPhone: {
+            type: String,
+            maxlength: [20, 'El telefono no puede exceder los 20 caracteres']
+          },
+          userPassword: { type: String, required: true },
+          userIsActive: { type: Boolean, default: false }, // Active/Inactive status
     userRole: { type: String, enum: ['administrator', 'supervisor', 'technician'], default: 'technician' }, // User role
     userFailedAttempts: { type: Number, default: 0 }, // Count of failed login attempts
     userLoginAttempts: [
@@ -39,9 +58,16 @@ const userSchema = new mongoose.Schema(
     ],
     userConfirmationToken: { type: String }, // Token de confirmación
     userConfirmationTokenExpires: { type: Date }, // Fecha de expiración del token    
+    userLoginToken: { type: String } // Token de Login
   },
   { timestamps: true }
 );
+
+
+userSchema.pre('save', function (next) {
+  this.userFullName = `${this.userName} ${this.userLastName}`;
+  next();
+});
 
 module.exports = mongoose.model('User', userSchema);
 

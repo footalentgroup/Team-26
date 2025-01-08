@@ -1,0 +1,37 @@
+#agenda{
+    width: calc(444 * (100vw / 1440)) ;
+    height: calc(400 * (100vh / 1024)) ;
+    background-color: #FFFFFF;
+    left: calc(866 * (100vw / 1440)) ;
+    top: calc(524 * (100vh / 1024));
+    border-radius: calc(28 * (100vw / 1440)) !important;
+    position: absolute;
+}
+
+#ttagenda{
+        width: calc(212 * (100vw / 1440));
+        height: calc(20 * (100vh / 1024));
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        font-size: calc(24 * (100vw / 1424)) ;
+        color: #00254B !important;
+        position: absolute;
+        left: calc(35 * (100vw / 1440));
+        top: calc(23 * (100vh / 1024));
+        font-weight: 600 !important;
+        position: absolute;
+}
+#tabagenda{
+    width: calc(326 * (100vw / 1440));
+    height: calc(42 * (100vh / 1024));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(28 * (100vw / 1440));
+    color: #e0e0e0;
+    top: calc(179 * (100vh / 1024));
+    left: calc(67 * (100vw / 1440));
+    position: absolute;
+
+}
