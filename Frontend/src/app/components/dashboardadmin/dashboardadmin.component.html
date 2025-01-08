@@ -1,55 +1,14 @@
-<app-mensajes></app-mensajes>
-<!-- $$$$$$$$$$$$$$$$$$$$$$$$encabezado de home supervisor$$$$$$$$$$$$$$$ -->
-<div class="header">
-    <div >
-        <img class="logo" src="/assets/logo.PNG"/>
+<div id="background">
+    <div id="backsecond">
+        <div id="dashboard">
+        <app-navbaradmi></app-navbaradmi>                
+        <app-usuarios></app-usuarios>
     </div>
-    <nav class="info">
-        <a href="#">Instalaciones</a>
-        <a href="#">Reportes</a>
-        <a href="#">Cuenta</a>
-    </nav>
-    <div class="user-info">
-        <div style="display: flex; flex-direction: column; margin-right: 10px;">
-            <span>{{ userName }}</span>
-            <a routerLink="/login" (click)="logout()">CERRAR SESIÓN</a>
-        </div>
-        <img src="/assets/user.png"  />
     </div>
 </div>
 
-<!-- $$$$$$$$$$$$$$$$$$$$$$$$tabla de tecnicos disponibles$$$$$$$$$$$$$$$ -->
-<div class="container">
-    <div class="tecnicos">
-        <div class="tittle-tecnicos">
-            <h3>TÉCNICOS
-                <img src="/assets/buscar.png" class="logo-buscar"/>
-            </h3>
-        </div>
-        <ul class="tecnicos_disponibles">
-            <li><img src="/assets/logo_buscar.PNG" class="logotecni"/> Gómez</li>
-            <li><img src="/assets/logo_buscar.PNG" class="logotecni"/>Pablo López</li>
-            <li><img src="/assets/logo_buscar.PNG" class="logotecni"/>Claudio Pérez</li>
-            <li><img src="/assets/logo_buscar.PNG" class="logotecni"/>Adrián Seco</li>
-            <li><img src="/assets/logo_buscar.PNG" class="logotecni"/>Andrés Díaz</li>
-            <li><img src="/assets/logo_buscar.PNG" class="logotecni"/>Juan Toro</li>
-            <li><img src="/assets/logo_buscar.PNG" class="logotecni"/>Pedro Rosales</li>
-            <li><img src="/assets/logo_buscar.PNG" class="logotecni"/>Gustavo Herrera</li>
-        </ul>
-    </div>
-<!-- $$$$$$$$$$$$$$$$$$$$$$$$ Ubicacion $$$$$$$$$$$$$$$ -->
 
-    <div class="ubicacion">
-        <div class="tittle-ubicacion">
-            <h3>UBICACIÓN</h3>
-        </div>
-        <div class="mapa">
-            <iframe class="map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1988.0224541149028!2d-74.04774461163255!3d4.762191521755635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f859394bb333f%3A0x414694fb3359b449!2sCentro%20Comercial%20Santaf%C3%A9%2C%20Cl.%20185%20%2345-3%2C%20Bogot%C3%A1!5e0!3m2!1ses-419!2sco!4v1723778290264!5m2!1ses-419!2sco"
-                width="450" height="550" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </div>
-</div>
+
+
 
 

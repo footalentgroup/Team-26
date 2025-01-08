@@ -1,0 +1,49 @@
+<div class="usuarios-container">
+    <h2>Usuarios</h2>
+    <div class="search-bar">
+        <div class="search-input">
+            <div class="barra-busqueda">
+                <div class="input-container">
+                    <svg class="icono" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26.9265 27.0401L30.3996 30.4001M29.2796 21.4401C29.2796 25.77 25.7695 29.2801 21.4396 29.2801C17.1097 29.2801 13.5996 25.77 13.5996 21.4401C13.5996 17.1102 17.1097 13.6001 21.4396 13.6001C25.7695 13.6001 29.2796 17.1102 29.2796 21.4401Z" stroke="#00254B" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <input class="barra" type="text"/>
+                </div>
+                <button class="new-button" (click)="abrirModal()">Nuevo Usuario</button>
+                <app-newusuario></app-newusuario>
+            </div>
+        </div>
+    </div>
+    <div class="table-container">
+        <table class="usuarios-table">
+            <thead>
+                <tr>
+                    <th>Nombres y Apellido</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Manuel Enrique Rodríguez</td>
+                    <td>+27358293</td>
+                    <td>
+                        pedro123example.com
+                        <button class="copy-button">
+                            <i class="fa fa-copy"></i>
+                        </button>
+                    </td>
+                    <td>TÉCNICO</td>
+                    <td>
+                        <button class="edit-button">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                    </td>
+                </tr>
+                <!-- Más filas aquí -->
+            </tbody>
+        </table>
+    </div>
+</div>

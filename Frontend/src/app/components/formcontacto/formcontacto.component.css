@@ -1,0 +1,99 @@
+.fondo{
+    background-color: #121212;
+    width: 100%;
+    position: relative;
+    height: 100vh;
+}
+.accessibilidad-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: calc(339 * (100vh / 1024));
+    left: calc(441 * (100vw / 1440));
+    width: calc(559 * (100vw / 1440));
+    height: calc(357 * (100vh / 1024));
+    font-family: 'Poppins', sans-serif;
+    position: absolute;
+}
+
+.tittle-principal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    width: calc(559 * (100vw / 1440));
+    height: calc(61 * (100vh / 1024));
+    color: #fff;
+
+}
+.titulo-acce {
+    font-size: calc(24 * (100vw / 1440));
+    top:  calc(11 * (100vh / 1024));
+    left:  calc(209 * (100vw / 1440));
+    font-weight: 700;
+}
+
+.content-acce {
+    padding: calc(20 * (100vw / 1440));
+    font-size: calc(14 * (100vw / 1440));
+    background-color: #E0E0E0 ;
+    text-align: justify;
+}
+
+.contact-form {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-left,
+.form-right {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #00254B;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    background-color: #E0E0E0 ;
+    border: 1px solid #00254B;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+textarea#message {
+    margin-bottom: 10px;
+}
+.button-container {
+    display: flex;
+    bottom: 0;
+    right: 0;
+    margin-top: 40px;
+    justify-content: flex-end; 
+}
+.submit-button {
+    width: 70%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+
+
