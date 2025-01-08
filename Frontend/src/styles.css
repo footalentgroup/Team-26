@@ -1,1 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
+
+.container-login {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+/*seccion izquierda*/
+.logo-inicio{
+    position: absolute;
+    width:calc(160 * (100vw / 1440));
+    height: calc(151.8 * (100vh / 1024));
+    left: calc(32 * (100vw / 1440));
+    top: calc(50 * (100vh / 1024));
+}
+.seccion-izquierda {
+    background-color: #003350;
+    color: #ffffff;
+    width: calc(720 * (100vw / 1440));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: calc(20 * (100vw / 1440));
+    position: relative;
+}
+
+.seccion-izquierda img {
+    width: calc(100 * (100vw / 1440));
+    height: auto;
+    margin-bottom: calc(20 * (100vh / 1024));
+}
+
+.seccion-izquierda h1 {
+    width: calc(484 * (100vw / 1440));
+    height: calc(20 * (100vh / 1024));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(40 * (100vw / 1440)) ;
+    color: #fff !important;
+    position: absolute;
+    left: calc(118 * (100vw / 1440));
+    top: calc(512 * (100vh / 1024));
+    font-weight: 500 !important;
+    position: absolute;
+}
+
+
+.text-footer {
+    font-size: calc(18 * (100vw / 1440));
+    color:#ffffff;
+    font-weight: 300;
+    margin-bottom: 0px;
+    text-align:center;
+    position:absolute;
+    bottom:calc(10 * (100vh / 1024));
+}
+

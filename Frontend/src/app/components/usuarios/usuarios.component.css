@@ -1,0 +1,121 @@
+.usuarios-container {
+    width: calc(902 * (100vw / 1440)) ;
+    height: calc(900 * (100vh / 1024)) ;
+    background-color: #fff;
+    box-shadow: 0 4px 6px #0000001a;
+    font-family: 'Poppins', sans-serif;
+    left: calc(406 * (100vw / 1440)) ;
+    border-radius: calc(28 * (100vw / 1440)) !important;
+    top: calc(25 * (100vh / 1024));
+    position: absolute;
+}
+h2 {
+    font-size: 24px;
+    position: relative;
+    top: calc(18 * (100vh / 1024));
+    left:calc(45 * (100vw / 1440)) ;
+    font-weight: bold;
+    color: #00254B;
+    margin-bottom: 20px;
+}
+.input-container {
+    position: relative; 
+    left:calc(45 * (100vw / 1440)) ;
+    flex-grow: 1;
+    width: calc(643 * (100vw / 1440));
+    height: calc(48 * (100vh / 1024));
+}
+.search-bar{
+    top:calc(82 * (100vh / 1024));
+}
+.barra-busqueda{
+    display: flex;
+    position: relative;
+    align-items: center;
+    flex-grow: 1;
+    left: calc(26 * (100vw / 1440)); 
+    width: calc(801 * (100vw / 1440));
+    height: calc(73 * (100vh / 1024));
+    top: calc(52 * (100vh / 1024));
+}
+.barra {
+    width: calc(620 * (100vw / 1440));
+    height: calc(49 * (100vh / 1024));
+    border: solid 1px #00254B;
+    border-radius: 28px 0px 0px 28px;
+    position: relative;
+    font-size: 16px;
+    box-sizing: border-box; 
+}
+
+.icono {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    width: calc(50 * (100vw / 1440)); 
+    height: calc(50 * (100vh / 1024));
+    pointer-events: none;
+    z-index: 100;
+}
+.new-button{
+    width:calc(140 * (100vw / 1440));
+    height: calc(50 * (100vh / 1024));
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 0px 28px 28px 0px;
+    cursor: pointer;
+}
+
+
+
+.table-container {
+    width:calc(780 * (100vw / 1440));
+    height: calc(680 * (100vh / 1024));
+    top: calc(100 * (100vh / 1024));
+    left:calc(60 * (100vw / 1440));
+    overflow-x: auto; 
+    position: relative;
+}
+
+.usuarios-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.usuarios-table th, .usuarios-table td {
+    border: 1px solid #ccc;
+    height: calc(40 * (100vh / 1024));
+    text-align: left;
+    padding: 10px;
+}
+
+.usuarios-table th {
+    background-color: #003366;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.usuarios-table tr:nth-child(even) {
+    background-color: #fff;
+}
+
+.copy-button, .edit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.copy-button i, .edit-button i {
+    font-size: 16px;
+    color: #0056b3;
+}
+
+.copy-button:hover i, .edit-button:hover i {
+    color: #003580;
+}
+
+

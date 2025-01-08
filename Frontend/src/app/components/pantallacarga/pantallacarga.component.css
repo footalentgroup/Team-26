@@ -1,0 +1,56 @@
+/* Contenedor Principal */
+.container-carga {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Sección Izquierda */
+.seccion-izquierda-carga {
+    background-color: #003350; 
+    color: white; 
+    width: 50%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.logo-carga {
+    position: absolute;
+    width: 160px;
+    height: 151.8px;
+    left: 32px;
+    top: 50px;
+}
+
+.seccion-izquierda-carga h1 {
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: center;
+    position: absolute;
+    margin-left: 50px;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+}
+
+.text-footer-carga {
+    font-size: 18px;
+    color:#ffffff;
+    font-weight: 300;
+    margin-bottom: 0px;
+    text-align:center;
+    position:absolute;
+    bottom:2px;
+}
+
+/* Sección Derecha */
+.seccion-derecha-carga {
+    background-color: white;
+    width: 50%; 
+    height: 100%; 
+}

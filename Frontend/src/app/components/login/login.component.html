@@ -1,17 +1,43 @@
 <app-mensajes></app-mensajes>
-<div class="body">
-    <div class="login-container">
-        <div class="logo">
-            <img src="/assets/logo.PNG" alt="Logo" />
+<div class="container-login">
+    <div class="seccion-izquierda">
+        <div>
+            <img class="logo-inicio" src="/assets/logo2.png" alt="Logo">
+            <h1>{{ title }}</h1>
         </div>
-        <form class="login-form" (ngSubmit)="Login()" #loginForm="ngForm">
-            <label for="email">Credenciales</label>
-            <input type="text" id="email"name="email" placeholder="Ingrese su email" [(ngModel)]="email"required/>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Ingrese su password" [(ngModel)]="password" required/>
-
-            <button type="submit">INICIAR SESIÓN</button>
-        </form>
+        <p class="text-footer">gestiON - 2024</p>
+    </div>
+    <div class="seccion-derecha">
+        <div class="form-container">
+            <form (ngSubmit)="Login()">
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" placeholder="Ingresa su Email"[(ngModel)]="email" (input)="updateTitle()"name="email">
+                </div>
+                <div class="form-group password-container">
+                    <label for="password">Contraseña</label>
+                    <div class="password-wrapper">
+                        <input [type]="showPassword ? 'text' : 'password'" id="password" placeholder="Ingresa tu passsword"[(ngModel)]="password" name="password">
+                    <span class="toggle-password" (click)="togglePasswordVisibility()">
+                        <img src="/assets/Eye-Open.png" alt="Mostrar contraseña" *ngIf="!showPassword"/>
+                        <img src="/assets/Eye-close.png" alt="Ocultar contraseña" *ngIf="showPassword"/>
+                    </span>
+                    </div>
+                    <a  (click)="recuperarpasssword()">Olvidé mi contraseña</a>
+                </div>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="keep-session">
+                    <label for="keep-session">Mantener iniciada mi sesión</label>
+                </div>
+                <button type="submit" class="boton-inicio">INICIAR SESIÓN</button>
+            </form>
+            <div class="parrafo-ayuda">
+                <p> Si aún no tienes tu cuenta, solicítala a tu empleador.
+                    Si contas con cuenta y tenes problemas para ingresar, no dudes en contactarnos en la sección
+                    <a href="#">AYUDA</a>.
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 

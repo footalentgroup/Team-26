@@ -1,0 +1,31 @@
+<div *ngIf="mostrarModal" class="modaluser">
+    <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nuevo usuario</h2>
+                <button class="close-button" (click)="cerrarModal()">✖</button>
+            </div>
+    <div class="modal-body">
+        <form>
+            <label class="titulo-rol">Rol del usuario</label>
+            <div class="roles">
+            <label id="rolsupervisor">
+                <input type="radio" name="role" value="supervisor" checked />
+                Supervisor
+            </label>
+            <label>
+                <input type="radio" name="role" value="tecnico" />
+                Técnico
+            </label>
+            </div>
+            <input  type="text" placeholder="Nombre completo" />
+            <input  type="email" placeholder="Correo electrónico" />
+            <input  type="tel" placeholder="Teléfono" />
+            <div class="button-container">
+                <button type="submit" class="submit-button">SIGUIENTE</button>
+            </div>
+            
+        </form>
+    </div>
+    </div>
+</div>
+
