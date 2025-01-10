@@ -107,13 +107,6 @@ export class LoginComponent {
     });
   }
 
-      else {
-        this.msg.Load("dark", res.msg || "Bienvenido");
-        this.router.navigate(["/dashboardsup"]);
-      }
-  
-  })
-}
 
 }
 
