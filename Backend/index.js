@@ -27,20 +27,12 @@ const swaggerOptions = {
         info: {
             title: 'gestiON API',
             version: '1.0.0',
-<<<<<<< HEAD
             description: 'API documentation for gestiON, MEAN stack application by the "Footalent - Team26-Noche" team; 2024-2025',
         },
         servers: [
             {
                 url: `${process.env.BASE_API_URL}`, // Replace with your server URL
-=======
-            description: 'API documentation for gestiON, MEAN stack application by the "Footalent - Team26-Nioche" team; 2024-2025',
         },
-        servers: [
-            {
-                url: `${process.env.CLIENT_URL}:${process.env.PORT}/api`, // Replace with your server URL
->>>>>>> develop
-            },
         ],
         components: {
             securitySchemes: {
@@ -64,8 +56,4 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 // Use Swagger-UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-<<<<<<< HEAD
 console.log(`swaggerSpec ${process.env.BASE_URL}/api-docs`)
-=======
-console.log(`swaggerSpec ${process.env.CLIENT_URL}:${process.env.PORT}/api-docs`)
->>>>>>> develop

@@ -10,9 +10,5 @@ reference-documents/
 
 # some files
 src/controllers/roleAccess.js
-<<<<<<< HEAD
 userController.js
 .vercel
-=======
-# userController.js
->>>>>>> develop

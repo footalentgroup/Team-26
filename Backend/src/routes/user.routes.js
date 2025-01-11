@@ -6,25 +6,6 @@ const User = require('../controllers/user.controller')
 
 const { validateToken } = require('../middlewares/validateToken')
 
-<<<<<<< HEAD
-//traer todos los registros user
-// router.get('/user',  validateToken, User.getAllUsers)
-
-//nuevo usuario
-// router.post('/user',  validateToken, User.createUser)
-
-//modificar usuario por el id
-// router.patch('/user/:id',   validateToken, User.updateUserById)
-
-//Borrar usuario por el id
-// router.delete('/user/:id',  validateToken, User.deleteUserById)
- 
-//Buscar usuario por el email
-// router.get('/userbyemail',  validateToken, User.getUserByEmail)
-
-// //Buscar usuario por un texto en general
-//  router.get('/usersearch',  validateToken, User.searchUsers)
-=======
 /**
  * @swagger
  * tags:
@@ -240,6 +221,13 @@ router.patch('/user/:id', validateToken, User.updateUserById)
  *         required: true
  *         description: The user ID
  *         example: 676fcfeec92c407aed2a6dc3
+ *       - in: query
+ *         name: userDeletionCause
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user Deletion Cause
+ *         example: Finalizó pasantia de practica
  *     responses:
  *       200:
  *         description: User deleted successfully
@@ -266,7 +254,6 @@ router.patch('/user/:id', validateToken, User.updateUserById)
 
 router.delete('/user/:id', validateToken, User.deleteUserById)
  
->>>>>>> develop
 
 // Login
 /**

@@ -6,74 +6,6 @@ const Client = require('../controllers/client.controller')
 
 const { validateToken } = require('../middlewares/validateToken')
 
-<<<<<<< HEAD
-// Register a new client
-/**
- * @swagger
- * /client:
- *   post:
- *     summary: Register a new client
- *     tags: [Clients]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *               type: object
- *               properties:
- *                 clientEmail:
- *                   type: string
- *                   example: correcaminos@acme.com
- *                 clientCompanyName:
- *                   type: string
- *                   example: Productos ACME
- *                 clientContactPerson:
- *                   type: string
- *                   example: Correcaminos
- *                 clientPhone:
- *                   type: string
- *                   example: +5491123456789
- *                 clientAddress:
- *                   type: string
- *                   example: Calle Falsa 123
- *                 clientGeoLocation:
- *                   type: object
- *                   properties:
- *                    type:
- *                      type: string
- *                      example: Point
- *                    coordinates:
- *                      type: array
- *                      items:
- *                        type: number
- *                      example: [-58.3816, -34.6037]
- *     responses:
- *       201:
- *         description: Client created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               example: {   "ok": true,   "message": "Cliente creado exitosamente",   "data": {     "clientEmail": "correcaminos2@acme.com",     "clientCompanyName": "PRODUCTOS ACME",     "clientContactPerson": "Correcaminos",     "clientPhone": "5491123456789",     "clientAddress": "Calle Falsa 123",     "clientGeoLocation": {       "type": "Point",       "coordinates": [         -58.3816,         -34.6037       ]     },     "_id": "676d598951cf5bd85dd77d9a",     "createdAt": "2024-12-26T13:26:33.478Z",     "updatedAt": "2024-12-26T13:26:33.478Z",     "__v": 0   }}
- *       400:
- *         description: "Error: Bad Request"
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               example: { "ok": false, "message": "El email del cliente ya existe", "data": { "errorResponse": { "index": 0, "code": 11000, "errmessage": "E11000 duplicate key error collection: appgestion_dev.clients index: clientEmail_1 dup key: { clientEmail: \"correcaminos@acme.com\" }", "keyPattern": { "clientEmail": 1 }, "keyValue": { "clientEmail": "correcaminos@acme.com" } }, "index": 0, "code": 11000, "keyPattern": { "clientEmail": 1 }, "keyValue": { "clientEmail": "correcaminos@acme.com" } } }
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               example: { "ok": false, "message": "Error al obtener datos", "data":{ ... } } 
- *     security:
- *       - BearerAuth: []
- */
-
-=======
 /**
  * @swagger
  * tags:
@@ -147,7 +79,6 @@ const { validateToken } = require('../middlewares/validateToken')
  *       - BearerAuth: []
  */
 
->>>>>>> develop
 router.post('/client', validateToken, Client.createClient);
 
 //modificar cliente por el id
@@ -170,11 +101,7 @@ router.post('/client', validateToken, Client.createClient);
  *       content:
  *         application/json:
  *           schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: { "clientAddress": "Other in, Othertown, USA" }
  *     responses:
  *       200:
@@ -182,11 +109,7 @@ router.post('/client', validateToken, Client.createClient);
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: { "ok": true, "message": "cliente actualizado", "client": { "clientGeoLocation": { "type": "Point", "coordinates": [ -58.3816, -34.6037 ] }, "_id": "676d3380ed95db8fa95d006d", "clientEmail": "correcaminos@acme.com", "clientCompanyName": "PRODUCTOS ACME", "clientContactPerson": "Correcaminos", "clientPhone": "5491123456789", "clientAddress": "Other in, Othertown, USA", "createdAt": "2024-12-26T10:44:16.967Z", "updatedAt": "2024-12-27T11:08:37.693Z", "__v": 0 } }
  *       400:
  *         description: Client not found or no modifications detected
@@ -227,33 +150,21 @@ router.patch('/client/:id', validateToken, Client.updateClientById)
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: { "ok": true, "message": "Encontrado cliente", "data": { "clientGeoLocation": { "type": "Point", "coordinates": [ -58.3816, -34.6037 ] }, "_id": "676d3380ed95db8fa95d006d", "clientEmail": "correcaminos@acme.com", "clientCompanyName": "PRODUCTOS ACME", "clientContactPerson": "Correcaminos", "clientPhone": "5491123456789", "clientAddress": "Other in, Othertown, USA", "createdAt": "2024-12-26T10:44:16.967Z", "updatedAt": "2024-12-27T11:17:20.364Z", "__v": 0 } }
  *       404:
  *         description: Client not found
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: { "ok": false, "message": "No fue encontrado cliente para 676d3380ed95db8fa95d005d"}
  *       500:
  *         description: Error retrieving client
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: { "ok": false, "message": "No fue encontrado cliente, por favor contactar a soporte", "data": { "stringValue": "\"{ix}\"", "valueType": "string", "kind": "ObjectId", "value": "{ix}", "path": "_id", "reason": {}, "name": "CastError", "message": "Cast to ObjectId failed for value \"{ix}\" (type string) at path \"_id\" for model \"Client\"" } }
  */
 
@@ -328,22 +239,14 @@ router.get('/clientbyemail', validateToken, Client.getClientByEmail)
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: {"ok": false, "message": "No se encontraron clientes."}
  *       500:
  *         description: Server error
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: { "ok": false, "message": "No fue encontrado cliente, por favor contactar a soporte", "data": { "stringValue": "\"search\"", "valueType": "string", "kind": "ObjectId", "value": "search", "path": "_id", "reason": {}, "name": "CastError", "message": "Cast to ObjectId failed for value \"search\" (type string) at path \"_id\" for model \"Client\"" } }
  */
 
@@ -370,33 +273,21 @@ router.get('/clientsearch',  validateToken, Client.searchClients)
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *               $ref: '#/components/schemas/Client'
-=======
  *             type: object
  *             example: {}
->>>>>>> develop
  *       400:
  *         description: Client not found
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: {}
  *       500:
  *         description: Error deleting client
  *         content:
  *           application/json:
  *             schema:
-<<<<<<< HEAD
- *             tyoe: object
-=======
  *             type: object
->>>>>>> develop
  *             example: {}
  */
 
@@ -489,8 +380,6 @@ router.delete('/client/:id', validateToken, Client.deleteClientById)
 */
 
 router.get('/client', validateToken, Client.getAllClients);
-<<<<<<< HEAD
-=======
 
 // Buscar cliente por el nombre de la empresa
 /**
@@ -531,7 +420,6 @@ router.get('/client', validateToken, Client.getAllClients);
  *               example: { "ok": false, "message": "No fue encontrado cliente, por favor contactar a soporte", "data": { "stringValue": "\"companyname\"", "valueType": "string", "kind": "ObjectId", "value": "companyname", "path": "_id", "reason": {}, "name": "CastError", "message": "Cast to ObjectId failed for value \"companyname\" (type string) at path \"_id\" for model \"Client\"" } }
  */
 router.get('/clientbycompanyname', validateToken, Client.searchClientsByCompanyName);
->>>>>>> develop
 
 module.exports = router
 
