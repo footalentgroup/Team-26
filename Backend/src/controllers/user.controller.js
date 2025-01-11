@@ -100,9 +100,8 @@ const createUser = async (req, res) => {
             { expiresIn: `${process.env.CONFIRMATION_EXPIRATION}h` }
         );
         //Encrioptar la contraseña
-        const hashedPassword = null;
-        if(nuevoUser.userPassword !== null){
-            let hashedPassword = await bcrypt.hash(nuevoUser.userPassword, 10);;
+        if(!!nuevoUser.userPassword){
+            const hashedPassword = await bcrypt.hash(nuevoUser.userPassword, 10);;
             nuevoUser.userPassword = hashedPassword;
         } 
 
@@ -143,7 +142,7 @@ const createUser = async (req, res) => {
         console.error(error);
         return res.status(500).json({
             ok: false,
-            error: 'Error interno del servidor'
+            error: `Error interno del servidor ${error.code} ${error.message}`
         });
     }
 };
