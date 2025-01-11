@@ -44,19 +44,20 @@
     font-weight: 600 !important;
     position: absolute;
 }
-#inputclient{
-    width: calc(220 * (100vw / 1440));
-    height: calc(38 * (100vh / 1024));
-    left: calc(502 * (100vw / 1440));
-    top: calc(102 * (100vh / 1024));
-    border-radius: calc(28 * (100vw / 1440));
-    border-color: #00254B;
-    position: absolute;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    font-size: calc(14 * (100vw / 1424));
-    padding-left: calc(5 * (100vw / 1440));
+#inputclient {
+  width: calc(220 * (100vw / 1440));
+  height: calc(38 * (100vh / 1024));
+  left:  calc(502 * (100vw / 1440))  !important;
+  top:  calc(102 * (100vh / 1024))  !important;
+  border-radius: calc(28 * (100vw / 1440));
+  border-color: #00254B;
+  position: absolute;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: calc(14 * (100vw / 1424));
+  padding-left: calc(5 * (100vw / 1440));
+  z-index: 2; /* Asegura que el input esté sobre el select */
 }
 #visit{
     width: calc(228 * (100vw / 1440));
@@ -118,6 +119,7 @@
         position: absolute;
         font-weight: 700;
         border-radius: calc(28 * (100vw / 1440)) ;
+        cursor: pointer;
 }
 #custom-select {
     position: absolute;
@@ -223,3 +225,51 @@
   #custom-select2 select option[disabled] {
     color: #888;
   }
+
+  #selectA {
+    width: calc(220 * (100vw / 1440));
+    height: calc(38 * (100vh / 1024));
+    left: calc(502 * (100vw / 1440));
+    top: calc(102 * (100vh / 1024)); /* Ajuste para estar debajo del input */
+    border-radius: calc(28 * (100vw / 1440));
+    border-color: #00254B;
+    position: absolute;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: calc(14 * (100vw / 1424));
+    padding-left: calc(5 * (100vw / 1440));
+    box-sizing: border-box;
+    z-index: 1; /* Select debajo del input */
+    overflow-y: auto;
+    background-color: white;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+}
+#selectClient option {
+  padding: 10px; /* Espaciado alrededor del texto */
+  background-color: #fff; /* Fondo blanco */
+  color: #00254B; /* Color de texto */
+  font-size: calc(14 * (100vw / 1424)); /* Tamaño de fuente relativo */
+}
+
+#selectClient option:hover {
+  background-color: #f0f0f0; /* Fondo cuando el mouse pasa sobre una opción */
+}
+
+#selectClient option:active {
+  background-color: #e0e0e0; /* Fondo cuando se selecciona una opción */
+}
+
+#selectClient option:disabled {
+  color: #888; /* Color gris para la opción deshabilitada */
+}
+

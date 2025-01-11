@@ -15,6 +15,9 @@ import { NavbarsupComponent } from './components/navbarsup/navbarsup.component';
 import { MapComponent } from './components/map/map.component';
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { ModalVisitComponent } from './components/modalvisit/modalvisit.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
+
 
 
 
@@ -24,6 +27,7 @@ export const routes: Routes = [
     {path:"accesibilidad",component:AccesibilidadComponent,pathMatch:"full"},
     {path:"dashboardadmin",component:DashboardadminComponent,pathMatch:"full"},
     {path:"dashboardtecni",component:DashboardtecniComponent,pathMatch:"full"},
+    {path:"dropdown",component:DropdownComponent,pathMatch:"full"},
 
     {path:"pantallacarga",component:PantallacargaComponent,pathMatch:"full"},
     {path:"formcontacto",component:FormcontactoComponent,pathMatch:"full"},
@@ -34,7 +38,8 @@ export const routes: Routes = [
     {path: "navbarsup", component: NavbarsupComponent }, 
     {path: "map", component: MapComponent }, 
     {path: "agenda", component: AgendaComponent },
-    {path: "calendar", component: CalendarComponent },  
+    {path: "calendar", component: CalendarComponent },
+    {path: "modalvisit", component: ModalVisitComponent },  
 
 
 
