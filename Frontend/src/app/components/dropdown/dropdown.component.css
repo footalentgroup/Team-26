@@ -1,0 +1,54 @@
+.ce-wrapper {
+    position: relative;
+    & .ce-parent {
+      border: 1px solid black;
+      border-radius: 5px;
+      & input {
+        border: none;
+        width: 100%;
+        border-radius: 5px;
+        padding: 20px;
+      }
+      & * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: medium;
+      }
+      & .ce-options {
+        height: 0;
+        opacity: 0;
+        background-color: transparent;
+        width: 100%;
+        position: absolute;
+        transition: height 0.5s ease, display 0.5s ease allow-discrete,
+          background-color 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
+        border: 1px solid black;
+        top: 90%;
+        left: 0;
+        overflow: hidden;
+        border-radius: 5px;
+        & ul {
+          list-style: none;
+          & li {
+            padding: 10px;
+            border-radius: 5px;
+            font-size: medium;
+            cursor: pointer;
+            &:hover {
+              background-color: black;
+              color: white;
+            }
+          }
+        }
+        &.show {
+          /* display: block; */
+          opacity: 1;
+          height: auto;
+          padding: 10px;
+          background-color: white;
+        }
+      }
+    }
+  }
+  

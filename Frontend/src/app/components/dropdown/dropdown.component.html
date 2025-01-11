@@ -1,0 +1,10 @@
+<div class="ce-wrapper">
+    <div class="ce-parent">
+      <input type="text" name="ce-text" [(ngModel)]="value">
+      <div class="ce-options" [class.show]="show">
+        <ul>
+            <li *ngFor="let option of options">{{option}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>

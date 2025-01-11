@@ -3,6 +3,7 @@ import { NavbarsupComponent } from "../navbarsup/navbarsup.component";
 import { CalendarComponent } from "../calendar/calendar.component";
 import { MapComponent } from "../map/map.component";
 import { AgendaComponent } from "../agenda/agenda.component";
+import { DropdownComponent } from "../dropdown/dropdown.component";
 
 @Component({
   selector: 'app-dashboardsup',

@@ -71,9 +71,25 @@
     </div>
 
     <div class="text" id="ttdatos">Ingresá el nombre del cliente</div>
-    <div>
-        <input type="text" class="text" placeholder="Número/Nombre de cliente" id="inputclient">
+    <div id="inputclient">
+      <app-dropdown [(ngModel)]="clienttyping" [options]="clients" [show]="showclients" (ngModelChange)="clientChanges($event)"></app-dropdown>
+        <!-- Etiqueta para el input -->
+        <!-- <label for="inputclient" class="sr-only">Número/Nombre de cliente</label> -->
+        
+        <!-- Campo de entrada con id y name -->
+        <!-- <input [formControl]="clientControl" placeholder="Número/Nombre de cliente" id="inputclient" name="clientName"/>
+      <div>
+        <div class="custom-selectA" id="selectA" >
+            <select *ngIf="clients.length > 0" [formControl]="clientControl" id="selectClient" name="clientSelect">
+              <option value="" disabled>Seleccionar Cliente</option>
+              <option *ngFor="let client of clients" [value]="client._id">
+                {{ client.clientCompanyName }}
+              </option>
+            </select>
+          </div>
+      </div> -->
     </div>
+      
     <div class="text" id="visit" >Tipo de visita</div>
 
         <div class="custom-selectA" id="custom-select" >
@@ -129,10 +145,10 @@
         </div>
    
     
-    <div id="btnagendar" >
+    <div id="btnagendar" (click)="openModal()">
         AGENDAR VISITA
     </div>
-
+    
 
 
 

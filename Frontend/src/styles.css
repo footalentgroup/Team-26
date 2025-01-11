@@ -59,3 +59,6 @@
     bottom:calc(10 * (100vh / 1024));
 }
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
