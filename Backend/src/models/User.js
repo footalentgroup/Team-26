@@ -14,12 +14,6 @@ const userSchema = new mongoose.Schema(
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(review);
         },
         message: props => `${props.value} no es un email válido!`
-<<<<<<< HEAD
-      }
-    },
-    userPassword: { type: String, required: true },
-    userIsActive: { type: Boolean, default: true }, // Active/Inactive status
-=======
             }
           },
           userName: {
@@ -50,10 +44,12 @@ const userSchema = new mongoose.Schema(
             type: String,
             maxlength: [20, 'El telefono no puede exceder los 20 caracteres']
           },
-          userPassword: { type: String, required: true },
+          userPassword: { type: String
+            , minlength: [8, 'El password debe tener al menos 8 caracteres']
+          },
           userIsActive: { type: Boolean, default: false }, // Active/Inactive status
->>>>>>> develop
     userRole: { type: String, enum: ['administrator', 'supervisor', 'technician'], default: 'technician' }, // User role
+    userDeletionCause: { type: String }, // Reason for deletion
     userFailedAttempts: { type: Number, default: 0 }, // Count of failed login attempts
     userLoginAttempts: [
       {
@@ -70,15 +66,17 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+userSchema.pre('validate', function (next) {
+  if (!this.userPassword && !this.userConfirmationToken) {
+    this.invalidate('userPassword', 'El password es obligatorio');
+  }
+  next();
+});
 
-<<<<<<< HEAD
-
-=======
 userSchema.pre('save', function (next) {
   this.userFullName = `${this.userName} ${this.userLastName}`;
   next();
 });
->>>>>>> develop
 
 module.exports = mongoose.model('User', userSchema);
 

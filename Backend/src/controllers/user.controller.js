@@ -53,12 +53,12 @@ const createUser = async (req, res) => {
                 message: 'Se requiere email'
             });
         }
-        if (!nuevoUser.userPassword) {
-            return res.status(400).json({
-                ok: false,
-                message: 'Se requiere password'
-            });
-        }
+        // if (!nuevoUser.userPassword) {
+        //     return res.status(400).json({
+        //         ok: false,
+        //         message: 'Se requiere password'
+        //     });
+        // }
 
         // En caso de que no se proporcione un rol, asignará el rol por defecto: technician
         // En caso de que se proporcione un rol, verificar que sea válido        
@@ -86,11 +86,7 @@ const createUser = async (req, res) => {
         const findUserFullName = `${nuevoUser.userName} ${nuevoUser.userLastName}`;
 
         // Buscar al usuario por name
-<<<<<<< HEAD
-        user = await User.findOne({ username: nuevoUser.userName });
-=======
         user = await User.findOne({ userFullName: findUserFullName });
->>>>>>> develop
         if (user) {
             return res.status(404).json({
                 ok: false,
@@ -104,29 +100,18 @@ const createUser = async (req, res) => {
             { expiresIn: `${process.env.CONFIRMATION_EXPIRATION}h` }
         );
         //Encrioptar la contraseña
-        const hashedPassword = await bcrypt.hash(nuevoUser.userPassword, 10);;
-        nuevoUser.userPassword = hashedPassword;
+        const hashedPassword = null;
+        if(nuevoUser.userPassword !== null){
+            let hashedPassword = await bcrypt.hash(nuevoUser.userPassword, 10);;
+            nuevoUser.userPassword = hashedPassword;
+        } 
+
         nuevoUser.userConfirmationToken = confirmationToken;
         nuevoUser.userConfirmationTokenExpires = new Date(Date.now() + process.env.CONFIRMATION_EXPIRATION * 3600000); // hora en milisegundos
 
         await nuevoUser.save();
-<<<<<<< HEAD
-        // Registrar en audit_logs
-        // En espera de accciones en el frontend para capturar usuario logeado
-        auditLogData.auditLogUser = req.user.id;
-        if (!auditLogData.auditLogUser) {
-            auditLogData.auditLogUser = 'not req.user.id in createUser ' // Usuario autenticado
-        }
-        auditLogData.auditLogAction = 'CREATE'
-        auditLogData.auditLogDocumentId = nuevoUser._id
-        auditLogData.auditLogChanges = { newRecord: nuevoUser.toObject() }
-        await AuditLogController.createAuditLog(
-            auditLogData
-        );
-=======
         // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'CREATE', nuevoUser._id, { newdRecord: nuevoUser.toObject() });
->>>>>>> develop
 
         // Enviar correo de confirmación
         const confirmationLink = `http://${process.env.BASE_URL}/api/userconfirm?token=${confirmationToken}`; // Enlace de confirmación
@@ -147,11 +132,8 @@ const createUser = async (req, res) => {
             const userDelete = await User.findOne({ userEmail: userEmail });
             if (userDelete) {
                 await User.findByIdAndDelete(userDelete._id)
-<<<<<<< HEAD
-=======
                 // Register in audit_logs (req, action, documentId, changes) 
                 await registerAuditLog(req, 'DELETE', userDelete._id, { deleteRecord: userDelete.toObject() });
->>>>>>> develop
             }
             return res.status(201).json({ ok: false, message: 'Usuario No fue creado. No fue posible enviar correo.' });
         } else {
@@ -245,11 +227,7 @@ const loginUser = async (req, res) => {
 
         return res.status(200).json({
             ok: true,
-<<<<<<< HEAD
-            message: `${user.userEmail}, Bienvendia app gestiON`,
-=======
             message: `${user.userName}, Bienvenida app gestiON`,
->>>>>>> develop
             token: token,
             userId: user._id,
             userName: user.userName,
@@ -283,17 +261,9 @@ const closeUserSession = async (req, res) => {
         user.userLoginToken = null;
 
         await user.save();
-<<<<<<< HEAD
-        auditLogData.auditLogUser = user._id;
-        auditLogData.auditLogAction = 'UPDATE';
-        auditLogData.auditLogDocumentId = user._id;
-        auditLogData.auditLogChanges = { actionDetails: 'Cierre de sesión' };
-        // await AuditLogController.createAuditLog(auditLogData);
-=======
 
         // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'LOGOUT', user._id, { actionDetails: 'Cierre de sesión, anular token de sesión' });
->>>>>>> develop
 
         return res.status(200).json({
             ok: true,
@@ -389,21 +359,35 @@ const registerAdmin = async (req, res) => {
 
 const confirmUser = async (req, res) => {
     const token = req.query.token.trim();
-<<<<<<< HEAD
-=======
+    const userEmailConfirm = req.query.email.trim();
+    const userPasswordConfirm = req.query.password.trim();
     console.log('token ', token);
->>>>>>> develop
     if (!token) {
         return res.status(400).json({
             ok: false,
             error: 'Token no proporcionado'
         });
     }
+    if(!userEmailConfirm){
+        return res.status(400).json({
+            ok: false,
+            error: 'Email no proporcionado'
+        });
+    }
+    if(!userPasswordConfirm){
+        return res.status(400).json({
+            ok: false,
+            error: 'Password no proporcionado'
+        });
+    }
     try {
 
         // Verificar el token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
+        if(userEmailConfirm !== decoded.userEmail)return res.status(400).json({
+            ok: false,
+            error: 'Token no registrado para este usuario.'
+        });
         console.log('decoded token ', decoded);
         const user = await User.findOne({
             userEmail: decoded.userEmail,
@@ -412,7 +396,6 @@ const confirmUser = async (req, res) => {
 
         if (!user) return res.status(400).json({
             ok: false,
-
             error: 'Token inválido o expirado.'
         });
 
@@ -423,16 +406,8 @@ const confirmUser = async (req, res) => {
             user.userConfirmationTokenExpires = null;
             await user.save();
 
-<<<<<<< HEAD
-            auditLogData.auditLogUser = req.user.id;
-            auditLogData.auditLogAction = 'UPDATE'
-            auditLogData.auditLogDocumentId = user._id
-            auditLogData.auditLogChanges = { newRecord: user.toObject() }
-            await AuditLogController.createAuditLog(auditLogData);
-=======
             // Register in audit_logs (req, action, documentId, changes) 
             await registerAuditLog(req, 'confirmUser', user._id, { actionDetails: 'Token expirado, inactivar usuario' });
->>>>>>> develop
 
             return res.status(400).json({
                 ok: false,
@@ -444,6 +419,8 @@ const confirmUser = async (req, res) => {
         user.userIsActive = true;
         user.userConfirmationToken = null;
         user.userConfirmationTokenExpires = null;
+        const hashedPassword = await bcrypt.hash(userPassword, 10);
+        user.userPassword = hashedPassword;
         await user.save();
 
         // Register in audit_logs (req, action, documentId, changes) 
@@ -467,9 +444,6 @@ const confirmUser = async (req, res) => {
 const getUserById = async (req, res) => {
     const id = req.params.id
     try {
-<<<<<<< HEAD
-        const user = await User.findById(id)
-=======
         const token = req.header('Authorization')?.split(' ')[1];
         const secret = process.env.SECRET_KEY;
         const decoded = jwt.verify(token, secret);
@@ -491,24 +465,12 @@ const getUserById = async (req, res) => {
             });
         }
 
->>>>>>> develop
         if (!user) return res.status(404).json({
             ok: false,
             message: `No fue encontrado usuario para ${id}`
         })
-<<<<<<< HEAD
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'User', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: 'Retrieved user by id' } // Detalles adicionales
-        );
-=======
         // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'READ', user._id, { actionDetails: 'Get user by id' });
->>>>>>> develop
 
         return res.status(200).json({
             ok: true,
@@ -525,8 +487,6 @@ const getUserById = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
-=======
 // Get all supervisor records
 const getAllSupervisor = async (req, res) => {
     try {
@@ -723,6 +683,13 @@ const updateUserById = async (req, res) => {
 // Delete a user by id
 const deleteUserById = async (req, res) => {
     const { id } = req.params;
+    if (!req.query.userDeletionCause) {
+        return res.status(400).json({
+            ok: false,
+            message: 'Se requiere causa de eliminación'
+        });
+    }
+    const userDeletionCause = req.query.userDeletionCause.trim();
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     if (!token) {
@@ -731,6 +698,7 @@ const deleteUserById = async (req, res) => {
             error: 'Token no proporcionado'
         });
     }
+
     console.log('deleteUserById token ', token);
 try {
         const decoded = jwt.verify(token, secret);
@@ -767,6 +735,7 @@ try {
         if (workOrderCount > 0) {
             // Register in audit_logs (req, action, documentId, changes) 
             userValidate.userIsActive = false;
+            userValidate.userDeletionCause = userDeletionCause;
             await userValidate.save();
             await registerAuditLog(req, 'INACTIVE', userValidate._id, { actionDetails: 'Solicitada eliminación, Inactiva Usuario' });
             return res.status(200).json({
@@ -778,6 +747,7 @@ try {
         const workOrderAssignedCount = await WorkOrder.countDocuments({ workOrderAssignedTechnician: userValidate._id });
         if (workOrderAssignedCount > 0) {
             userValidate.userIsActive = false;
+            userValidate.userDeletionCause = userDeletionCause;
             await userValidate.save();
             await registerAuditLog(req, 'INACTIVE', userValidate._id, { actionDetails: 'Solicitada eliminación, Inactiva Usuario' });
             return res.status(200).json({
@@ -793,7 +763,7 @@ try {
                 message: 'No se puede eliminar el usuario, no encontrado'
             })
         // Register in audit_logs (req, action, documentId, changes) 
-        await registerAuditLog(req, 'DELETE', id, { deletedRecord: user.toObject() });
+        await registerAuditLog(req, 'DELETE', id, { DeletionCause: userDeletionCause, deletedRecord: user.toObject() });
         return res.status(200).json({
             ok: true,
             message: 'Usuario eliminado',
@@ -808,7 +778,6 @@ try {
         })
     }
 }
->>>>>>> develop
 
 module.exports = {
     createUser
@@ -818,33 +787,6 @@ module.exports = {
     , confirmUser
     , closeUserSession
     , getUserById
-<<<<<<< HEAD
-    //   , getAuditLogByUser
-    // , testEmail
-};
-
-// const testEmail = async (req, res) => {
-//     try {
-//         const emailTo = req.params.id;
-//         if (!emailTo) {
-//             return res.status(400).json({ error: `Falta el email de destino. ${req.params.id}` });
-//         }
-//         const textMessage = 'Hola, este es un mensaje de prueba. Por favor, ignora este mensaje.';
-//         const emailData = {
-//             to: `${emailTo} <${emailTo}>`,
-//             subject: 'Testing app gestiON - Team26 Noche 2024 - FootalentGroup',
-//             text: textMessage,
-//             html: `<p>${textMessage}</p>`
-//         }
-//         // Reutilizar la función de envío de correos
-//         const info = await mail.sendEmail(emailData, result);
-//         return res.status(200).json({ message: 'Email enviado', data: info });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({ error: 'Error interno del servidor.' });
-//     }
-// }
-=======
     , getAllSupervisor
     , getAllTechnician
     , getAllUsers
@@ -852,4 +794,3 @@ module.exports = {
     , deleteUserById
 };
 
->>>>>>> develop
