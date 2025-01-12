@@ -7,6 +7,10 @@ const validateToken = async (req, res, next) => {
     //signo ? indica que si trae informacion ejecuta el split 
     const token = req.header('Authorization')?.split(' ')[1]
     try {
+         // Omite la validación del token para el endpoint de login
+        if (req.path === '/api/userlogin') {
+            return next(); // Continúa sin validar el token
+        }
         //codigo 401 es un error de no autorizado
         if (!token) return res.status(401).json({
             ok: false,

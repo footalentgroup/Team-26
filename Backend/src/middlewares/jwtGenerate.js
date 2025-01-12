@@ -8,6 +8,7 @@ const generateToken = (userData = {}) => {
         const payload = { userData }
         //usar la variable de entorno
         const secret = process.env.SECRET_KEY
+
         const token = jwt.sign(payload, secret, {
             //condiciones adicionales al token
             expiresIn: `${process.env.SESSION_EXPIRATION}h`

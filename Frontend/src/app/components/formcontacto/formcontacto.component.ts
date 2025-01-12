@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formcontacto',
@@ -10,27 +11,31 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './formcontacto.component.css'
 })
 export class FormcontactoComponent {
-  messageSent: boolean = false; // Controla la vista actual
+  mensajeEnviado: boolean = false; 
 
-  // Datos del formulario
+
   userName: string = '';
   userEmail: string = '';
   userCompany: string = '';
   userMessage: string = '';
 
-  // Función para enviar el mensaje
-  sendMessage(event: Event): void {
-    event.preventDefault(); // Evitar el comportamiento por defecto del formulario
+  constructor(private router: Router) {} 
 
-    // enviar los datos al backend, si es necesario
-    console.log('Mensaje enviado:', {
+  /*$$$$$$$$$$$$$$$$$$ FUNCION PARA ENVIAR EL MENSAJE $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+    formMensaje(event: Event): void {
+    event.preventDefault();
+
+  /*$$$$$$$$$$$$$$$$$$ ENVIO DE DATOS AL BACKEND $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+      console.log('Mensaje enviado:', {
       name: this.userName,
       email: this.userEmail,
       company: this.userCompany,
       message: this.userMessage,
     });
 
-    // Cambiar el estado a "mensaje enviado"
-    this.messageSent = true;
+    this.mensajeEnviado = true;
+    setTimeout(() => {
+      this.router.navigate(['/accesibilidad']);
+    }, 3000);
   }
 }
