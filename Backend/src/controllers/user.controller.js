@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const mail = require('./mail.controller'); // Para enviar correos electrónicos
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../middlewares/jwtGenerate');
-const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
+// const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
 const temporalID = new ObjectId(); // ID o nombre del usuario
 
 const auditLogData = {
@@ -400,7 +400,6 @@ const confirmUser = async (req, res) => {
         console.error(error);
         return res.status(500).json({
             ok: false,
-
             error: 'Error interno del servidor.'
         });
     }

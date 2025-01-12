@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const transporter = require('../config/mail');
-const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
+// const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
 // const auditLog = require('../models/AuditLog');
 const temporalID = new ObjectId(); // ID o nombre del usuario
 
