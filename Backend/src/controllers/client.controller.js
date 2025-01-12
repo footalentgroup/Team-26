@@ -1,225 +1,177 @@
+const jwt = require('jsonwebtoken')
 const Client = require("../models/Client");
-const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
+const AuditLogController = require('../controllers/auditLog.controller'); // Audit controller
 
 const escapeRegex = (text) => {
-
-    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escapa caracteres especiales de regex
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special regex characters
 };
 
-// Buscar todos los registros para clients
+// Get all client records
 const getAllClients = async (req, res) => {
     try {
         const clients = await Client.find()
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'Client', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: 'Retrieved all clients' } // Detalles adicionales
-        );
+        if (!clients || clients.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron clientes' });
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'REAd', null, { actionDetails: 'get all clients' });
 
         return res.status(200).json({
             ok: true,
-            message: 'clientes encontrados',
-            clients: clients
+            message: 'Clientes encontrados',
+            data: clients
         })
     } catch (error) {
-
         return res.status(500).json({
             ok: false,
-            message: 'Error al obtener clientes'
+            message: 'Error al recuperar clientes',
+            data: error
         })
     }
 }
 
-// Crear un client
+// Create a client
 const createClient = async (req, res) => {
     try {
         const nuevoClient = new Client(req.body);
         await nuevoClient.save();
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario que realizó la acción
-            'CREATE', // Acción
-            'Client', // Modelo afectado
-            nuevoClient._id, // ID del nuevo documento
-            { newRecord: nuevoClient.toObject() } // Detalles del nuevo registro
-        );
-        res.status(201).json({ message: 'Client created successfully', data: nuevoClient });
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'CREATE', nuevoClient._id, { newdRecord: nuevoClient.toObject() });
+
+        return res.status(201).json({ ok: true, message: 'Cliente creado con éxito', data: nuevoClient });
     } catch (error) {
         if (error.code === 11000) {
             res.status(400).json({
                 ok: false,
-                message: 'El nombre del cliente ya existe'
+                message: 'El correo electrónico del cliente ya existe',
+                data: error
             });
         } else {
             res.status(500).json({
                 ok: false,
-                message: 'Error al crear el cliente', error
+                message: 'Error al crear cliente',
+                data: error
             });
         }
     }
 }
 
-// modificar una client por el id
+// Update a client by id
 const updateClientById = async (req, res) => {
     const { id } = req.params;
-    const { companyName, contactPerson, email, phone, address } = req.body
+    const { clientCompanyName, clientContactPerson, clientEmail, clientPhone, clientAddress } = req.body;
+    let hasChanges = false;
     try {
         const updateDataById = {};
-        if (companyName) updateDataById.companyName = companyName;
-        if (contactPerson) updateDataById.contactPerson = contactPerson;
-        if (email) updateDataById.email = email;
-        if (phone) updateDataById.phone = phone;
-        if (address) updateDataById.address = address;
+        if (clientCompanyName) updateDataById.clientCompanyName = clientCompanyName;
+        if (clientContactPerson) updateDataById.clientContactPerson = clientContactPerson;
+        if (clientEmail) updateDataById.clientEmail = clientEmail;
+        if (clientPhone) updateDataById.clientPhone = clientPhone;
+        if (clientAddress) updateDataById.clientAddress = clientAddress;
         const originalData = await Client.findById(id).lean();
-        const client = await Client.findByIdAndUpdate(id, updateDataById)
-        if (!client)
-
+        if (!originalData)
             return res.status(400).json({
                 ok: false,
-                message: 'No fue posible modificar cliente, no fue encontrado o no se detecto modificaciones'
+                message: 'No se encontró ningún cliente con el id proporcionado'
             })
-        const updateclient = await Client.findById(id)
-        // Identificar cambios
-        const changes = {};
-        for (let key in updateDataById) {
-            if (originalData[key] !== updateDataById[key]) {
-                changes[key] = { old: originalData[key], new: updateDataById[key] };
+        if (originalData) {
+            // Identify changes
+            const changes = {};
+            for (let key in updateDataById) {
+                if (originalData[key] !== updateDataById[key]) {
+                    hasChanges = true;
+                    changes[key] = { old: originalData[key], new: updateDataById[key] };
+                }
             }
         }
-
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id',
-            'UPDATE',
-            'Client',
-            id,
-            changes // Detalles de los cambios
-        );
-
-        return res.status(200).json({
-            ok: true,
-            message: 'cliente actualizado',
-            client: updateclient
-        })
-    }
-    catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            ok: false,
-            message: 'No fue posible modificar cliente, por favor contactar a soporte'
-        })
-    }
-}
-
-// eliminar una client por el id
-const deleteClientById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const client = await Client.findByIdAndDelete(id)
-        if (!client)
-
+        if (!hasChanges)
             return res.status(400).json({
                 ok: false,
-                message: 'No fue posible eliminar cliente, no fue encontrado'
+                message: 'No se detectaron cambios, no se puede actualizar el cliente'
             })
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id',
-            'DELETE',
-            'Client',
-            id,
-            { deletedRecord: client.toObject() } // Detalles del documento eliminado                 
-        ); // await AuditLogController.createAuditLog(
+        const client = await Client.findByIdAndUpdate(id, updateDataById)
+        if (!client)
+            return res.status(400).json({
+                ok: false,
+                message: 'No se puede actualizar el cliente, no encontrado o no se detectaron cambios'
+            })
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'UPDATE', client._id, { updateRecord: changes.toObject() });
+
         return res.status(200).json({
             ok: true,
-            message: 'cliente eliminado',
-            client: client
+            message: 'Cliente actualizado',
+            data: client
         })
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            message: 'No fue posible eliminar cliente, por favor contactar a soporte'
+            message: 'No se puede actualizar el cliente, por favor contacte al soporte',
+            data: error
         })
     }
 }
 
-// Buscar registro por Id
+// Get client by Id
 const getClientById = async (req, res) => {
     const id = req.params.id
     try {
-        const client = await Client.findById({ _id: id })
+        const client = await Client.findById(id)
         if (!client) return res.status(404).json({
             ok: false,
-            msg: `No fue encontrado cliente para ${id}`
+            message: `No se encontró cliente para ${id}`
         })
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'Client', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: 'Retrieved client by id' } // Detalles adicionales
-        );
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'REAd', id, { actionDetails: 'Retrieved client by id' });
 
         return res.status(200).json({
             ok: true,
-            msg: 'Encontrado cliente',
+            message: 'Cliente encontrado',
             data: client
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: 'No fue encontrado cliente, por favor contactar a soporte'
+            message: 'No se puede encontrar el cliente, por favor contacte al soporte',
+            data: error
         })
     }
 }
 
-// Buscar registro por Id
+// Get client by Email
 const getClientByEmail = async (req, res) => {
-    const email = req.query.email
+    const clientEmail = req.query.clientEmail
     try {
         const client = await Client.findOne({
-            "email": { $regex: new RegExp('^' + email + '$', 'i') }
+            "clientEmail": { $regex: new RegExp('^' + clientEmail + '$', 'i') }
         })
         if (!client) return res.status(404).json({
             ok: false,
-            msg: `No fue encontrado cliente para ${email}`
+            message: `No se encontró cliente para ${clientEmail}`
         })
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'Client', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: 'Retrieved client email id' } // Detalles adicionales
-        );
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'REAd', client._id, { actionDetails: `get client by email: ${clientEmail}` });
+
         return res.status(200).json({
             ok: true,
-            msg: 'Encontrado cliente',
+            message: 'Cliente encontrado',
             data: client
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: 'No fue encontrado cliente, por favor contactar a soporte'
+            message: 'No se puede encontrar el cliente, por favor contacte al soporte'
         })
     }
 }
 
 const searchClients = async (req, res) => {
-
     try {
         const querySearch = escapeRegex(req.query.search).trim();
 
         if (!querySearch) {
-            return res.status(400).json({ message: 'Search query is required.' });
+            return res.status(400).json({ ok: false, message: 'Se requiere una consulta de búsqueda.' });
         }
 
         const searchRegex = new RegExp(querySearch, 'i'); // 'i' makes it case-insensitive
@@ -229,9 +181,9 @@ const searchClients = async (req, res) => {
                 $addFields: {
                     geoLocationString: {
                         $concat: [
-                            { $toString: { $arrayElemAt: ['$geoLocation.coordinates', 0] } },
+                            { $toString: { $arrayElemAt: ['$clientGeoLocation.coordinates', 0] } },
                             ',',
-                            { $toString: { $arrayElemAt: ['$geoLocation.coordinates', 1] } }
+                            { $toString: { $arrayElemAt: ['$clientGeoLocation.coordinates', 1] } }
                         ],
                     },
                 },
@@ -239,11 +191,11 @@ const searchClients = async (req, res) => {
             {
                 $match: {
                     $or: [
-                        { email: searchRegex },
-                        { companyName: searchRegex },
-                        { contactPerson: searchRegex },
-                        { address: searchRegex },
-                        { phone: searchRegex },
+                        { clientEmail: searchRegex },
+                        { clientCompanyName: searchRegex },
+                        { clientContactPerson: searchRegex },
+                        { clientAddress: searchRegex },
+                        { clientPhone: searchRegex },
                         { geoLocationString: searchRegex },
                     ],
                 },
@@ -255,29 +207,68 @@ const searchClients = async (req, res) => {
             },
         ]);
         if (results.length === 0) {
-            return res.status(404).json({ message: 'No clients found.' });
+            return res.status(404).json({ ok: false, message: 'No se encontraron clientes.' });
         }
-        // Registrar en audit_logs
-        await AuditLogController.createAuditLog(
-            'req.user.id', // Usuario autenticado
-            'READ', // Acción
-            'Client', // Modelo afectado
-            null, // No aplica a un documento específico
-            { actionDetails: 'Retrieved clients search global' } // Detalles adicionales
-        );
-        res.status(200).json(results);
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'REAd', null, { actionDetails: `get Clients through global search: ${querySearch}` });
+
+        return res.status(200).json({
+            ok: true, message: 'Clientes encontrados',
+            data: results
+        })
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error', error });
+        res.status(500).json({ ok: false, message: 'Error del servidor', data: error });
     }
+};
+
+// Delete a client by id
+const deleteClientById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const client = await Client.findByIdAndDelete(id)
+        if (!client)
+            return res.status(400).json({
+                ok: false,
+                message: 'No se puede eliminar el cliente, no encontrado'
+            })
+        // Register in audit_logs (req, action, documentId, changes) 
+        await registerAuditLog(req, 'DELETE', id, { deletedRecord: client.toObject() });
+        return res.status(200).json({
+            ok: true,
+            message: 'Cliente eliminado',
+            data: client
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            message: 'No se puede eliminar el cliente, por favor contacte al soporte',
+            data: error
+        })
+    }
+}
+
+const registerAuditLog = async (req, action, documentId, changes) => {
+    const token = req.header('Authorization')?.split(' ')[1];
+    const secret = process.env.SECRET_KEY;
+    const decoded = jwt.verify(token, secret);
+    const auditLogData = {
+        auditLogUser: decoded.userData || 'anonymous why?',         // User who performed the action (can be null)
+        auditLogAction: action,                                     // Action performed e.g., "CREATE", "UPDATE", "DELETE"
+        auditLogModel: 'Client',                                    // Affected model, e.g., "User"
+        auditLogDocumentId: documentId,                             // ID of the affected document (can be null)
+        auditLogChanges: changes                                    // Changes made or additional information (not mandatory)
+    }
+    await AuditLogController.createAuditLog(auditLogData);
 };
 
 
 module.exports = {
-    getAllClients,
     createClient,
     updateClientById,
     deleteClientById,
+    getAllClients,
     getClientById,
     getClientByEmail,
     searchClients

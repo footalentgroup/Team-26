@@ -96,18 +96,18 @@ const getRoleAccessById = async (req, res) => {
         const roleAccess = await RoleAccess.findById({ _id: id })
         if (!roleAccess) return res.status(404).json({
             ok: false,
-            msg: `No fue encontrado Rol para ${id}`
+            message: `No fue encontrado Rol para ${id}`
         })
         return res.status(200).json({
             ok: true,
-            msg: 'Encontrado Rol',
+            message: 'Encontrado Rol',
             client: client
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: 'No fue encontrado rol, por favor contactar a soporte'
+            message: 'No fue encontrado rol, por favor contactar a soporte'
         })
     }
 }

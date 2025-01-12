@@ -1,6 +1,6 @@
 const AuditLog = require('../models/AuditLog');
 
-const createAuditLog = async (auditLogUser, auditLogAction, auditLogModel, auditLogDocumentId, auditLogChanges) => {
+const createAuditLog = async ( {auditLogUser, auditLogAction, auditLogModel, auditLogDocumentId, auditLogChanges} ) => {
   try {
     await AuditLog.create({
       auditLogUser,
