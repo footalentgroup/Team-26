@@ -221,6 +221,13 @@ router.patch('/user/:id', validateToken, User.updateUserById)
  *         required: true
  *         description: The user ID
  *         example: 676fcfeec92c407aed2a6dc3
+ *       - in: query
+ *         name: userDeletionCause
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user Deletion Cause
+ *         example: Finalizó pasantia de practica
  *     responses:
  *       200:
  *         description: User deleted successfully

@@ -5,8 +5,10 @@
 /tmp
 /out-tsc
 /bazel-out
+
 #otros directorios
 Backend/
+
 # Node
 /node_modules
 npm-debug.log

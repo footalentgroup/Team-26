@@ -19,14 +19,12 @@ const validateToken = async (req, res, next) => {
         //trae la variable de la llave secreta
         const secret = process.env.SECRET_KEY
         const decoded = jwt.verify(token, secret)
-        // console.log(`token es:${token} y el decoded es:${decoded}`)
 
         // Buscar al usuario por email
         req.user = decoded
         const { userData } = decoded
         const userValidate = await User.findById(userData);
-        // console.log(`token es:${token} y el decoded es:${decoded}, userData: ${userData}, Userfind: ${userValidate}`)
-        console.log(`token es:${token} y el decoded es:${decoded}`)
+        console.log(`validateToken, token es:${token} y el decoded es:${userData}`)
         if (!userValidate){
             return res.status(404).json({
                 ok: false,
@@ -47,11 +45,6 @@ const validateToken = async (req, res, next) => {
             })
     
         }
-        //validar que el usuario que pide la peticion es el mismo del token
-        // req.user = decoded
-        // console.log(`token es:${token} y el decoded es:${decoded}`)
-        // console.log(decoded)
-
         //continue con el flujo
         next()
     } catch (error) {

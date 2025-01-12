@@ -90,7 +90,6 @@ export class LoginComponent {
         return;
       }
 
-
       this.msg.Load("dark", res.msg || "Bienvenido");
 
       localStorage.setItem("token", res.token);
