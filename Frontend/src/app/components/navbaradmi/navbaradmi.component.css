@@ -106,6 +106,7 @@
     left: calc(61 * (100vw / 1440));
     top: calc(212 * (100vh / 1024));
     font-weight: 400 !important;
+    cursor:pointer;
 }
 #icon1{
     width: calc(24 * (100vw / 1440));

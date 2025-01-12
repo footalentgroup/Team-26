@@ -34,7 +34,7 @@
 }
 
 .content-acce {
-    padding: calc(20 * (100vw / 1440));
+    padding: 20px 20px 0px;
     font-size: calc(14 * (100vw / 1440));
     background-color: #E0E0E0 ;
     text-align: justify;
@@ -43,7 +43,7 @@
 .contact-form {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 91px;
 }
 
 .form-left,
@@ -51,48 +51,91 @@
     flex: 1;
 }
 
-.form-group {
-    margin-bottom: 15px;
-}
-
 .form-group label {
     display: block;
-    font-size: 14px;
+    font-size: calc(14 * (100vw / 1440));
     font-weight: 500;
-    margin-bottom: 5px;
     color: #00254B;
 }
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
+.form-group textarea{
+    width: calc(220 * (100vw / 1440));
     padding: 8px;
     background-color: #E0E0E0 ;
     border: 1px solid #00254B;
-    border-radius: 4px;
-    font-size: 14px;
+    font-size: calc(14 * (100vw / 1440));
     outline: none;
 }
-
+.form-group input {
+    width: calc(200 * (100vw / 1440));
+    padding: 8px;
+    background-color: #E0E0E0 ;
+    border: 1px solid #00254B;
+    font-size: calc(14 * (100vw / 1440));
+    outline: none;
+}
+#company{
+    margin-bottom: calc(30 * (100vh / 1024));
+}
 textarea#message {
     margin-bottom: 10px;
 }
 .button-container {
     display: flex;
-    bottom: 0;
-    right: 0;
-    margin-top: 40px;
     justify-content: flex-end; 
+    margin-top: calc(90 * (100vh / 1024));
 }
 .submit-button {
-    width: 70%;
-    padding: 10px;
+    width: calc(193 * (100vw / 1440));
+    height:calc(50 * (100vh / 1024));
     background-color: #333;
     color: #fff;
-    font-size: 16px;
+    font-size: calc(16 * (100vw / 1440));
     font-weight: 600;
     border: none;
+    text-align: center;
     cursor: pointer;
+    margin-bottom: 8px;
+}
+
+
+.new-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    top: calc(339 * (100vh / 1024));
+    left: calc(441 * (100vw / 1440));
+    width: calc(559 * (100vw / 1440));
+    height: calc(357 * (100vh / 1024));
+    font-family: 'Poppins', sans-serif;
+    position: absolute;
+    background-color: #E0E0E0 ;
+}
+.conten-text{
+    font-size: calc(16 * (100vw / 1440));
+    height: calc(357 * (100vh / 1024));
+    background-color: #E0E0E0 ;
+    color:#333;
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+.text{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+    padding: calc(10 * (100vw / 1440));
+    gap: 10px;
+    position: absolute;
+    width: calc(335 * (100vw / 1440));
+    height: calc(80 * (100vh / 1024));
+    left: calc(112 * (100vw / 1440));
+    top: calc(130 * (100vh / 1024));
 }
 
 

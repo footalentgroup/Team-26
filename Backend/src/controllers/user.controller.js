@@ -262,8 +262,7 @@ const closeUserSession = async (req, res) => {
 
         await user.save();
 
-        // Register in audit_logs (req, action, documentId, changes) 
-        await registerAuditLog(req, 'LOGOUT', user._id, { actionDetails: 'Cierre de sesión, anular token de sesión' });
+ 
 
         return res.status(200).json({
             ok: true,

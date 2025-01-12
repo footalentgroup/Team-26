@@ -1,0 +1,44 @@
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00254b;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #00254b;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button.submit-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #00254b;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+button.submit-button:hover {
+    background: #003580;
+}

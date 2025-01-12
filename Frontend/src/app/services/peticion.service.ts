@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,39 +6,39 @@ import { Injectable } from '@angular/core';
 })
 export class PeticionService {
 
-public UrlHost:string= 'https://ftg-team-26-backend-preview.vercel.app' 
+public UrlHost:string= 'http://localhost:3001' 
 
   constructor(private http:HttpClient) { }
 
+  private getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
     /*$$$$$$$$$$$$$$$$$$$$$ PETICIONES $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ */
 
-Post(url:string, payload:{}){
-  let promise = new Promise((resolve, reject) => {
 
-    this.http.post(url,payload)
-    .toPromise()
-    .then((res:any) => {
-      resolve(res)
-    }).catch((error:any) => {
-      reject(error)
-    })
-  })
-  return promise
-}
-Get(url:string){ 
+  Get(url: string) {
+    const token = this.getToken(); // Obtener el token del localStorage
+    const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : new HttpHeaders();
+    return this.http.get(url, { headers }).toPromise();
+  }
 
-  let promise = new Promise((resolve, reject)=>{
 
-    this.http.get(url)
-    .toPromise()
-    .then((res:any)=>{
-      console.log(res)
-      resolve(res)
-    }).catch((error:any)=>{
-      reject(error)
-    })
-  })
-  return promise
+  Post(url: string, payload: any) {
+    const token = this.getToken(); // Obtener el token del localStorage
+    const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : new HttpHeaders();
+    return this.http.post(url, payload, { headers }).toPromise();
+  }
+
+  Patch(url: string, payload: any) {
+    const token = localStorage.getItem("token");
+    const headers = token
+      ? new HttpHeaders().set("Authorization", `Bearer ${token}`)
+      : new HttpHeaders();
+  
+    return this.http.patch(url, payload, { headers }).toPromise();
+  }
 }
 
-}
+
+

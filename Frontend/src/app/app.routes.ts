@@ -17,6 +17,8 @@ import { AgendaComponent } from './components/agenda/agenda.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { ModalVisitComponent } from './components/modalvisit/modalvisit.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { ScreenEditarComponent } from './components/screen-editar/screen-editar.component';
 
 
 
@@ -28,6 +30,8 @@ export const routes: Routes = [
     {path:"dashboardadmin",component:DashboardadminComponent,pathMatch:"full"},
     {path:"dashboardtecni",component:DashboardtecniComponent,pathMatch:"full"},
     {path:"dropdown",component:DropdownComponent,pathMatch:"full"},
+    {path:"usuarios",component:UsuariosComponent,pathMatch:"full"},
+    {path:"screenEditar",component:ScreenEditarComponent,pathMatch:"full"},
 
     {path:"pantallacarga",component:PantallacargaComponent,pathMatch:"full"},
     {path:"formcontacto",component:FormcontactoComponent,pathMatch:"full"},

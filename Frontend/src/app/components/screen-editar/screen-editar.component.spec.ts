@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NewUsuarioComponent } from './newusuario.component';
 
-describe('NewUsuarioComponent', () => {
-  let component: NewUsuarioComponent;
-  let fixture: ComponentFixture<NewUsuarioComponent>;
+import { ScreenEditarComponent } from './screen-editar.component';
+
+describe('ScreenEditarComponent', () => {
+  let component: ScreenEditarComponent;
+  let fixture: ComponentFixture<ScreenEditarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NewUsuarioComponent]
+      imports: [ScreenEditarComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(NewUsuarioComponent);
+    fixture = TestBed.createComponent(ScreenEditarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
