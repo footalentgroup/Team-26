@@ -81,15 +81,15 @@ export class LoginComponent {
         password: this.password
       }
     };
-
-    this.peticion.Post(data.host + data.path, data.payload).then((res: any) => {
+    console.log("this.peticion")
+    this.peticion.Postwithouttoken(data.host + data.path, data.payload).then((res: any) => {
+      console.log("this.peticion2")
       console.log("Respuesta del servidor:", res);
 
       if (!res.ok) { 
         this.msg.Load("danger", res.msg || "Error en el login");
         return;
       }
-
 
       this.msg.Load("dark", res.msg || "Bienvenido");
 

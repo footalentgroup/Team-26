@@ -30,6 +30,11 @@ public UrlHost:string= 'http://localhost:3001'
     return this.http.post(url, payload, { headers }).toPromise();
   }
 
+  Postwithouttoken(url: string, payload: any) {
+    
+    return this.http.post(url, payload).toPromise();
+  }
+
   Patch(url: string, payload: any) {
     const token = localStorage.getItem("token");
     const headers = token

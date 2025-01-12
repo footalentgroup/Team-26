@@ -143,7 +143,7 @@ const createUser = async (req, res) => {
         console.error(error);
         return res.status(500).json({
             ok: false,
-            error: 'Error interno del servidor'
+            error: `Error interno del servidor ${error.code} ${error.message}`
         });
     }
 };
