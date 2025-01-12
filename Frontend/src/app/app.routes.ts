@@ -23,6 +23,7 @@ import { ScreenEditarComponent } from './components/screen-editar/screen-editar.
 
 
 
+
 export const routes: Routes = [
     {path:"",component:HomeComponent,pathMatch:"full"},
     {path:"login",component:LoginComponent,pathMatch:"full"},
@@ -36,6 +37,7 @@ export const routes: Routes = [
     {path:"pantallacarga",component:PantallacargaComponent,pathMatch:"full"},
     {path:"formcontacto",component:FormcontactoComponent,pathMatch:"full"},
     {path:"recuperarpassword",component:RecuperarpasswordComponent,pathMatch:"full"},
+
     {path: "register-admin", component: RegisterAdminComponent ,pathMatch:"full"}, 
 
     {path: "dashboardsup", component: DashboardsupComponent,pathMatch:"full" },
