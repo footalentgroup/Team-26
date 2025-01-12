@@ -29,8 +29,8 @@ const sendEmail = async ( emailData ) => {
             return { success: false, message: `Error al enviar el correo. Código: ${error.responseCode}` };
         }
     }
-}
-    ;
+};
+
 module.exports = {
     sendEmail
 };

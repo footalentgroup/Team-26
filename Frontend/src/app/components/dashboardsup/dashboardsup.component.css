@@ -1,0 +1,23 @@
+#background{
+    width: 100%;
+    height: 100vh;
+    background-color:  #003366 !important;
+    position: relative;
+}
+#backsecond{
+
+    width: calc(1376 * (100vw / 1440));
+    height: calc(950 *(100vh / 1024));
+    background-color: #14599A !important;
+    left:  calc(32 * (100vw / 1440));
+    top: calc(37 * (100vh / 1024));
+    border-radius: calc(28 * (100vw / 1440) );
+    position: absolute;
+}
+#dashboard{
+    width: 10px !important;
+    height: 900px!important;
+    left: 99px ;
+    top: 25px;
+    
+}
