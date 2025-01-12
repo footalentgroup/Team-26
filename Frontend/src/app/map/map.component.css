@@ -1,0 +1,11 @@
+#map{
+    width: 36.4% !important;
+    height: 42.1% !important;
+    background-color: #d15b5b;
+    left: calc(0.273255813953 * 100%) !important;
+    bottom: calc(0.421052631578 * 100%);
+    border-radius: 28px;
+    position: relative;
+    clear: left;
+    float: left;
+}

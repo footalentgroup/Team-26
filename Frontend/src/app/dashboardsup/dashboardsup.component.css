@@ -1,0 +1,24 @@
+#background{
+    width: 100%;
+    height: 100vh;
+    background-color:  #003366 !important;
+    position: absolute;
+}
+#backsecond{
+
+    width: calc(0.9555555556 * 100%);
+    height: calc(0.927724375 * 100%);
+    background-color: #14599A !important;
+    left: calc(0.022222222 * 100%) !important;
+    top: calc(0.0361328125 * 100%) !important;
+    position: relative;
+    border-radius: 28px;
+}
+#dashboard{
+    width: calc(0.903343023255 * 100%) !important;
+    height: calc(0.9473684211 * 100%)!important;
+    background-color: #14599A !important;
+    left: calc(0.048691860465 * 100%) !important;
+    top: calc(0.026315789473 * 100%);
+    position: relative;
+}
