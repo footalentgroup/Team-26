@@ -103,23 +103,34 @@
     font-weight: 600 !important;
     position: absolute;
 }
-#btnagendar{
 
-        width: calc(220 * (100vw / 1440));
-        height: calc(38 * (100vh / 1024));
-        background-color: #e0e0e0;
-        position: absolute;
-        top: calc(412 * (100vh / 1024));
-        left: calc(502 * (100vw / 1440));
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: calc(16 * (100vw / 1440)) ;
-        color: #FFFFFF !important;
-        position: absolute;
-        font-weight: 700;
-        border-radius: calc(28 * (100vw / 1440)) ;
-        cursor: pointer;
+#btnagendar {
+  width: calc(220 * (100vw / 1440));
+  height: calc(38 * (100vh / 1024));
+  background-color: #e0e0e0;
+  position: absolute;
+  top: calc(412 * (100vh / 1024));
+  left: calc(502 * (100vw / 1440));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(16 * (100vw / 1440));
+  color: #FFFFFF !important;
+  font-weight: 700;
+  border-radius: calc(28 * (100vw / 1440));
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Cuando el botón tiene datos seleccionados */
+#btnagendar.has-data {
+  background-color: #00254B;
+}
+
+/* Efecto hover cuando el botón tiene datos seleccionados */
+#btnagendar.has-data:hover {
+  background-color: #14599A;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 #custom-select {
     position: absolute;
@@ -178,6 +189,7 @@
   #custom-select select option[disabled] {
     color: #888;
   }
+
   #custom-select1 {
     position: absolute;
     top: calc(260 * (100vh / 1024));

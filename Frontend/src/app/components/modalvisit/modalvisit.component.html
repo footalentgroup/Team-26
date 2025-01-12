@@ -1,37 +1,27 @@
 <div class="modaldimension">
     <div class="ttmodal text">
-        <div id="line1">Estás a punto de agendar una visita.</div>
-        <div id="line2">Revisá que la información sea correcta.</div>
-        <div id="line3">Los datos ingresados son los siguientes:</div>
+      <div id="line1">Estás a punto de agendar una visita.</div>
+      <div id="line2">Revisá que la información sea correcta.</div>
+      <div id="line3">Los datos ingresados son los siguientes:</div>
     </div>
-
+  
     <div class="text" id="info">
-
-    <div class="text" id="client">Cliente: Nombre cliente</div>
-    <div class="text" id="ubication">Dirección: Dirección</div>
-    <div class="text" id="visitopt">Tipo de instalación: opcion select</div>
-    <div class="text" id="hour">Horario: 9</div>
-    <div class="text" id="tech">Técnico asignado: opcion select</div>
-
+      <!-- Mostramos los datos del cliente y la visita usando data desde el componente ModalVisitComponent -->
+      <div class="text" id="client">Cliente: {{ data.clientData?.name }}</div>
+      <div class="text" id="ubication">Dirección: {{ data.clientData?.address }}</div>
+      <div class="text" id="visitopt">Tipo de instalación: {{ data.visitDetails?.visitType }}</div>
+      <div class="text" id="hour">Horario: {{ data.visitDetails?.time }}</div>
+      <div class="text" id="tech">Técnico asignado: {{ data.visitDetails?.technician }}</div>
     </div>
-
-    <div id="btnedit">EDITAR TEXTO
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" id="iconedit">
-            <path d="M4.80002 15.6004L9.00002 19.2004M12 22.2004H21.6M4.20002 15.6004L16.0314 3.35582C17.3053 2.08192 19.3707 2.08191 20.6446 3.35581C21.9185 4.62971 21.9185 6.69512 20.6446 7.96902L8.40002 19.8004L2.40002 21.6004L4.20002 15.6004Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            
+  
+    <!-- Botones para editar o agendar -->
+    <div id="btnedit">EDITAR TEXTO</div>
+    <div id="btnagend">AGENDAR VISITA</div>
+  
+    <!-- Icono para cerrar el modal -->
+    <div (click)="close()">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" id="closemodal">
+        <path d="M17.825 23L23.425 28.6L22 30L14 22L22 14L23.425 15.4L17.825 21H30V23H17.825Z" fill="#00254B"/>
+      </svg>
     </div>
-    <div id="btnagend">AGENDAR VISITA
-        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg" id="iconagend">
-            <path d="M8.65515 5.5L13.6552 10.5L8.65515 15.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            
-    </div>
-
-    <div (click)="close()" >
-        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" id="closemodal">
-            <path d="M17.825 23L23.425 28.6L22 30L14 22L22 14L23.425 15.4L17.825 21H30V23H17.825Z" fill="#00254B"/>
-            </svg>            
-    </div>
-
-</div>
+  </div>

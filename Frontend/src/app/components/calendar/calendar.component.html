@@ -69,35 +69,31 @@
             </svg>
             
     </div>
+    <div >
 
     <div class="text" id="ttdatos">Ingresá el nombre del cliente</div>
     <div id="inputclient">
-      <app-dropdown [(ngModel)]="clienttyping" [options]="clients" [show]="showclients" (ngModelChange)="clientChanges($event)"></app-dropdown>
-        <!-- Etiqueta para el input -->
-        <!-- <label for="inputclient" class="sr-only">Número/Nombre de cliente</label> -->
-        
-        <!-- Campo de entrada con id y name -->
-        <!-- <input [formControl]="clientControl" placeholder="Número/Nombre de cliente" id="inputclient" name="clientName"/>
-      <div>
-        <div class="custom-selectA" id="selectA" >
-            <select *ngIf="clients.length > 0" [formControl]="clientControl" id="selectClient" name="clientSelect">
-              <option value="" disabled>Seleccionar Cliente</option>
-              <option *ngFor="let client of clients" [value]="client._id">
-                {{ client.clientCompanyName }}
-              </option>
-            </select>
-          </div>
-      </div> -->
+      <app-dropdown [(ngModel)]="clienttyping" 
+      [options]="clients"
+       [show]="showclients" 
+       (ngModelChange)="clientChanges($event)" 
+       (optionSelected)="handleClientSelection($event)"
+       (focused)="onInputFocus()">
+      </app-dropdown>
     </div>
       
     <div class="text" id="visit" >Tipo de visita</div>
 
-        <div class="custom-selectA" id="custom-select" >
-            <select>
-              <option value="" selected disabled>Tipo de visita</option>
-              <option value="option1">Instalación</option>
-              <option value="option2">Inspección</option>
-              <option value="option3">Mantenimiento</option>
+            
+        <div class="custom-selectA" id="custom-select">
+        </div>
+
+        <div class="custom-selectA" id="custom-select">
+            <select [(ngModel)]="visitDetails.visitType">
+              <option value=""  disabled selected>Tipo de visita</option>
+              <option value="Instalacion">Instalación</option>
+              <option value="Inspeccion">Inspección</option>
+              <option value="Mantenimiento">Mantenimiento</option>
             </select>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.9999 7.80005C17.9999 11.1138 15.3136 13.8 11.9999 13.8M17.9999 7.80005C17.9999 4.48634 15.3136 1.80005 11.9999 1.80005M17.9999 7.80005H5.9999M11.9999 13.8C8.68619 13.8 5.9999 11.1138 5.9999 7.80005M11.9999 13.8C13.3254 13.8 14.3999 11.1138 14.3999 7.80005C14.3999 4.48634 13.3254 1.80005 11.9999 1.80005M11.9999 13.8C10.6744 13.8 9.5999 11.1138 9.5999 7.80005C9.5999 4.48634 10.6744 1.80005 11.9999 1.80005M5.9999 7.80005C5.9999 4.48634 8.68619 1.80005 11.9999 1.80005M14.3999 19.8C14.3999 21.1255 13.3254 22.2 11.9999 22.2C10.6744 22.2 9.5999 21.1255 9.5999 19.8M14.3999 19.8C14.3999 18.4746 13.3254 17.4 11.9999 17.4C10.6744 17.4 9.5999 18.4746 9.5999 19.8M14.3999 19.8H21.5999M9.5999 19.8H2.3999" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -108,18 +104,18 @@
     <div class="text" id="horario">Horario</div>
     <div>
         <div>
-            <div class="custom-selectA" id="custom-select1" >
-                <select>
+            <div class="custom-selectA" id="custom-select1"  >
+                <select [(ngModel)]="visitDetails.time" >
                   <option value="" selected disabled>Horarios</option>
-                  <option value="option1">09:00</option>
-                  <option value="option2">10:00</option>
-                  <option value="option3">11:00</option>
-                  <option value="option1">12:00</option>
-                  <option value="option2">13:00</option>
-                  <option value="option3">14:00</option>
-                  <option value="option1">15:00</option>
-                  <option value="option2">16:00</option>
-                  <option value="option3">17:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="12:00">12:00</option>
+                  <option value="13:00">13:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
                 </select>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.5588 15.1987C16.0827 15.3733 16.649 15.0902 16.8237 14.5662C16.9983 14.0423 16.7152 13.476 16.1912 13.3013L15.5588 15.1987ZM12.5 13.125H11.5C11.5 13.5554 11.7754 13.9376 12.1838 14.0737L12.5 13.125ZM13.5 8.42087C13.5 7.86858 13.0523 7.42087 12.5 7.42087C11.9477 7.42087 11.5 7.86858 11.5 8.42087H13.5ZM16.1912 13.3013L12.8162 12.1763L12.1838 14.0737L15.5588 15.1987L16.1912 13.3013ZM13.5 13.125V8.42087H11.5V13.125H13.5ZM20.5 12C20.5 16.4183 16.9183 20 12.5 20V22C18.0228 22 22.5 17.5228 22.5 12H20.5ZM12.5 20C8.08172 20 4.5 16.4183 4.5 12H2.5C2.5 17.5228 6.97715 22 12.5 22V20ZM4.5 12C4.5 7.58172 8.08172 4 12.5 4V2C6.97715 2 2.5 6.47715 2.5 12H4.5ZM12.5 4C16.9183 4 20.5 7.58172 20.5 12H22.5C22.5 6.47715 18.0228 2 12.5 2V4Z" fill="black"/>
@@ -132,24 +128,30 @@
     
     <div class="text" id="techop">Seleccionar técnico</div> 
 
-        <div class="custom-selectA" id="custom-select2"  >
-            <select>
-              <option value="" selected disabled>Técnicos</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19.1999 13.6858C20.4672 14.6327 21.5999 17.0168 21.5999 18.4857C21.5999 18.9434 21.266 19.3144 20.8541 19.3144H20.3999M15.5999 9.80456C16.4197 9.33031 16.9713 8.44389 16.9713 7.42865C16.9713 6.4134 16.4197 5.52699 15.5999 5.05274M3.14567 19.3144H16.2827C16.6946 19.3144 17.0285 18.9434 17.0285 18.4857C17.0285 15.6091 14.6252 13.2772 9.71419 13.2772C4.80317 13.2772 2.3999 15.6091 2.3999 18.4857C2.3999 18.9434 2.7338 19.3144 3.14567 19.3144ZM12.457 7.42865C12.457 8.94349 11.229 10.1715 9.71419 10.1715C8.19935 10.1715 6.97133 8.94349 6.97133 7.42865C6.97133 5.91381 8.19935 4.68579 9.71419 4.68579C11.229 4.68579 12.457 5.91381 12.457 7.42865Z" stroke="black" stroke-width="2" stroke-linecap="round"/>
-                </svg>         
-        </div>
+<div class="custom-selectA" id="custom-select2">
+  <select [(ngModel)]="selectedTechnician" (ngModelChange)="onTechnicianSelected()">
+    <!-- Opción predeterminada deshabilitada -->
+    <option value="" selected disabled>Técnicos</option>
+    
+    <!-- Itera sobre los técnicos para mostrarlos en las opciones -->
+    <option *ngFor="let technician of technicians" [value]="technician._id">
+      {{ technician.userFullName }}
+    </option>
+  </select>
+  
+  <!-- Icono del selector (flecha) -->
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19.1999 13.6858C20.4672 14.6327 21.5999 17.0168 21.5999 18.4857C21.5999 18.9434 21.266 19.3144 20.8541 19.3144H20.3999M15.5999 9.80456C16.4197 9.33031 16.9713 8.44389 16.9713 7.42865C16.9713 6.4134 16.4197 5.52699 15.5999 5.05274M3.14567 19.3144H16.2827C16.6946 19.3144 17.0285 18.9434 17.0285 18.4857C17.0285 15.6091 14.6252 13.2772 9.71419 13.2772C4.80317 13.2772 2.3999 15.6091 2.3999 18.4857C2.3999 18.9434 2.7338 19.3144 3.14567 19.3144ZM12.457 7.42865C12.457 8.94349 11.229 10.1715 9.71419 10.1715C8.19935 10.1715 6.97133 8.94349 6.97133 7.42865C6.97133 5.91381 8.19935 4.68579 9.71419 4.68579C11.229 4.68579 12.457 5.91381 12.457 7.42865Z" stroke="black" stroke-width="2" stroke-linecap="round"/>
+  </svg>         
+</div>
+
    
     
-    <div id="btnagendar" (click)="openModal()">
+    <div id="btnagendar" (click)="openModal()"[ngClass]="{ 'has-data': clienttyping }" class="submit-button">
         AGENDAR VISITA
     </div>
     
-
+  </div>
 
 
 </div>
