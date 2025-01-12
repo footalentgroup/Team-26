@@ -19,6 +19,7 @@ import { ModalVisitComponent } from './components/modalvisit/modalvisit.componen
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { ScreenEditarComponent } from './components/screen-editar/screen-editar.component';
+import { FCalendarioComponent } from './components/fcalendario/fcalendario.component';
 
 
 
@@ -46,7 +47,7 @@ export const routes: Routes = [
     {path: "agenda", component: AgendaComponent,pathMatch:"full" },
     {path: "calendar", component: CalendarComponent,pathMatch:"full" },
     {path: "modalvisit", component: ModalVisitComponent,pathMatch:"full" },  
-
+    {path: "fcalendario", component: FCalendarioComponent,pathMatch:"full" },  
 
 
     {path: "**", redirectTo: 'login' } 
