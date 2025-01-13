@@ -19,6 +19,8 @@ import { ModalVisitComponent } from './components/modalvisit/modalvisit.componen
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { ScreenEditarComponent } from './components/screen-editar/screen-editar.component';
+import { FCalendarioComponent } from './components/fcalendario/fcalendario.component';
+
 
 
 
@@ -36,15 +38,16 @@ export const routes: Routes = [
     {path:"pantallacarga",component:PantallacargaComponent,pathMatch:"full"},
     {path:"formcontacto",component:FormcontactoComponent,pathMatch:"full"},
     {path:"recuperarpassword",component:RecuperarpasswordComponent,pathMatch:"full"},
-    {path: "register-admin", component: RegisterAdminComponent }, 
 
-    {path: "dashboardsup", component: DashboardsupComponent },
-    {path: "navbarsup", component: NavbarsupComponent }, 
-    {path: "map", component: MapComponent }, 
-    {path: "agenda", component: AgendaComponent },
-    {path: "calendar", component: CalendarComponent },
-    {path: "modalvisit", component: ModalVisitComponent },  
+    {path: "register-admin", component: RegisterAdminComponent ,pathMatch:"full"}, 
 
+    {path: "dashboardsup", component: DashboardsupComponent,pathMatch:"full" },
+    {path: "navbarsup", component: NavbarsupComponent,pathMatch:"full" }, 
+    {path: "map", component: MapComponent ,pathMatch:"full"}, 
+    {path: "agenda", component: AgendaComponent,pathMatch:"full" },
+    {path: "calendar", component: CalendarComponent,pathMatch:"full" },
+    {path: "modalvisit", component: ModalVisitComponent,pathMatch:"full" },  
+    {path: "fcalendario", component: FCalendarioComponent,pathMatch:"full" },  
 
 
     {path: "**", redirectTo: 'login' } 

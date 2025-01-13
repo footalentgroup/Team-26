@@ -64,7 +64,7 @@
 //     this.updateModalContent('¡El contenido ha cambiado después de realizar la acción!');
 //   }
 // }
-import { Component, EventEmitter, OnInit, Output, output } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, OnInit, Output, output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalVisitComponent } from '../modalvisit/modalvisit.component';
@@ -74,6 +74,8 @@ import { of, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ClientOption, DropdownComponent } from '../dropdown/dropdown.component';
 import { TechnicianService } from '../../services/techoptions.service';
+import { FCalendarioComponent } from '../fcalendario/fcalendario.component';
+
 
 
 
@@ -82,9 +84,10 @@ import { TechnicianService } from '../../services/techoptions.service';
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule,DropdownComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,DropdownComponent, FCalendarioComponent],
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'] ,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CalendarComponent {
   technicians: any[] = [];
