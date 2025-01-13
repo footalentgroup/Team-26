@@ -5,6 +5,6 @@ const router = express.Router()
 const mail = require('../controllers/mail.controller')
 const { validateToken } = require('../middlewares/validateToken')
 
-router.post('/mailsend', validateToken, mail.sendEmail );
+router.post('/mailsend', validateToken, mail.sendEmailFrontend );
 
 module.exports = router
