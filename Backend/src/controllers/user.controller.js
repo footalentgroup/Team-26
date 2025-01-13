@@ -114,7 +114,7 @@ const createUser = async (req, res) => {
         await registerAuditLog(req, 'CREATE', nuevoUser._id, { newdRecord: nuevoUser.toObject() });
 
         // Enviar correo de confirmación
-        const confirmationLink = `http://${process.env.BASE_URL}/api/userconfirm?token=${confirmationToken}`; // Enlace de confirmación
+        const confirmationLink = `${process.env.BASE_URL}/api/userconfirm?token=${confirmationToken}`; // Enlace de confirmación
         const emailData = {
             to: userEmail,
             subject: `Bienvenido ${nuevoUser.userFullName} a gestiON`,
@@ -126,7 +126,8 @@ const createUser = async (req, res) => {
               <p>Este enlace expirará en ${process.env.CONFIRMATION_EXPIRATION} hora.</p>`
         }
         // Reutilizar la función de envío de correos
-        const result = await mail.sendEmail(emailData);
+        const reqMail = { token : token, functionalitySendMail: 'userCreate', documentId: nuevoUser._id, emailData : emailData };
+        const result = await mail.sendEmail(reqMail);
         console.log('result sendMail', result);
         if (!result.success) {
             const userDelete = await User.findOne({ userEmail: userEmail });
@@ -333,7 +334,8 @@ const registerAdmin = async (req, res) => {
               <p>Este enlace expirará en ${process.env.CONFIRMATION_EXPIRATION} hora.</p>`
         }
         // Reutilizar la función de envío de correos
-        const result = await mail.sendEmail(emailData);
+        const reqMail = { token : token, functionalitySendMail: 'userRegisterAdmin', documentId: nuevoUser._id, emailData : emailData };
+        const result = await mail.sendEmail(reqMail);
         console.log('result sendMail', result);
         if (!result.success) {
             const userDelete = await User.findOne({ userEmail: userEmail });
@@ -778,6 +780,61 @@ try {
     }
 }
 
+const userByTokenConfirmation = async (req, res) => {
+    const token = req.query.token.trim();
+    console.log('token ', token);
+    if (!token) {
+        return res.status(400).json({
+            ok: false,
+            error: 'Token no proporcionado'
+        });
+    }
+    try {
+
+        // Verificar el token
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        console.log('decoded token ', decoded);
+        const user = await User.findOne({
+            userEmail: decoded.userEmail,
+            userConfirmationToken: token,
+        });
+
+        if (!user) return res.status(400).json({
+            ok: false,
+            error: 'Token inválido o expirado.'
+        });
+
+        // Verificar si el token está expirado
+        if (new Date() > user.userConfirmationTokenExpires) {
+            user.userIsActive = false;
+            user.userConfirmationToken = null;
+            user.userConfirmationTokenExpires = null;
+            await user.save();
+
+            // Register in audit_logs (req, action, documentId, changes) 
+            await registerAuditLog(req, 'userByTokenConfirmation', user._id, { actionDetails: 'Token expirado, inactivar usuario y limpiar token de confirmación' });
+
+            return res.status(400).json({
+                ok: false,
+                error: 'Token expirado. Contacte al administrador.'
+            });
+        }
+
+        return res.status(200).json({
+            ok: true,
+            message: 'Usuario en espera de confirmación',
+            data: user
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            ok: false,
+
+            error: `Error interno del servidor. ${error.code} ${error.message}`
+        });
+    }
+};
+
 module.exports = {
     createUser
     , loginUser
@@ -791,5 +848,6 @@ module.exports = {
     , getAllUsers
     , updateUserById
     , deleteUserById
+    , userByTokenConfirmation
 };
 
