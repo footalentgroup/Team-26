@@ -82,27 +82,43 @@
 // }
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { OrderService } from '../../services/workordercreate.service';
 
 @Component({
   selector: 'app-modalvisit',
   templateUrl: './modalvisit.component.html',
   styleUrls: ['./modalvisit.component.css']
 })
+
 export class ModalVisitComponent {
-  // Propiedades locales para los datos pasados desde Calendar
   clientData: any;
   visitDetails: any;
+  workOrder: any;  // Orden de trabajo completa
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    // Asignamos los datos a las propiedades locales
+  constructor(
+    private orderService: OrderService,  // Inyectamos el servicio
+    @Inject(MAT_DIALOG_DATA) public data: any  // Recibimos los datos del modal
+  ) {
     this.clientData = data.clientData;
     this.visitDetails = data.visitDetails;
+    this.workOrder = data.workOrder;  // Recibimos la orden de trabajo
   }
 
+  ngOnInit(): void {
+    console.log('Orden de trabajo recibida:', this.workOrder);
+  }
 
-
-  close(): void {
-    // Aquí puedes definir la lógica para cerrar el modal, por ejemplo:
-    // this.dialogRef.close();
+  // Método para llamar el servicio y enviar la orden de trabajo
+  createWorkOrder() {
+    // Llamamos al servicio para crear la orden de trabajo
+    this.orderService.createOrder(this.workOrder).subscribe(
+      (response) => {
+        console.log('Orden de trabajo creada con éxito', response);
+        // Aquí puedes agregar lógica para cerrar el modal o mostrar un mensaje
+      },
+      (error) => {
+        console.error('Error al crear la orden de trabajo', error);
+      }
+    );
   }
 }

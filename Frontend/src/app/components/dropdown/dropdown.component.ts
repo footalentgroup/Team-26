@@ -6,7 +6,12 @@ import { ClientService } from '../../services/client.service';
 
 export interface ClientOption {
   clientName: string;
-  clientAddress: string;
+  Address: string;
+  _id: string;
+  clientContactPerson: string;
+  clientEmail: string;
+  clientPhone: string;
+  clientGeoLocation: { type: string; coordinates: number[] };
 }
 
 @Component({

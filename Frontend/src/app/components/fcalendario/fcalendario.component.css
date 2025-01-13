@@ -1,0 +1,27 @@
+#calendar{
+    left: calc(36 * (100vw / 1440));
+    top: calc(66 * (100vh / 1024));
+    width: calc(400 * (100vw / 1440));
+    height: calc(400 * (100vh / 1024));
+    position: absolute;
+    cursor: pointer;
+    box-sizing: border-box;
+    
+}
+#date{
+    width: calc(347 * (100vw / 1440));
+    height: calc(20 * (100vh / 1024)); 
+    font-size:calc(20 * (100vw / 1440)) ;
+    color: #b5c1cc;
+    font-weight: 600;
+    left: calc(500 * (100vw / 1440));
+    top: calc(30 * (100vh / 1024));
+    position: absolute;
+    justify-content: left;
+    align-items: center;
+    display: flex;
+}
+.fc-toolbar-title {
+    text-transform: uppercase; /* Convierte el texto a mayúsculas */
+  }
+  

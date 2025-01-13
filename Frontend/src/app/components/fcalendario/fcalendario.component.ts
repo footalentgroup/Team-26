@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
-import { FullCalendarModule } from '@fullcalendar/angular'; // Asegúrate de importar FullCalendarModule
+import { FullCalendarModule } from '@fullcalendar/angular'; 
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction'; // Importar el plugin de interacción
+import interactionPlugin from '@fullcalendar/interaction'; 
 
 @Component({
-  selector: 'fcalendario', // Cambia el selector
+  selector: 'fcalendario',
   standalone: true,
-  templateUrl: './fcalendario.component.html', // Asegúrate de actualizar este nombre si cambias el archivo HTML
-  styleUrls: ['./fcalendario.component.css'], // Asegúrate de actualizar este nombre si cambias el archivo CSS
-  imports: [FullCalendarModule], // Aquí es donde estamos importando el módulo FullCalendar
+  templateUrl: './fcalendario.component.html',
+  styleUrls: ['./fcalendario.component.css'],
+  imports: [FullCalendarModule],
 })
-export class FCalendarioComponent { // Cambia el nombre de la clase
+export class FCalendarioComponent {
+  @Output() selectedDateChange = new EventEmitter<string>(); // Emisor para enviar la fecha al componente principal
+
   currentDate: string = ''; // Variable para almacenar la fecha seleccionada
   selectedDate: string = ''; // Variable para almacenar la fecha seleccionada del calendario en formato 'YYYY-MM-DD'
   formattedDate: string = ''; // Variable para almacenar la fecha formateada
@@ -19,44 +21,53 @@ export class FCalendarioComponent { // Cambia el nombre de la clase
   // Configuración del calendario
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin, interactionPlugin], // Añadir el plugin de interacción
+    locale: "es",
+    plugins: [dayGridPlugin, interactionPlugin],
     headerToolbar: {
-      left: 'prev,next today',
+      left: 'prev,next', 
       center: 'title',
-      right: 'dayGridMonth',
+      right: ''
     },
-    dateClick: (info: any) => this.handleDateClick(info), // Cambiar a 'any' para evitar el error de tipo
+    titleFormat: { 
+      month: 'long',  
+      year: 'numeric' 
+    },
+    footerToolbar: false,  
+    dateClick: (info: any) => this.handleDateClick(info),
   };
 
-  // Manejo del evento dateClick
   handleDateClick(info: any): void {
-    // Obtener la fecha seleccionada
-    this.selectedDate = info.dateStr;
-
-    // Llamar a la función para formatear la fecha seleccionada
-    this.formatDate();
+    const selectedDate = info.dateStr;
+    this.selectedDateChange.emit(selectedDate);  // Emitir la fecha seleccionada correctamente
+    console.log('Fecha emitida:', selectedDate);
+  
+    // Actualizar la variable en el componente actual
+    this.selectedDate = selectedDate;  // Actualizamos la variable para reflejar el cambio
+    this.formatDate();  // Mantén tu lógica de formato
   }
 
   // Función para formatear la fecha seleccionada
   formatDate() {
     if (this.selectedDate) {
-      // Crear la fecha a partir del valor de 'selectedDate', que es una cadena con formato 'YYYY-MM-DD'
       const [year, month, day] = this.selectedDate.split('-');
-      const date = new Date(+year, +month - 1, +day); // Month es 0-indexed, por eso restamos 1
+      const date = new Date(+year, +month - 1, +day); 
 
-      // Opciones para formatear la fecha
       const options: Intl.DateTimeFormatOptions = {
-        weekday: 'long', // Nombre completo del día de la semana (por ejemplo, "lunes")
-        day: 'numeric',  // Día del mes (por ejemplo, "6")
-        month: 'long',   // Nombre completo del mes (por ejemplo, "enero")
-        year: 'numeric', // Año completo (por ejemplo, "2025")
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
       };
 
-      // Formatear la fecha con Intl.DateTimeFormat
-      this.formattedDate = date.toLocaleDateString('es-ES', options); // Utiliza las opciones de formateo y la configuración local 'es-ES'
+      const formatDate = (date: Date) => {
+        const formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date);
+        return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+      };
 
-      // Asignar el resultado al currentDate para mostrarlo en la vista
-      this.currentDate = `Fecha seleccionada: ${this.formattedDate}`;
+      this.formattedDate = formatDate(date); 
+      
+      this.currentDate = this.formattedDate; // Actualizar la fecha mostrada
+
     }
   }
 }
