@@ -15,12 +15,12 @@
     </div>
   
     <!-- Botones para editar o agendar -->
-    <div id="btnedit">EDITAR TEXTO</div>
+    <div id="btnedit" (click)="onEdit()">EDITAR TEXTO</div>
     <div id="btnagend"  (click)="createWorkOrder()">AGENDAR VISITA</div>
   
     <!-- Icono para cerrar el modal -->
-    <div >
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" id="closemodal">
+    <div (click)="onCloseReset()">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" id="closemodal" >
         <path d="M17.825 23L23.425 28.6L22 30L14 22L22 14L23.425 15.4L17.825 21H30V23H17.825Z" fill="#00254B"/>
       </svg>
     </div>

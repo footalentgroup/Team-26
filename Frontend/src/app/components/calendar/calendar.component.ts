@@ -24,15 +24,16 @@ export class CalendarComponent implements OnInit {
   selectedTechnician: string = '';
   clienttyping: string = '';
   showclients: boolean = false;
-  clientData: any = { name: 'Cliente XYZ', address: 'Dirección 123', _id: '' };  // Asegúrate de que _id esté vacío al principio
+  clientData: any = { name: 'Cliente XYZ', address: 'Dirección 123', _id: '' };
   visitDetails: any = { visitType: '', time: '', technician: '' };
   clients: ClientOption[] = [];
   private clientSubject = new Subject<string>();
   @Output() focused = new EventEmitter<void>();
 
-  selectedDate: string = '';  // Fecha seleccionada del calendario
-  selectedTime: string = '';  // Hora seleccionada del 'select'
-  workOrderSupervisor: string = '';  // ID del supervisor que está haciendo la solicitud
+  selectedDate: string = '';
+  selectedTime: string = '';
+  workOrderSupervisor: string = '';
+  private originalData: any;
 
   constructor(
     private dialog: MatDialog,
@@ -45,7 +46,6 @@ export class CalendarComponent implements OnInit {
     this.workOrderSupervisor = localStorage.getItem('userId') || '';  // Obtener el ID del supervisor desde localStorage
   }
 
-  // Obtener lista de técnicos activos
   getTechnicians(): void {
     this.techoptions.getUsersByRole('technician').subscribe({
       next: (data) => {
@@ -56,11 +56,9 @@ export class CalendarComponent implements OnInit {
         console.error('Error al obtener los técnicos:', error);
       }
     });
-
     this.handleClientSearch();
   }
 
-  // Manejar búsqueda de clientes con debounce
   handleClientSearch(): void {
     this.clientSubject.pipe(
       debounceTime(300),
@@ -71,11 +69,11 @@ export class CalendarComponent implements OnInit {
           this.clients = results.data.map(element => ({
             clientName: element.clientCompanyName,
             Address: element.clientAddress,
-            _id: element._id,  // Asegúrate de incluir el _id en la respuesta
-            clientContactPerson: element.clientContactPerson || '',  // Asignar persona de contacto
-            clientEmail: element.clientEmail || '',  // Asignar correo electrónico
-            clientPhone: element.clientPhone || '',  // Asignar teléfono
-            clientGeoLocation: element.clientGeoLocation || { type: 'Point', coordinates: [] }  // Asignar geolocalización
+            _id: element._id,
+            clientContactPerson: element.clientContactPerson || '',
+            clientEmail: element.clientEmail || '',
+            clientPhone: element.clientPhone || '',
+            clientGeoLocation: element.clientGeoLocation || { type: 'Point', coordinates: [] }
           }));
           this.showclients = true;
         },
@@ -87,33 +85,24 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  // Asignación del cliente seleccionado
   handleClientSelection(client: ClientOption): void {
-    console.log('Datos del cliente:', client);  // Verifica si clientGeoLocation está presente
-  if (client.clientGeoLocation) {
-    console.log('Coordenadas del cliente:', client.clientGeoLocation.coordinates);
-  } else {
-    console.error('No se encontró la geolocalización del cliente.');
-  }
+    console.log('Datos del cliente:', client);
     this.clientData = {
       name: client.clientName,
       address: client.Address,
       _id: client._id,
-      clientContactPerson: client.clientContactPerson,  // Asegúrate de incluir estos campos
+      clientContactPerson: client.clientContactPerson,
       clientEmail: client.clientEmail,
       clientPhone: client.clientPhone,
       clientGeoLocation: client.clientGeoLocation,
     };
     this.clienttyping = client.clientName;
-    console.log('Cliente seleccionado:', this.clientData);  // Verifica que el _id esté asignado correctamente
   }
 
-  // Emisión de cambios del cliente ingresado
   clientChanges(value: string): void {
     this.clientSubject.next(value);
   }
 
-  // Mostrar lista de clientes al enfocarse en el input
   onInputFocus(): void {
     this.showclients = true;
     this.focused.emit();
@@ -122,89 +111,81 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  // Asignación del técnico seleccionado
   onTechnicianSelected(): void {
     const selectedTech = this.technicians.find(tech => tech._id === this.selectedTechnician);
     if (selectedTech) {
       this.visitDetails.technician = selectedTech.userFullName;
     }
-    console.log('Técnico seleccionado:', this.visitDetails.technician);
   }
 
   onDateSelected(date: string): void {
     this.selectedDate = date;
-    console.log('Fecha seleccionada desde calendario:', this.selectedDate);
   }
 
   onTimeSelected(time: string): void {
-    console.log('Método onTimeSelected llamado');
     this.selectedTime = time;
-    console.log('Hora seleccionada:', this.selectedTime);
   }
 
-  // Apertura del modal para confirmar agendamiento
   openModal(): void {
-      // Log para revisar el estado actual de clientData
-  console.log('Datos del cliente:', this.clientData);
-    // Asegúrate de que los datos estén correctamente asignados
-    console.log('Datos previos:');
-    console.log('Fecha seleccionada:', this.selectedDate);
-    console.log('Hora seleccionada:', this.selectedTime);
-    console.log('ID del cliente:', this.clientData._id);  // Verifica que el _id esté presente
-    console.log('Técnico seleccionado:', this.selectedTechnician);
-  
-    // Comprobar que tanto la fecha, la hora, el cliente y el técnico estén correctamente seleccionados
     if (!this.selectedDate || !this.selectedTime || !this.clientData._id || !this.selectedTechnician) {
       console.error('Faltan datos necesarios: fecha, hora, cliente o técnico.');
       return;
     }
-  
-    // Verificar las coordenadas del cliente
-    const clientGeoLocation = this.clientData.clientGeoLocation;
-    console.log('clientGeoLocation:', clientGeoLocation);  // Verifica cómo luce el objeto completo
-    const coordinates = clientGeoLocation?.coordinates;
-    
-    if (!coordinates || coordinates.length < 2) {
-      console.error('Las coordenadas del cliente no están disponibles o son incorrectas.');
-      return;
-    }
-  
-    console.log('Coordenadas:', coordinates);  // Verifica las coordenadas antes de usarlas
-  
-    // Crear la fecha completa combinando la fecha seleccionada en el calendario con la hora
+
     const workOrderScheduledDate = `${this.selectedDate}T${this.selectedTime}:00.000+00:00`;
-  
-    // Crear la orden de trabajo con los datos proporcionados
+
     const workOrder = {
-      workOrderSupervisor: this.workOrderSupervisor,  // ID del supervisor
-      clientId: this.clientData._id,  // ID del cliente
+      workOrderSupervisor: this.workOrderSupervisor,
+      clientId: this.clientData._id,
       workOrderDescription: 'Solicitud del cliente',
       serviceType: this.visitDetails.visitType,
       workOrderScheduledDate: workOrderScheduledDate,
       workOrderAssignedTechnician: this.selectedTechnician,
       workOrderLocation: {
         type: 'Point',
-        coordinates: this.clientData.clientGeoLocation.coordinates  // Asegúrate de copiar las coordenadas correctamente
+        coordinates: this.clientData.clientGeoLocation?.coordinates || []
       },
-      workOrderClientContactPerson: this.clientData.clientContactPerson,  // Asignar el contacto
-      workOrderclientEmail: this.clientData.clientEmail,  // Asignar el correo electrónico
-      workOrderAddress: this.clientData.address  // Asegúrate de que la dirección esté asignada correctamente
+      workOrderClientContactPerson: this.clientData.clientContactPerson,
+      workOrderclientEmail: this.clientData.clientEmail,
+      workOrderAddress: this.clientData.address
     };
-  
-    console.log('Datos de la orden de trabajo:', workOrder);  // Imprimir para verificar
-  
-    // Abrir el modal y pasarle los datos
+
+    this.originalData = {
+      clientData: { ...this.clientData },
+      visitDetails: { ...this.visitDetails },
+      selectedDate: this.selectedDate,
+      selectedTime: this.selectedTime,
+      selectedTechnician: this.selectedTechnician
+    };
+
     const dialogRef = this.dialog.open(ModalVisitComponent, {
       data: {
         clientData: this.clientData,
         visitDetails: this.visitDetails,
         selectedTime: this.selectedTime,
-        workOrder: workOrder,  // Pasamos la orden de trabajo
+        workOrder: workOrder,
       }
     });
-  
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('Modal cerrado');
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Si el resultado es 'edit', significa que se desea conservar los cambios
+      if (result == 'edit') {
+        // Los datos no se restablecen, se mantienen como están
+        console.log('Datos editados con éxito');
+      } else {
+        // Restablecer los valores a los datos originales si no se editó
+        this.resetForm();
+      }
     });
+    
   }
-}  
+
+  resetForm(): void {
+    console.log("datos vacios")
+    this.clienttyping = "";
+    this.visitDetails = { visitType: "", time: "", technician: "" };
+    this.selectedDate = "";
+    this.selectedTime = "";
+    this.selectedTechnician = "";
+  }
+}

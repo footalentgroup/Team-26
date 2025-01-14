@@ -89,36 +89,44 @@ import { OrderService } from '../../services/workordercreate.service';
   templateUrl: './modalvisit.component.html',
   styleUrls: ['./modalvisit.component.css']
 })
-
 export class ModalVisitComponent {
   clientData: any;
   visitDetails: any;
-  workOrder: any;  // Orden de trabajo completa
+  workOrder: any;
 
   constructor(
-    private orderService: OrderService,  // Inyectamos el servicio
-    @Inject(MAT_DIALOG_DATA) public data: any  // Recibimos los datos del modal
+    private orderService: OrderService,
+    private dialogRef: MatDialogRef<ModalVisitComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.clientData = data.clientData;
     this.visitDetails = data.visitDetails;
-    this.workOrder = data.workOrder;  // Recibimos la orden de trabajo
+    this.workOrder = data.workOrder;
   }
 
   ngOnInit(): void {
     console.log('Orden de trabajo recibida:', this.workOrder);
   }
 
-  // Método para llamar el servicio y enviar la orden de trabajo
+  // Crear la orden de trabajo
   createWorkOrder() {
-    // Llamamos al servicio para crear la orden de trabajo
     this.orderService.createOrder(this.workOrder).subscribe(
-      (response) => {
+      response => {
         console.log('Orden de trabajo creada con éxito', response);
-        // Aquí puedes agregar lógica para cerrar el modal o mostrar un mensaje
       },
-      (error) => {
+      error => {
         console.error('Error al crear la orden de trabajo', error);
       }
     );
+  }
+
+  // Cerrar manteniendo los datos (editar)
+  onEdit(): void {
+    this.dialogRef.close('edit');  // Indica que los datos deben mantenerse
+  }
+
+  // Cerrar restableciendo valores
+  onCloseReset(): void {
+    this.dialogRef.close();  // Indica que los datos deben restablecerse
   }
 }
