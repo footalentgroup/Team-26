@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-loadingspiner',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './loadingspiner.component.css'
 })
 export class LoadingspinerComponent {
-
+  @Input() isLoading: boolean = false;  // Controla la visibilidad del modal
 }

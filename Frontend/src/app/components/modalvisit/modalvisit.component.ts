@@ -113,6 +113,7 @@ export class ModalVisitComponent {
     this.orderService.createOrder(this.workOrder).subscribe(
       response => {
         console.log('Orden de trabajo creada con éxito', response);
+
       },
       error => {
         console.error('Error al crear la orden de trabajo', error);
