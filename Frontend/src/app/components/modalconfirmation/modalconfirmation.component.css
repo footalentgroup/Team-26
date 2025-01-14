@@ -1,0 +1,110 @@
+.text{
+    color: #02245B;
+}
+.modaldimension{
+    width: calc(550 * (100vw/1440));
+    height:calc(485 * (100vh/1024));
+    justify-content: center;
+    align-items: center;
+}
+#closemodal{
+    width: calc(44 * (100vw / 1440));
+    height:calc(44 * (100vw / 1440)) ;
+    font-size:calc(22 * (100vw / 1440)) ;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: calc(10 * (100vw / 1440));
+    top: calc(18 * (100vh / 1024));
+    cursor: pointer;
+}
+.ttmodal{
+    width: calc(494 * (100vw / 1440));
+    height:calc(107 * (100vw / 1440));
+    font-weight: 700;
+    left: calc(32 * (100vw / 1440));
+    top: calc(73 * (100vh / 1024));
+    position: absolute;
+    display: flex;
+    justify-content: left;
+    color: #02245B;
+
+}
+#line1{
+    width: calc(461 * (100vw / 1440));
+    height:calc(36 * (100vh / 1024));
+    font-size: calc(24 * (100vw / 1440));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0%; 
+    position: absolute;  
+}
+
+#line3{
+    width: calc(461 * (100vw / 1440));
+    height:calc(24 * (100vh / 1024));
+    font-size: calc(16 * (100vw / 1440));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: calc(83 * (100vh / 1024) ); 
+    position: absolute;
+}
+#info{
+    width: calc(494 * (100vw / 1440));
+    height: calc(200 * (100vh / 1024));
+    left: calc(41 * (100vw / 1440));
+    top: calc(195 * (100vh / 1024));
+    position: absolute;
+}
+#client{
+    width: calc(494 * (100vw / 1440));
+    height:calc(36 * (100vh / 1024));
+    font-size: calc(24 * (100vw / 1440));
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    top: 0; 
+    position: absolute;
+}
+#ubication{
+    width: calc(494 * (100vw / 1440));
+    height:calc(36 * (100vh / 1024));
+    font-size: calc(24 * (100vw / 1440));
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    top:calc(36 * (100vh / 1024)); 
+    position: absolute;
+}
+#visitopt{
+    width: calc(494 * (100vw / 1440));
+    height:calc(36 * (100vh / 1024));
+    font-size: calc(24 * (100vw / 1440));
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    top:calc(72 * (100vh / 1024)); 
+    position: absolute;
+}
+#hour{
+    width: calc(494 * (100vw / 1440));
+    height:calc(36 * (100vh / 1024));
+    font-size: calc(24 * (100vw / 1440));
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    top:calc(108 * (100vh / 1024)); 
+    position: absolute;
+}
+#tech{
+    width: calc(494 * (100vw / 1440));
+    height:calc(36 * (100vh / 1024));
+    font-size: calc(24 * (100vw / 1440));
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    top:calc(144 * (100vh / 1024)); 
+    position: absolute;
+}
