@@ -1,8 +1,7 @@
 
 <div class="modaldimension">
     <div class="ttmodal text">
-      <div id="line1">Estás a punto de agendar una visita.</div>
-      <div id="line2">Revisá que la información sea correcta.</div>
+      <div id="line1">¡Visita agendada con exito!</div>
       <div id="line3">Los datos ingresados son los siguientes:</div>
     </div>
   
@@ -16,14 +15,14 @@
     </div>
   
     <!-- Botones para editar o agendar -->
-    <button (click)="openSpinner()" style="width: 20px; height: 20px;" >Abrir Spinner</button>
-    <div id="btnedit" (click)="onEdit()">EDITAR TEXTO</div>
-    <div id="btnagend"  (click)="createWorkOrder()">AGENDAR VISITA</div>
+
+
   
     <!-- Icono para cerrar el modal -->
-    <div (click)="onCloseReset()">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" id="closemodal" >
-        <path d="M17.825 23L23.425 28.6L22 30L14 22L22 14L23.425 15.4L17.825 21H30V23H17.825Z" fill="#00254B"/>
-      </svg>
+    <div (click)="onClose()">
+        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M28.5 9.5L9.5 28.5M28.5 28.5L9.5 9.5" stroke="#00254B" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            
     </div>
   </div>
