@@ -17,8 +17,8 @@ export class OrderService {
     console.log(localStorage.getItem('token'));
 
     if (!token) {
-      console.error('No token found');  // Si no se encuentra el token, loguea un mensaje de error
-      return of();  // Devuelve un Observable vacío
+      console.error('No se encontró el token');  
+      return of({ error: 'No token provided' });  // Respuesta clara en el Observable
     }
 
     // Recuperar el ID del supervisor desde el localStorage
