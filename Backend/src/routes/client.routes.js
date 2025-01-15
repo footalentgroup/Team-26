@@ -281,7 +281,7 @@ router.get('/clientsearch',  validateToken, Client.searchClients)
  *           application/json:
  *             schema:
  *             type: object
- *             example: {}
+ *             example: {"ok": false, "message": "No se puede eliminar el cliente, tiene órdenes de trabajo asociadas"}
  *       500:
  *         description: Error deleting client
  *         content:
