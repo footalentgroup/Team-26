@@ -1,4 +1,4 @@
-.usuarios-container {
+.clientes-container {
     width: calc(902 * (100vw / 1440)) ;
     height: calc(900 * (100vh / 1024)) ;
     background-color: #fff;
@@ -10,12 +10,13 @@
     position: absolute;
     overflow: hidden;
     padding-bottom: calc(200 * (100vh / 768)) ;
+
 }
 h2 {
     font-size:calc(24 * (100vw / 1440)) ;
     position: relative;
-    top: calc(10 * (100vh / 1024));
-    left:calc(10 * (100vw / 1440)) ;
+    top: calc(20 * (100vh / 1024));
+    left:calc(20 * (100vw / 1440)) ;
     font-weight: bold;
     color: #00254B;
     margin-bottom: 20px;
@@ -71,8 +72,6 @@ h2 {
     cursor: pointer;
 }
 
-
-
 .table-container {
     width:calc(780 * (100vw / 1440));
     height: calc(680 * (100vh / 1024));
@@ -83,14 +82,14 @@ h2 {
     position: relative;
 }
 
-.usuarios-table {
+.clientes-table {
     width: 100%;
     border-collapse: collapse;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     table-layout: fixed;
 }
 
-.usuarios-table th, .usuarios-table td {
+.clientes-table th, .clientes-table td {
     border: 1px solid #ccc;
     height: calc(40 * (100vh / 1024));
     text-align: left;
@@ -98,7 +97,7 @@ h2 {
     word-wrap: break-word;
 }
 
-.usuarios-table th {
+.clientes-table th {
     background-color: #003366;
     color: white;
     font-size: calc(16 * (100vw / 1440));
@@ -107,7 +106,7 @@ h2 {
     top: 0; 
     z-index: 2;
 }
-.usuarios-table td {
+.clientes-table td {
     font-size: calc(14 * (100vw / 1440));
     overflow: hidden; 
     text-overflow: ellipsis;
@@ -117,7 +116,7 @@ h2 {
 
 /* Responsividad específica para 1368x768 */
 @media screen and (max-width: 1368px) {
-    .usuarios-container {
+    .clientes-container {
         width: calc(850 * (100vw / 1368));
         height: calc(680 * (100vh / 768));
         padding: calc(15 * (100vh / 768));
@@ -136,7 +135,7 @@ h2 {
         max-width: calc(720 * (100vw / 1368));
         height: calc(450 * (100vh / 768));
     }
-    .usuarios-table th {
+    .clientes-table th {
         background-color: #003366;
         color: white;
         font-weight: 600;
@@ -147,7 +146,7 @@ h2 {
         font-size: calc(14 * (100vw / 1368));
     }
 
-    .usuarios-table td {
+    .clientes-table td {
         padding: calc(8 * (100vh / 768));
         font-size: calc(12 * (100vw / 1368));
         overflow: hidden; 
@@ -156,9 +155,10 @@ h2 {
     }
 }
 
-/*styles para Modal crear users*/
 
-.modaluser {
+/*styles para Modal crear clientes*/
+
+.modalclient {
     position: fixed; 
     top: 0;
     left: 0;
@@ -172,6 +172,11 @@ h2 {
 }
 
 .modal-content {
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    flex-direction: column;
+    border: 0;
     background: #fff;
     width:calc(550 * (100vw / 1440));
     height: calc(570 * (100vh / 1024));
@@ -201,29 +206,12 @@ h2 {
     cursor: pointer;
     color: #fff;
 }
-.titulo-rol{
-    font-size: calc(16 * (100vw / 1440));
-    margin-top: 20px;
-    font-weight: 700;
-    color: #00254B;
-}
-.modal-body{
-    padding: 15px;
-    width:calc(550 * (100vw / 1440));
-    height: calc(570 * (100vh / 1024));
-}
-.roles input[type="radio"] { 
-    width:calc(24 * (100vw / 1440));
-    height: calc(24 * (100vh / 1024));
 
-}
-.roles label{
-    font-size: calc(16 * (100vw / 1440));
-}
+
+
 input[type="text"],
 input[type="email"],
-input[type="tel"],
-input[type="password"] {
+input[type="tel"] {
     width: calc(510 * (100vw / 1440));
     padding: calc(10 * (100vw / 1440));
     height: calc(60 * (100vh / 1024));
@@ -255,9 +243,7 @@ button.submit-button {
 button.submit-button:hover {
         background: #003580;
 }
-#rolsupervisor{
-    padding-right: 10px;
-}
+
   /* Animación de aparición */
 @keyframes fadeIn {
     from {
@@ -270,6 +256,7 @@ button.submit-button:hover {
     }
 }
 
+
 /*boton editar registros*/
 
 .btn-edit {
@@ -277,8 +264,8 @@ button.submit-button:hover {
     border: none;
     cursor: pointer;
     padding: 0;
-    margin-left: 10px;
-    margin-right: 60px;
+    margin-left: calc(40 * (100vw / 1440));
+    margin-right: calc(60 * (100vw / 1440));
 }
 
 .btn-edit svg {
@@ -313,44 +300,29 @@ button.submit-button:hover {
     stroke: #0056b3; 
     fill: #cce7ff; 
 }
-.info{
+
+.modal-body{
+    width:calc(550 * (100vw / 1440));
+    height: calc(570 * (100vh / 1024));
+}
+.prueba{
     display: flex;
+    width: 100%;
+    background-color: #0056b3;
     flex-direction: column;
+    height: calc(200 * (100vw / 1024));;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-left: calc(100 * (100vw / 1440));
     font-family: 'Poppins', sans-serif;
     color: #00254B;
-
-}
-.infobaja{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top:calc(10 * (100vw / 1024));
-    padding: calc(20 * (100vw / 1440));
-    font-family: 'Poppins', sans-serif;
-    color: #00254B;
-}
-.motivobaja{
-    display: flex;
-    flex-direction: column;
-    padding-left: calc(30 * (100vw / 1440));
-    padding-right: calc(30 * (100vw / 1440));
-    font-family: 'Poppins', sans-serif;
-    color: #00254B;
-}
-.cuadroeliminacion{
-    height:calc(140 * (100vw / 1024));
-    color: #00254B;
-    border-color: #00254B !important;
-}
-.lbtitulo{
-    margin-bottom: calc(20 * (100vw / 1024));
 }
 
-.crear-usuario{
+.info{
+    background-color: #5aa800;
+
+}
+
+.crear-clientes{
     font-size: calc(24 * (100vw / 1440));
     font-weight: 700;
 }
@@ -381,31 +353,36 @@ button.submit-button:hover {
     line-height: 1.2; 
 }
 
+
 /* Media query para resolución 1368px */
 @media screen and (max-width: 1368px) and (max-height: 768px) {
-.info {
-        margin-left: calc(100 * (100vw / 1368));  /* Ajusta márgenes para centrar el contenido */
-        margin-right: calc(20 * (100vw / 1368)); 
-}
+
 .modal-body{
-        padding: 15px 0px 0px 15px;
-        margin-bottom: 0;
         height: calc(570 * (100vh / 768));
 }
-.crear-usuario {
+.crear-clientes {
         font-size: calc(20 * (100vw / 1368));  /* Reduce el tamaño del título */
+}
+.prueba{
+    display: flex;
+    background-color: #0056b3;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family: 'Poppins', sans-serif;
+    color: #00254B;
 }
 
 .parrafosconfig {
-        font-size:  calc(14 * (100vw / 1368)); /* Reduce el tamaño del texto */
-        font-weight: 400; /* Peso de texto */
-        margin-bottom: 14px; /* Reduce el espacio entre párrafos */
-        line-height: 1.2; /* Reduce la altura de línea */
+    font-size:  calc(14 * (100vw / 1368)); /* Reduce el tamaño del texto */
+    font-weight: 400; /* Peso de texto */
+    margin-bottom: 10px; /* Reduce el espacio entre párrafos */
+    line-height: 1.2; /* Reduce la altura de línea */
 }
 .parrafosconfirmacion{
     font-size:  calc(14 * (100vw / 1440));
     font-weight: 700;
-    margin-bottom: 14px; /* Reduce el espacio entre párrafos */
+    margin-bottom: calc(10 * (100vh / 768)); /* Reduce el espacio entre párrafos */
     line-height: 1.2; 
 }
 .zoom{
@@ -419,11 +396,9 @@ button.submit-button:hover {
         margin-bottom: calc(10 * (100vh / 768));
 }
 
-    .submit-button {
+.submit-button {
         width: calc(150 * (100vw / 1368)); /* Ajusta el tamaño del botón */
         font-size:  calc(14 * (100vw / 1368));
         padding: 8px;
-    }
 }
-
-
+}

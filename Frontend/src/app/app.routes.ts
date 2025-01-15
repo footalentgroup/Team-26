@@ -18,7 +18,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { ModalVisitComponent } from './components/modalvisit/modalvisit.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { ScreenEditarComponent } from './components/screen-editar/screen-editar.component';
+import { ClientesComponent } from './components/clientes/clientes.component';
 
 
 
@@ -27,12 +27,18 @@ export const routes: Routes = [
     {path:"",component:HomeComponent,pathMatch:"full"},
     {path:"login",component:LoginComponent,pathMatch:"full"},
     {path:"accesibilidad",component:AccesibilidadComponent,pathMatch:"full"},
-    {path:"dashboardadmin",component:DashboardadminComponent,pathMatch:"full"},
+
+    {path:"dashboardadmin",component:DashboardadminComponent,
+        children: [ // Rutas hijas
+            { path: "usuarios", component: UsuariosComponent },
+            { path: "clientes", component: ClientesComponent },
+            { path: "", redirectTo: "usuarios", pathMatch: "full" }, // Ruta por defecto dentro del dashboard
+            ],
+        },
+    { path: "", redirectTo: "dashboardadmin", pathMatch: "full" },
+
     {path:"dashboardtecni",component:DashboardtecniComponent,pathMatch:"full"},
     {path:"dropdown",component:DropdownComponent,pathMatch:"full"},
-    {path:"usuarios",component:UsuariosComponent,pathMatch:"full"},
-    {path:"screenEditar",component:ScreenEditarComponent,pathMatch:"full"},
-
     {path:"pantallacarga",component:PantallacargaComponent,pathMatch:"full"},
     {path:"formcontacto",component:FormcontactoComponent,pathMatch:"full"},
     {path:"recuperarpassword",component:RecuperarpasswordComponent,pathMatch:"full"},
@@ -44,8 +50,5 @@ export const routes: Routes = [
     {path: "agenda", component: AgendaComponent },
     {path: "calendar", component: CalendarComponent },
     {path: "modalvisit", component: ModalVisitComponent },  
-
-
-
     {path: "**", redirectTo: 'login' } 
 ];

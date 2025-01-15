@@ -10,7 +10,6 @@
                     <input class="barra" type="text"/>
                 </div>
                 <button class="new-button" (click)="abrirModal()">Nuevo Usuario</button>
-                <app-newusuario></app-newusuario>
             </div>
         </div>
     </div>
@@ -32,12 +31,12 @@
                     <td>{{ item.userEmail }}</td>
                     <td>{{ item.userRole}}</td> 
                     <td>
-                        <button (click)="editarRegistro(item._id)" class="btn-edit">
+                        <button  (click)="editarRegistro(item._id)" class="btn-edit">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13.8001 19.5514H19.8001M4.2002 19.5514L8.56618 18.6717C8.79796 18.625 9.01077 18.5109 9.17791 18.3437L18.9516 8.56461C19.4202 8.09576 19.4199 7.33577 18.9509 6.86731L16.8805 4.79923C16.4117 4.33097 15.6521 4.33129 15.1837 4.79995L5.40896 14.58C5.24214 14.7469 5.12824 14.9593 5.0815 15.1906L4.2002 19.5514Z" stroke="#00254B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </button>
-                        <button (click)="Eliminar(item._id)" class="btn-eliminar">
+                        <button (click)="EliminarM(item._id)" class="btn-eliminar">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4 6.17647H20M9 3H15M10 16.7647V10.4118M14 16.7647V10.4118M15.5 21H8.5C7.39543 21 6.5 20.0519 6.5 18.8824L6.0434 7.27937C6.01973 6.67783 6.47392 6.17647 7.04253 6.17647H16.9575C17.5261 6.17647 17.9803 6.67783 17.9566 7.27937L17.5 18.8824C17.5 20.0519 16.6046 21 15.5 21Z" stroke="#00254B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>                               
@@ -64,11 +63,11 @@
                 <label class="titulo-rol">Rol del usuario</label>
                 <div class="roles">
                     <label id="rolsupervisor">
-                        <input type="radio" name="role" value="supervisor" (change)="cambio('supervisor')" required [(ngModel)]="Rol"/>
+                        <input type="radio" name="role" value="supervisor" (change)="cambio('supervisor')" required [(ngModel)]="Role"/>
                             Supervisor
                     </label> 
                     <label>
-                        <input type="radio" name="role" value="technician" (change)="cambio('Técnico')" required [(ngModel)]="Rol"/>
+                        <input type="radio" name="role" value="technician" (change)="cambio('technician')" required [(ngModel)]="Role"/>
                         Técnico
                     </label>
                 </div>
@@ -82,7 +81,7 @@
         <div *ngIf="currentStep === 'confirmar'">
             <div class="info">
                 <h2 class="crear-usuario">Los datos ingresados son:</h2>
-                <p class="parrafosconfig">Rol del usuario:<br><strong class="zoom">{{ Rol }}</strong></p>
+                <p class="parrafosconfig">Rol del usuario:<br><strong class="zoom">{{ Role }}</strong></p>
                 <p class="parrafosconfig">Nombre:<br><strong class="zoom"> {{ nombre }}</strong></p>
                 <p class="parrafosconfig">Correo electrónico:<br><strong class="zoom"> {{ Email }}</strong></p>
                 <p class="parrafosconfig">Teléfono:<br><strong class="zoom"> {{ Telefono }}</strong></p>
@@ -90,19 +89,62 @@
             
         </div>
 
+        <!-- Vista para Dar de Baja -->
+        <div *ngIf="currentStep === 'darDeBaja'">
+            <div class="infobaja">
+                <p class="parrafobaja">
+                    <strong>¡ATECIÓN!</strong> Está a punto de dar de baja a un usuario.<br>
+                    Recordá que si los datos están mal ingresados puedes<br>
+                    editarlos sin necesidad de borrar.<br>
+                    <br />Rol del usuario: <strong>{{ seleccionRol }}</strong>
+                    <br />Nombre: <strong>{{ nombre }}</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Vista para Confirmar Motivo de Baja -->
+        <div *ngIf="currentStep === 'motivoDeBaja'">
+            <div class="motivobaja">
+                <label class="lbtitulo">Ingresa el motivo de la baja:</label>
+                <textarea [(ngModel)]="motivoBaja" class="cuadroeliminacion"></textarea>
+            </div>
+        </div>
+
+        <!-- Vista para Confirmación de Baja Exitosa -->
+        <div *ngIf="currentStep === 'exitoBaja'">
+                <div class="confir">
+                    <p class="parrafosconfirmacion">Usuario dado de baja correctamente.</p>
+                </div>
+        </div>
+
         <!-- Vista para Confirmación Exitosa -->
         <div *ngIf="currentStep === 'exito'">
-            <p><strong>{{ nombre }}</strong> fue registrado exitosamente.</p>
-            <p>
-                Se envió un correo de activación al mail ingresado:
-                <strong>{{ Email }}</strong>
-            </p>
+            <div class="confir">
+                <p class="parrafosconfirmacion"><strong>{{ nombre }}</strong> fue registrado exitosamente.</p>
+                <p class="parrafosconfirmacion">
+                    Se envió un correo de activación al mail ingresado:
+                    <strong>{{ Email }}</strong>
+                </p>
+            </div>
         </div>
     </div>
     <!-- Botones del modal -->
-    <div class="button-container" *ngIf="seleccionRol === 'supervisor' || seleccionRol === 'Técnico'">
-        <button type="button" class="submit-button"(click)="avanzarPaso()"[disabled]="currentStep === 'crear' && (!nombre || !Email || !Telefono || !Rol)">
-            {{ currentStep === 'crear' ? 'Siguiente' : (currentStep === 'confirmar' ? 'Crear Usuario' : 'Confirmar') }}
+    <div class="button-container" *ngIf="seleccionRol === 'supervisor' || seleccionRol === 'technician'">
+        <button type="button" class="submit-button"(click)="avanzarPaso()"[disabled]="(currentStep === 'crear' && (!nombre || !Email || !Telefono || !Role)) ||
+        (currentStep === 'motivoDeBaja' && !motivoBaja.trim())">
+            {{
+                currentStep === 'crear'
+                    ? 'Siguiente'
+                    : currentStep === 'confirmar'
+                    ? esEditar
+                        ? 'Guardar Cambios'
+                        : 'Crear Usuario'
+                    : currentStep === 'darDeBaja'
+                    ? 'Dar de Baja'
+                    : currentStep === 'motivoDeBaja'
+                    ? 'Dar Baja'
+                    : 'Cerrar'
+            }}
         </button>
     </div>
         

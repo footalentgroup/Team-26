@@ -12,8 +12,9 @@ export class PantallacargaComponent {
   constructor(private router: Router) {}
 
   
-
+  
   ngOnInit(): void {
+    console.log("Cargando PantallacargaComponent...");
 
     setTimeout(() => {
     const userRole: string | null = localStorage.getItem('userRole');

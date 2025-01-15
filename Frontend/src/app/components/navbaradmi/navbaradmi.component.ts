@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PeticionService } from '../../services/peticion.service';
+
 
 @Component({
   selector: 'app-navbaradmi',
@@ -19,34 +20,44 @@ export class NavbaradmiComponent {
     this.userName = localStorage.getItem('userName') || 'Usuario'; 
     this.userRole = localStorage.getItem('userRole') || '';
   }
+  
+
+  navegar(ruta: string): void {
+      this.router.navigate([ruta]);
+  }
   logout() {
-    console.log("cerrando sesion usuario")
-    const userId = localStorage.getItem('userId'); // Obtén el ID del usuario
-    const url = `${this.peticion.UrlHost}/api/userclosesession/${userId}`; // Endpoint del logout
+    console.log("Cerrando sesión del usuario");
+
+    const userId = localStorage.getItem('userId'); 
+    const url = `${this.peticion.UrlHost}/api/userclosesession/${userId}`; 
   
     if (userId) {
-      // Realiza la solicitud PATCH al backend
-      this.peticion.Patch(url, {}).then((res: any) => {
-        if (res.ok) {
-          // Limpia el almacenamiento local
-          localStorage.removeItem('token');
-          localStorage.removeItem('userId');
-          localStorage.removeItem('userRole');
-          localStorage.removeItem('userName');
   
-          // Redirige al usuario al inicio de sesión
-          this.router.navigate(['/login']);
-          console.log('Sesión cerrada exitosamente.');
-        } else {
-          console.error('Error al cerrar sesión:', res.message);
+      this.peticion.Patch(url, {}).subscribe({
+        next: (res: any) => {
+          if (res.ok) {
+        
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('userName');
+  
+            
+            this.router.navigate(['/login']);
+            console.log('Sesión cerrada exitosamente.');
+          } else {
+            console.error('Error al cerrar sesión:', res.message);
+          }
+        },
+        error: (error) => {
+          
+          console.error('Error en la solicitud de logout:', error);
         }
-      }).catch((error) => {
-        console.error('Error en la solicitud de logout:', error);
       });
     } else {
+      
       console.warn('No se encontró un ID de usuario válido. Redirigiendo al login...');
       this.router.navigate(['/login']);
     }
   }
-  
 }

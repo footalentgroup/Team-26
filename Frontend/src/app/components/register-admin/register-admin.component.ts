@@ -33,21 +33,27 @@ export class RegisterAdminComponent {
         userPassword: this.password
       }
     };
-
-    this.peticion
-      .Post(data.host + data.path, data.payload)
-      .then((res: any) => {
-        console.log(res);
+  
+    console.log('Datos enviados al backend:', data.payload);
+  
+    // Llamar al método Post del servicio PeticionService
+    this.peticion.Postwithouttoken(data.host + data.path, data.payload).subscribe({
+      next: (res: any) => {
+        console.log('Respuesta del servidor:', res);
         if (res.ok) {
+          // Mostrar mensaje de éxito y redirigir
           this.msg.Load('success', 'Administrador registrado exitosamente');
-          this.router.navigate(['/login']); 
+          this.router.navigate(['/login']);
         } else {
+          // Mostrar mensaje de error desde la respuesta del servidor
           this.msg.Load('danger', res.message || 'Error en el registro');
         }
-      })
-      .catch((error) => {
+      },
+      error: (error) => {
+        // Manejo de errores en la petición
         console.error('Error al registrar administrador:', error);
-        this.msg.Load('danger', 'Error al registrar adminitrador ya existe uno en la dbls');
-      });
+        this.msg.Load('danger', 'Error al registrar administrador. Es posible que ya exista en la base de datos.');
+      }
+    });
   }
 }

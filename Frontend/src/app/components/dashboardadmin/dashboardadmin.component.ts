@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MensajesComponent } from "../mensajes/mensajes.component";
 import { NavbaradmiComponent } from "../navbaradmi/navbaradmi.component";
-import { UsuariosComponent } from '../usuarios/usuarios.component';
+
 
 @Component({
   selector: 'app-dashboardadmin',
   standalone: true,
-  imports: [NavbaradmiComponent,UsuariosComponent],
+  imports: [NavbaradmiComponent,RouterOutlet],
   templateUrl: './dashboardadmin.component.html',
   styleUrl: './dashboardadmin.component.css'
 })
