@@ -635,7 +635,7 @@ const updateUserById = async (req, res) => {
             if (userPassword) {
                 const hashedPassword = await bcrypt.hash(userPassword, 10);
                 updateDataById.userPassword = hashedPassword
-            };
+};
             // Identify changes
             for (let key in updateDataById) {
                 if (originalData[key] !== updateDataById[key]) {
