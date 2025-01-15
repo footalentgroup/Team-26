@@ -35,3 +35,48 @@
     position: absolute;
 
 }
+#clientwo{
+    width: calc(65 * (100vw / 1440));
+    height: calc(20 * (100vh / 1024));
+    color: #AAAAAA;
+    font-size: calc(16 * (100vw / 1440));
+    font-weight: 700;
+    top: calc(66 * (100vh / 1024));
+    left: calc(41 * (100vw / 1440));
+    position: absolute;
+
+}
+#typewo{
+    width: calc(38 * (100vw / 1440));
+    height: calc(20 * (100vh / 1024));
+    color: #AAAAAA;
+    font-size: calc(16 * (100vw / 1440));
+    font-weight: 700;
+    top: calc(66 * (100vh / 1024));
+    left: calc(148 * (100vw / 1440));
+    position: absolute;
+}
+#datewo{
+    width: calc(29 * (100vw / 1440));
+    height: calc(20 * (100vh / 1024));
+    color: #AAAAAA;
+    font-size: calc(16 * (100vw / 1440));
+    font-weight: 700;
+    top: calc(66 * (100vh / 1024));
+    left: calc(228 * (100vw / 1440));
+    position: absolute;
+}
+#hourwo{
+    width: calc(47 * (100vw / 1440));
+    height: calc(20 * (100vh / 1024));
+    color: #AAAAAA;
+    font-size: calc(16 * (100vw / 1440));
+    font-weight: 700;
+    top: calc(66 * (100vh / 1024));
+    left: calc(299 * (100vw / 1440));
+    position: absolute;
+}
+#iconedit{
+    width: calc(24 * (100vw / 1440));
+    height: calc(24 * (100vh / 1024));
+}
