@@ -129,6 +129,7 @@
     left: calc(61 * (100vw / 1440));
     top: calc(250 * (100vh / 1024));
     font-weight: 400 !important;
+    cursor:pointer;
 }
 #icon2{
     width: calc(24 * (100vw / 1440));
@@ -150,6 +151,7 @@
     left: calc(61 * (100vw / 1440));
     top: calc(287 * (100vh / 1024));
     font-weight: 400 !important;
+    cursor:pointer;
 }
 #icon3{
     width: calc(24 * (100vw / 1440));
@@ -254,4 +256,15 @@
     width: calc(24 * (100vw / 1440));
     height: calc(24 * (100vh / 1024));
     margin-right: calc(44 * (100vw / 1440));
+}
+
+/* Estilo para el enlace activo */
+.text.active {
+    font-weight: bold;
+    color: #0056b3; /* Color para el enlace activo */
+}
+
+  /* Opcional: Si deseas que el texto se subraye */
+.text.active {
+    text-decoration: underline;
 }

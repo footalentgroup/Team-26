@@ -10,10 +10,22 @@ dotenv.config();
 const port = process.env.PORT
 const databaseConnect = require('./src/config/db')
 databaseConnect()
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(cors())
+
+
+// Configuración de CORS
+const corsOptions = {
+    origin: 'http://localhost:4200', // Cambia por tu dominio de frontend
+    methods: ['GET', 'POST', 'PUT', 'PATCH','DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type','Authorization' ], // Encabezados personalizados permitidos
+};
+
+  // Middleware de CORS
+app.use(cors(corsOptions));
+
+
+
 app.use('/', api)
 
 app.listen(port, () => {
