@@ -221,6 +221,13 @@ router.patch('/user/:id', validateToken, User.updateUserById)
  *         required: true
  *         description: The user ID
  *         example: 676fcfeec92c407aed2a6dc3
+ *       - in: query
+ *         name: userDeletionCause
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user Deletion Cause
+ *         example: Finalizó pasantia de practica
  *     responses:
  *       200:
  *         description: User deleted successfully
@@ -458,6 +465,48 @@ router.patch('/userconfirm', User.confirmUser);
  */
 
 router.get('/user/:id', validateToken, User.getUserById)
+
+
+// Revisar que confirmen usuario
+/**
+ * @swagger
+ * /userbyconfirmation:
+ *   get:
+ *     summary: Review token by user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The token user received
+ *         example: 676fcfeec92c407aed2a6dc3
+ *     responses:
+ *       200:
+ *         description: User confirm successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": true, "message": "User en confirmacion" }
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "error": "Token inválido o expirado."}
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "Internal server error" }
+ */
+
+router.get('/userbyconfirmation', User.userByTokenConfirmation);
 
 module.exports = router
 

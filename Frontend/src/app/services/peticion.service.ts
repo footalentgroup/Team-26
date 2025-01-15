@@ -46,12 +46,18 @@ public UrlHost:string= 'http://localhost:3001'
     );
   }
 
+
   /* $$$$$$$$$$$$$$$$$$$ FUNCIONES UTILITARIAS $$$$$$$$$$$$$$$$$$$ */
 
   private handleError(error: any): Observable<never> {
     console.error('Ocurrió un error en la petición:', error);
     return throwError(() => new Error(error.message || 'Error en la petición HTTP.'));
+
+  Postwithouttoken(url: string, payload: any) {
+    
+    return this.http.post(url, payload).toPromise();
   }
+
 }
 
 

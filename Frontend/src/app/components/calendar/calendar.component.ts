@@ -1,158 +1,191 @@
-// import { Component } from '@angular/core';
-// import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-// import { ModalVisitComponent } from '../modalvisit/modalvisit.component';
-// import { ClientService } from '../../services/client.service';
-// import { debounceTime, switchMap, catchError } from 'rxjs/operators';
-// import { of } from 'rxjs';
-// import { CommonModule } from '@angular/common';
-
-// @Component({
-//   selector: 'app-calendar',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-//   templateUrl: './calendar.component.html',
-//   styleUrls: ['./calendar.component.css']
-// })
-// export class CalendarComponent {
-//   clientControl = new FormControl('');  // Control para la entrada del cliente
-//   clients: any[] = [];  // Lista de clientes filtrados
-//   private dialogRef!: MatDialogRef<ModalVisitComponent>; 
-
-//   constructor(private dialog: MatDialog, private clientService: ClientService) {
-//     this.listenForClientInput();
-//   }
-
-//   listenForClientInput() {
-//     this.clientControl.valueChanges
-//       .pipe(
-//         debounceTime(300),
-//         switchMap(value =>
-//           value && value.length > 2
-//             ? this.clientService.getClients(value)
-//             : of([])  // Devuelve un arreglo vacío si el input es insuficiente
-//         ),
-//         catchError(err => {
-//           console.error('Error al buscar clientes:', err);
-//           return of([]);  // Manejo de errores, retorna lista vacía
-//         })
-//       )
-//       .subscribe(data => {
-//         this.clients = data || [];
-//       });
-//   }
-
-//   openModal() {
-//     this.dialogRef = this.dialog.open(ModalVisitComponent, {
-//       data: {
-//         action: () => this.customAction(),
-//       },
-//     });
-
-//     this.dialogRef.afterClosed().subscribe(() => {
-//       console.log('El modal se cerró');
-//     });
-//   }
-
-//   updateModalContent(newContent: string) {
-//     if (this.dialogRef) {
-//       this.dialogRef.componentInstance.updateContent(newContent);
-//     }
-//   }
-
-//   customAction() {
-//     this.updateModalContent('¡El contenido ha cambiado después de realizar la acción!');
-//   }
-// }
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalVisitComponent } from '../modalvisit/modalvisit.component';
 import { ClientService } from '../../services/client.service';
-import { debounceTime, switchMap, catchError, distinct, distinctUntilChanged } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { DropdownComponent } from '../dropdown/dropdown.component';
-
-
-
-
+import { ClientOption, DropdownComponent } from '../dropdown/dropdown.component';
+import { TechnicianService } from '../../services/techoptions.service';
+import { FCalendarioComponent } from '../fcalendario/fcalendario.component';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule,DropdownComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DropdownComponent, FCalendarioComponent],
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CalendarComponent {
-  clienttyping:string="";
-  showclients:boolean=false;
-  clients: string[] = [];  // Lista de clientes filtrados
-  private dialogRef!: MatDialogRef<ModalVisitComponent>;
-  private clientSubject=new Subject<string>()
+export class CalendarComponent implements OnInit {
+  currentDate: string = '';  // Variable para almacenar la fecha seleccionada
+  technicians: any[] = [];
+  selectedTechnician: string = '';
+  clienttyping: string = '';
+  showclients: boolean = false;
+  clientData: any = { name: 'Cliente XYZ', address: 'Dirección 123', _id: '' };
+  visitDetails: any = { visitType: '', time: '', technician: '' };
+  clients: ClientOption[] = [];
+  private clientSubject = new Subject<string>();
+  @Output() focused = new EventEmitter<void>();
 
-  constructor(private dialog: MatDialog, private clientService: ClientService) {
-    this.clientSubject.pipe(debounceTime(300),
-    distinctUntilChanged()).
-    subscribe(term=>{
-      this.clientService.getClients(term).subscribe(results =>{
-        this.clients=results.data.map(element=>element.clientCompanyName)
-        this.showclients=true
-      })
-    }) 
+  selectedDate: string = '';
+  selectedTime: string = '';
+  workOrderSupervisor: string = '';
+  private originalData: any;
+
+  constructor(
+    private dialog: MatDialog,
+    private clientService: ClientService,
+    private techoptions: TechnicianService
+  ) {}
+
+  ngOnInit(): void {
+    this.getTechnicians();
+    this.workOrderSupervisor = localStorage.getItem('userId') || '';  // Obtener el ID del supervisor desde localStorage
   }
-  
-  clientChanges(value:string){
-    this.clientSubject.next(value)
-  }
-   
 
-  // selectClient(client: Client) {
-  //   this.clientControl.setValue(client.clientCompanyName);  // Actualiza el campo de entrada con el nombre del cliente
-  //   this.clients = [];  // Opcional: Vaciar la lista de clientes después de seleccionar uno
-  // }
-
-  // listenForClientInput() {
-  //   this.clientControl.valueChanges
-  //     .pipe(
-  //       debounceTime(300),
-  //       switchMap(value =>
-  //         value && value.length > 2
-  //           ? this.clientService.getClients(value)  // Asegúrate que el servicio retorne un Observable<ClientApiResponse>
-  //           : of({ ok: true, message: '', data: [] })  // Devuelve un objeto vacío si el input es demasiado corto
-  //       ),
-  //       catchError(err => {
-  //         console.error('Error al buscar clientes:', err);
-  //         return of({ ok: false, message: 'Error', data: [] });  // En caso de error, retornamos un objeto con lista vacía
-  //       })
-  //     )
-  //     .subscribe((response: ClientApiResponse) => {
-  //       console.log('Clientes obtenidos desde el servicio:', response);
-  //       this.clients = response.data || [];  // Asignamos los clientes desde la propiedad 'data' de la respuesta
-  //     });
-  // }
-  
-
-  openModal() {
-    this.dialogRef = this.dialog.open(ModalVisitComponent, {
-      data: {
-        action: () => this.customAction(), // Acción personalizada para el modal
+  getTechnicians(): void {
+    this.techoptions.getUsersByRole('technician').subscribe({
+      next: (data) => {
+        this.technicians = data.filter(user => user.userIsActive);
+        console.log('Técnicos activos:', this.technicians);
       },
+      error: (error) => {
+        console.error('Error al obtener los técnicos:', error);
+      }
     });
+    this.handleClientSearch();
+  }
 
-    this.dialogRef.afterClosed().subscribe(() => {
-      console.log('El modal se cerró');
+  handleClientSearch(): void {
+    this.clientSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+    ).subscribe(term => {
+      this.clientService.getClients(term).subscribe({
+        next: (results) => {
+          this.clients = results.data.map(element => ({
+            clientName: element.clientCompanyName,
+            Address: element.clientAddress,
+            _id: element._id,
+            clientContactPerson: element.clientContactPerson || '',
+            clientEmail: element.clientEmail || '',
+            clientPhone: element.clientPhone || '',
+            clientGeoLocation: element.clientGeoLocation || { type: 'Point', coordinates: [] }
+          }));
+          this.showclients = true;
+        },
+        error: (error) => {
+          console.error('Error fetching clients:', error);
+          this.showclients = false;
+        }
+      });
     });
   }
 
-  updateModalContent(newContent: string) {
-    if (this.dialogRef) {
-      this.dialogRef.componentInstance.updateContent(newContent);  // Actualiza el contenido del modal
+  handleClientSelection(client: ClientOption): void {
+    console.log('Datos del cliente:', client);
+    this.clientData = {
+      name: client.clientName,
+      address: client.Address,
+      _id: client._id,
+      clientContactPerson: client.clientContactPerson,
+      clientEmail: client.clientEmail,
+      clientPhone: client.clientPhone,
+      clientGeoLocation: client.clientGeoLocation,
+    };
+    this.clienttyping = client.clientName;
+  }
+
+  clientChanges(value: string): void {
+    this.clientSubject.next(value);
+  }
+
+  onInputFocus(): void {
+    this.showclients = true;
+    this.focused.emit();
+    if (!this.clienttyping) {
+      this.clientSubject.next('');
     }
   }
 
-  customAction() {
-    this.updateModalContent('¡El contenido ha cambiado después de realizar la acción!');  // Acción personalizada que se realiza
+  onTechnicianSelected(): void {
+    const selectedTech = this.technicians.find(tech => tech._id === this.selectedTechnician);
+    if (selectedTech) {
+      this.visitDetails.technician = selectedTech.userFullName;
+    }
+  }
+
+  onDateSelected(date: string): void {
+    this.selectedDate = date;
+  }
+
+  onTimeSelected(time: string): void {
+    this.selectedTime = time;
+  }
+
+  openModal(): void {
+    if (!this.selectedDate || !this.selectedTime || !this.clientData._id || !this.selectedTechnician) {
+      console.error('Faltan datos necesarios: fecha, hora, cliente o técnico.');
+      return;
+    }
+
+    const workOrderScheduledDate = `${this.selectedDate}T${this.selectedTime}:00.000+00:00`;
+
+    const workOrder = {
+      workOrderSupervisor: this.workOrderSupervisor,
+      clientId: this.clientData._id,
+      workOrderDescription: 'Solicitud del cliente',
+      serviceType: this.visitDetails.visitType,
+      workOrderScheduledDate: workOrderScheduledDate,
+      workOrderAssignedTechnician: this.selectedTechnician,
+      workOrderLocation: {
+        type: 'Point',
+        coordinates: this.clientData.clientGeoLocation?.coordinates || []
+      },
+      workOrderClientContactPerson: this.clientData.clientContactPerson,
+      workOrderclientEmail: this.clientData.clientEmail,
+      workOrderAddress: this.clientData.address
+    };
+
+    this.originalData = {
+      clientData: { ...this.clientData },
+      visitDetails: { ...this.visitDetails },
+      selectedDate: this.selectedDate,
+      selectedTime: this.selectedTime,
+      selectedTechnician: this.selectedTechnician
+    };
+
+    const dialogRef = this.dialog.open(ModalVisitComponent, {
+      data: {
+        clientData: this.clientData,
+        visitDetails: this.visitDetails,
+        selectedTime: this.selectedTime,
+        workOrder: workOrder,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Si el resultado es 'edit', significa que se desea conservar los cambios
+      if (result == 'edit') {
+        // Los datos no se restablecen, se mantienen como están
+        console.log('Datos editados con éxito');
+      } else {
+        // Restablecer los valores a los datos originales si no se editó
+        this.resetForm();
+      }
+    });
+    
+  }
+
+  resetForm(): void {
+    console.log("datos vacios")
+    this.clienttyping = "";
+    this.visitDetails = { visitType: "", time: "", technician: "" };
+    this.selectedDate = "";
+    this.selectedTime = "";
+    this.selectedTechnician = "";
   }
 }

@@ -1,9 +1,9 @@
 <div class="ce-wrapper">
     <div class="ce-parent">
-      <input type="text" name="ce-text" [(ngModel)]="value">
+      <input type="text" name="ce-text" [(ngModel)]="value" placeholder="Numero/Nombre del cliente">
       <div class="ce-options" [class.show]="show">
         <ul>
-            <li *ngFor="let option of options">{{option}}</li>
+            <li *ngFor="let option of options" (click)="selectOption(option)">{{option.clientName}}</li>
         </ul>
       </div>
     </div>

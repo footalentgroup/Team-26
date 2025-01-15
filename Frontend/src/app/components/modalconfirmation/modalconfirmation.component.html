@@ -1,0 +1,28 @@
+
+<div class="modaldimension">
+    <div class="ttmodal text">
+      <div id="line1">¡Visita agendada con exito!</div>
+      <div id="line3">Los datos ingresados son los siguientes:</div>
+    </div>
+  
+    <div class="text" id="info">
+      <!-- Mostramos los datos del cliente y la visita usando data desde el componente ModalVisitComponent -->
+      <div class="text" id="client">Cliente: {{ data.clientData?.name }}</div>
+      <div class="text" id="ubication">Dirección: {{ data.clientData?.address }}</div>
+      <div class="text" id="visitopt">Tipo de instalación: {{ data.visitDetails?.visitType }}</div>
+      <div class="text" id="hour">Horario: {{ data.selectedTime }}</div>
+      <div class="text" id="tech">Técnico asignado: {{ data.visitDetails?.technician }}</div>
+    </div>
+  
+    <!-- Botones para editar o agendar -->
+
+
+  
+    <!-- Icono para cerrar el modal -->
+    <div (click)="onClose()">
+        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M28.5 9.5L9.5 28.5M28.5 28.5L9.5 9.5" stroke="#00254B" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            
+    </div>
+  </div>

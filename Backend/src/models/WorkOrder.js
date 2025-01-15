@@ -58,6 +58,9 @@ const workOrderSchema = new mongoose.Schema({
         required: false,
         default: null
     },
+    workOrderReasonRejection: {
+        type: String
+    },
     workOrderAddress: {
         type: String,
     },
@@ -220,6 +223,20 @@ workOrderSchema.post('save', async function (doc, next) {
         }));
 
         await WorkOrderTask.insertMany(tasks);
+    }
+    next();
+});
+
+workOrderSchema.pre('save', async function (next) {
+    if (this.isModified('workOrderStatus') && this.workOrderStatus === 'Under Review') {
+        const WorkOrderTask = mongoose.model('WorkOrderTask');
+        const tasks = await WorkOrderTask.find({ workOrderId: this._id });
+
+        const allTasksCompleted = tasks.every(task => task.workOrderTaskStatus === 'Completed');
+        if (!allTasksCompleted) {
+            const error = new Error('All tasks must be completed before setting the work order status to Under Review.');
+            return next(error);
+        }
     }
     next();
 });

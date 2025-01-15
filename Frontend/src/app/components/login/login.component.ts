@@ -79,11 +79,19 @@ export class LoginComponent {
       password: this.password
     };
 
+
     console.log("Información enviada al backend:", payload);
+
+    console.log("this.peticion")
+    this.peticion.Postwithouttoken(data.host + data.path, data.payload).then((res: any) => {
+      console.log("this.peticion2")
+      console.log("Respuesta del servidor:", res);
+
 
     this.peticion.Postwithouttoken(url, payload).subscribe({
       next: (res: any) => {
         console.log("Respuesta del servidor:", res);
+
 
         if (!res.ok) {
           this.msg.Load("danger", res.msg || "Error en el login");
@@ -91,6 +99,9 @@ export class LoginComponent {
         }
 
         this.msg.Load("dark", res.msg || "Bienvenido");
+
+      this.msg.Load("dark", res.msg || "Bienvenido");
+
 
         localStorage.setItem("token", res.token);
         localStorage.setItem("userId", res.userId);

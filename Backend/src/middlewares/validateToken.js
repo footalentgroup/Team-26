@@ -7,10 +7,6 @@ const validateToken = async (req, res, next) => {
     //signo ? indica que si trae informacion ejecuta el split 
     const token = req.header('Authorization')?.split(' ')[1]
     try {
-         // Omite la validación del token para el endpoint de login
-        if (req.path === '/api/userlogin') {
-            return next(); // Continúa sin validar el token
-        }
         //codigo 401 es un error de no autorizado
         if (!token) return res.status(401).json({
             ok: false,
@@ -19,14 +15,11 @@ const validateToken = async (req, res, next) => {
         //trae la variable de la llave secreta
         const secret = process.env.SECRET_KEY
         const decoded = jwt.verify(token, secret)
-        // console.log(`token es:${token} y el decoded es:${decoded}`)
 
         // Buscar al usuario por email
         req.user = decoded
         const { userData } = decoded
         const userValidate = await User.findById(userData);
-        // console.log(`token es:${token} y el decoded es:${decoded}, userData: ${userData}, Userfind: ${userValidate}`)
-        console.log(`token es:${token} y el decoded es:${decoded}`)
         if (!userValidate){
             return res.status(404).json({
                 ok: false,
@@ -47,11 +40,6 @@ const validateToken = async (req, res, next) => {
             })
     
         }
-        //validar que el usuario que pide la peticion es el mismo del token
-        // req.user = decoded
-        // console.log(`token es:${token} y el decoded es:${decoded}`)
-        // console.log(decoded)
-
         //continue con el flujo
         next()
     } catch (error) {

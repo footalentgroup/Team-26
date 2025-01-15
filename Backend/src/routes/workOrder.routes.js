@@ -84,9 +84,95 @@ router.delete('/workorder/:id', validateToken, workOrderController.deleteWorkOrd
 
 router.get('/workorderbyclient/:id', validateToken, workOrderController.getAllWorkOrdersByClient);
 
-// getAllWorkOrdersByClient,
 // getAllWorkOrdersByTechnician,
 router.get('/workorderreport/:id', validateToken, workOrderController.getReportWorkOrder);
 
+
+/**
+ * @swagger
+ * /workorderupdatestatus/{id}:
+ *   patch:
+ *     summary: Update the status of a work order
+ *     tags: [WorkOrders]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The work order ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *               type: object
+ *               example: { "workOrderReasonRejection": "Falta evidencia de trabajo Nro. 2" }
+ *     responses:
+ *       200:
+ *         description: Work order status updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": true, "message": "Work order status updated successfully" }
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Work order not found
+ *       500:
+ *         description: Internal server error
+ *     security:
+ *       - BearerAuth: []
+ */
+router.patch('/workorderupdatestatus/:id', validateToken, workOrderController.updateWorkOrderStatus);
+
+/**
+ * @swagger
+ * /workordersreject:
+ *   get:
+ *     summary: Retrieve a list of work orders with rejection
+ *     tags: [WorkOrders]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of work orders with rejection
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               example: [] 
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/workordersreject', validateToken, workOrderController.getAllWorkOrdersWithRejection);
+
+/**
+ * @swagger
+ * /workorderstoapprove:
+ *   get:
+ *     summary: Retrieve a list of work orders pending approval
+ *     tags: [WorkOrders]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of work orders pending approval
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               example: []
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/workorderstoapprove', validateToken, workOrderController.getAllWorkOrdersPendingToApprove);
 
 module.exports = router;
