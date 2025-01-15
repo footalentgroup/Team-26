@@ -305,6 +305,7 @@ button.submit-button:hover {
 .btn-eliminar svg {
     width: calc(20 * (100vw / 1440));
     height:calc(20 * (100vw / 1024));
+
     stroke: #00254B;
     transition: stroke 0.3s ease;
 }
@@ -418,7 +419,6 @@ button.submit-button:hover {
         margin-top: 0;
         margin-bottom: calc(10 * (100vh / 768));
 }
-
     .submit-button {
         width: calc(150 * (100vw / 1368)); /* Ajusta el tamaño del botón */
         font-size:  calc(14 * (100vw / 1368));
