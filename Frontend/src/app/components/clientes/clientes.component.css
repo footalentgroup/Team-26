@@ -264,7 +264,7 @@ button.submit-button:hover {
     border: none;
     cursor: pointer;
     padding: 0;
-    margin-left: calc(40 * (100vw / 1440));
+    margin-left: calc(10 * (100vw / 1440));
     margin-right: calc(60 * (100vw / 1440));
 }
 

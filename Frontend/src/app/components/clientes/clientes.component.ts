@@ -25,7 +25,7 @@ export class ClientesComponent {
   mostrarModal: boolean = false;
   esEditar: boolean = false;
   modalTitle: string = "Nuevo cliente";
-  currentStep: 'crear' | 'confirmar' | 'exito' = 'crear';
+  currentStep: 'crear' | 'confirmar' | 'exito' | 'darDeBaja' | 'motivoDeBaja' | 'exitoBaja' | null = null;
 
   datos: any[] = [];
   Nombre: string = "";
@@ -59,18 +59,19 @@ export class ClientesComponent {
     if (this.currentStep === 'crear') {
       this.currentStep = 'confirmar';
     } else if (this.currentStep === 'confirmar') {
-      if (this.esEditar) {
-        this.guardarCambios();
-      }else {
-        console.log("entro aqui al llamdo a la funcion guardar");
-        this.guardarCliente();
-      }
-    } else if (this.currentStep === 'exito') {
+        if (this.esEditar) {
+          this.guardarCambios();
+        }else {
+          console.log("entro aqui al llamdo a la funcion guardar");
+          this.guardarCliente();
+        }
+    } else if (this.currentStep === 'darDeBaja') {
+      this.eliminarBaja(this.idseleccionado);
+    } else if (this.currentStep === 'exito' || this.currentStep === 'exitoBaja') {
       this.cargarDatos();
       this.cerrarModal();
     }
   }
-
 /*$$$$$$$$$$$$$$$$$$ FUNCION PARA GUARDAR UN NUEVO CLIENT $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
   guardarCliente() {
@@ -156,27 +157,38 @@ export class ClientesComponent {
       }
     });
   }
-}
-    /*$$$$$$$$$$$$$$$$$$ FUNCION PARA ELIMINAR UN USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+  /*$$$$$$$$$$$$$$$$$$ FUNCION PARA ELIMINAR UN USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
-//   Eliminar(id: string) {
-//     const data = { _id: id }; // Construir el cuerpo de la solicitud con el ID del cliente
-  
-//     this.clienteServices.deleteClient(data).subscribe({
-//       next: (res: any) => {
-//         console.log(res);
-//         if (!res.state) {
-//           this.msg.Load("danger", res.mensaje); // Mostrar mensaje de error
-//         } else {
-//           this.msg.Load("dark", res.mensaje); // Mostrar mensaje de éxito
-//           this.cargarDatos(); // Recargar los datos
-//           $('#exampleModal').modal('hide'); // Cerrar el modal
-//         }
-//       },
-//       error: (error) => {
-//         console.error("Error al eliminar cliente:", error);
-//         this.msg.Load('danger', 'Error en el servidor. Intente nuevamente.');
-//       }
-//     });
-//   }
-// }
+  EliminarM(id: string) {
+    console.log("Dar de baja usuario con ID:", id);
+    
+    const clientes = this.datos.find((item) => item._id === id);
+
+    this.Nombre= clientes.clientCompanyName,
+    this.Responsable=clientes.clientContactPerson,
+    this.modalTitle = "Dar de Baja";
+    this.mostrarModal = true;
+    this.currentStep = 'darDeBaja';
+    this.idseleccionado = id;
+  }
+  eliminarBaja(id: string) {
+    console.log("eliminar cliente con:", id);
+    
+    this.clienteServices.deleteClient(id).subscribe({
+      next: (res: any) => {
+        console.log("Usuario eliminado:", res);
+        this.msg.Load("success", "Usuario eliminado correctamente.");
+        this.cargarDatos();
+        this.cerrarModal();
+      },
+      error: (error) => {
+        console.error("Error al eliminar usuario:", error);
+        this.msg.Load("danger", "Error en el servidor. Intente nuevamente.");
+      }
+    });
+}
+
+}
+    
+
+

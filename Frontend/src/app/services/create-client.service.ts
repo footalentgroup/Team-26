@@ -56,11 +56,8 @@ export class CreateClientService {
   }
 
    // Método para eliminar un usuario
-  deleteClient(data:any): Observable<any> {
-    
-    const Url = `${this.apiUrl}/${data}`; // Construye la URL completa
-
-
+  deleteClient(userId: string): Observable<any> {
+    const Url = `${this.apiUrl}/${userId}`; // Construye la URL completa
     return this.http.delete(Url, { headers:this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
