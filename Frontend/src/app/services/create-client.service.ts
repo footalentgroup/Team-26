@@ -8,7 +8,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class CreateClientService {
 
- private apiUrl = 'http://localhost:3001/api/client'; // URL base para las operaciones relacionadas con usuarios
+ private apiUrl = 'https://ftg-team-26-backend-preview.vercel.app/api/client'; // URL base para las operaciones relacionadas con usuarios
 
   constructor(private http: HttpClient, private router: Router) {}
 

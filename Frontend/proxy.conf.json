@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "http://localhost:3001",  
+        "target": "https://ftg-team-26-backend-preview.vercel.app",  
         "secure": false,                   
         "changeOrigin": true                
     }
