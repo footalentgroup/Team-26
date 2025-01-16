@@ -1,5 +1,4 @@
-<div style="border: 2px solid #E5E7EB; border-radius: 10px; padding: 16px; background-color: #1E1E1E; color: white; text-align: center;>
-  
+
 # Bienvenido a Proyecto gestION
 
 <div style="border: 2px solid #E5E7EB; border-radius: 10px; padding: 16px; background-color: #1E1E1E; color: white; text-align: center;">
@@ -75,12 +74,31 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 | Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
 |-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
 | Brian Azambuja    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Emilia Faure      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Natalia Quevedo   | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
 
 ### ⚛️ FullStack (Front-end, back-end)
 
 | Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
 |-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
 | Juan Rodriguez    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Enrique Avendaño  | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Ricardo Ortega    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Diego Poveda      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+
+### 📊 QA
+
+| Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
+|-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| Diana Alcaraz     | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Gabriela Pardo    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Paula Aballay     | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+
+### 🧩 Analisis Funcional
+
+| Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
+|-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| Manuel López      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
 
 </div>
 
@@ -113,4 +131,4 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 | <img src="https://i.imgur.com/uxlMDZT.png" alt="SUPERVISOR" width="400">            | <img src="https://i.imgur.com/rlttrYb.png" alt="ACTIVACIONCUENTA" width="400">       |
 
 </div>
-</div>
+
