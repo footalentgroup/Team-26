@@ -12,7 +12,7 @@
     width: calc(347 * (100vw / 1440));
     height: calc(20 * (100vh / 1024)); 
     font-size:calc(20 * (100vw / 1440)) ;
-    color: #b5c1cc;
+    color: #00254B;
     font-weight: 600;
     left: calc(500 * (100vw / 1440));
     top: calc(30 * (100vh / 1024));

@@ -19,7 +19,6 @@ import { ModalVisitComponent } from './components/modalvisit/modalvisit.componen
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { ClientesComponent } from './components/clientes/clientes.component';
-import { ScreenEditarComponent } from './components/screen-editar/screen-editar.component';
 import { FCalendarioComponent } from './components/fcalendario/fcalendario.component';
 import { LoadingSpinerComponent } from './components/loadingspiner/loadingspiner.component';
 import { ConfirmationModalComponent } from './components/modalconfirmation/modalconfirmation.component';
@@ -48,7 +47,6 @@ export const routes: Routes = [
 
 
     {path:"usuarios",component:UsuariosComponent,pathMatch:"full"},
-    {path:"screenEditar",component:ScreenEditarComponent,pathMatch:"full"},
     {path:"loadingspiner",component:LoadingSpinerComponent,pathMatch:"full"},
     {path:"modalconfirmation",component:ConfirmationModalComponent,pathMatch:"full"},
 

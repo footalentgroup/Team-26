@@ -62,15 +62,6 @@ export class ModalVisitComponent {
         // Cierra el spinner si hay un error
         spinnerRef.close();
         
-        // Abre el modal de confirmación con un mensaje de error
-        this.dialog.open(ConfirmationModalComponent, {
-          data: {
-            message: 'Hubo un error al crear la orden de trabajo. Inténtalo nuevamente.',
-            clientData: this.clientData,
-            visitDetails: this.visitDetails,
-            selectedTime: this.data.selectedTime,
-          }
-        });
       }
     });
   }
