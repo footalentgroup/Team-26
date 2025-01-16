@@ -11,7 +11,7 @@ const getAllWorkOrders = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['supervisor', 'technician'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({
@@ -43,7 +43,7 @@ const getWorkOrderById = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['supervisor', 'technician'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({
@@ -67,7 +67,7 @@ const createWorkOrder = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['supervisor'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({
@@ -139,7 +139,7 @@ const deleteWorkOrder = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['supervisor'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({
@@ -163,7 +163,7 @@ const getAllWorkOrdersByClient = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['supervisor'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({
@@ -184,7 +184,7 @@ const getAllWorkOrdersByTechnician = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['supervisor', 'technician'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({
@@ -211,7 +211,7 @@ const getReportWorkOrder = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['supervisor', 'technician'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({
@@ -274,7 +274,7 @@ const updateWorkOrderStatus = async (req, res) => {
         const token = req.header('Authorization')?.split(' ')[1];
         const secret = process.env.SECRET_KEY;
         const decoded = jwt.verify(token, secret);
-        const userDataToken = await User.findById(decoded.workOrderData);
+        const userDataToken = await User.findById(decoded.userData);
         const validRoles = ['supervisor', 'technician'];
         if (!validRoles.includes(userDataToken.userRole)) {
             return res.status(400).json({
@@ -371,7 +371,7 @@ const getAllWorkOrdersWithRejection = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['technician'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({
@@ -396,7 +396,7 @@ const getAllWorkOrdersPendingToApprove = async (req, res) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
-    const userDataToken = await User.findById(decoded.workOrderData);
+    const userDataToken = await User.findById(decoded.userData);
     const validRoles = ['supervisor'];
     if (!validRoles.includes(userDataToken.userRole)) {
         return res.status(400).json({

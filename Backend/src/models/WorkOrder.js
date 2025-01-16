@@ -94,11 +94,15 @@ workOrderSchema.pre('save', async function (next) {
         const Client = mongoose.model('Client');
         const client = await Client.findById(this.clientId);
         if (client) {
+            if(client.clientContactPersonPhone){
             this.workOrderClientPhone = client.clientContactPersonPhone;
+            }
             this.workOrderClientContactPerson = client.clientContactPerson;
             this.workOrderclientEmail = client.clientEmail;
-            this.workOrderLocation = client.clientGeoLocation;
-            this.workOrderAddress = client.clientAddress;
+            if (client.clientGeoLocation){
+                this.workOrderLocation = client.clientGeoLocation;
+            }
+            this.workOrderAddress = client.clientAddress || 'sin información';
         } else {
             const error = new Error('Client not found.');
             return next(error);

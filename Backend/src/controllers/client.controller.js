@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const Client = require("../models/Client");
+const WorkOrder = require("../models/WorkOrder");
 const AuditLogController = require('../controllers/auditLog.controller'); // Audit controller
 
 const escapeRegex = (text) => {
@@ -59,6 +60,7 @@ const updateClientById = async (req, res) => {
     const { id } = req.params;
     const { clientCompanyName, clientContactPerson, clientEmail, clientPhone, clientAddress } = req.body;
     let hasChanges = false;
+    const changes = {};
     try {
         const updateDataById = {};
         if (clientCompanyName) updateDataById.clientCompanyName = clientCompanyName;
@@ -66,7 +68,7 @@ const updateClientById = async (req, res) => {
         if (clientEmail) updateDataById.clientEmail = clientEmail;
         if (clientPhone) updateDataById.clientPhone = clientPhone;
         if (clientAddress) updateDataById.clientAddress = clientAddress;
-        const originalData = await Client.findById(id).lean();
+        const originalData = await Client.findById(id);
         if (!originalData)
             return res.status(400).json({
                 ok: false,
@@ -74,7 +76,6 @@ const updateClientById = async (req, res) => {
             })
         if (originalData) {
             // Identify changes
-            const changes = {};
             for (let key in updateDataById) {
                 if (originalData[key] !== updateDataById[key]) {
                     hasChanges = true;
@@ -96,10 +97,12 @@ const updateClientById = async (req, res) => {
         // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'UPDATE', client._id, { updateRecord: changes });
 
+        const clientUpdated = await Client.findById(id);
+        
         return res.status(200).json({
             ok: true,
             message: 'Cliente actualizado',
-            data: client
+            data: clientUpdated
         })
     } catch (error) {
         console.log(error)
@@ -226,7 +229,16 @@ const searchClients = async (req, res) => {
 const deleteClientById = async (req, res) => {
     const { id } = req.params;
     try {
-        const client = await Client.findByIdAndDelete(id)
+        // Check if the client has any associated work orders
+        const hasWorkOrders = await WorkOrder.exists({ clientId: id });
+        if (hasWorkOrders) {
+            return res.status(400).json({
+            ok: false,
+            message: 'No se puede eliminar el cliente, tiene órdenes de trabajo asociadas'
+            });
+        }
+
+        const client = await Client.findByIdAndDelete(id);
         if (!client)
             return res.status(400).json({
                 ok: false,
