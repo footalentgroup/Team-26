@@ -1,5 +1,6 @@
 <div align="center">
-  # Bienvenido a Proyecto gestION
+   
+  <h1 style="font-size: 3.5em;">Bienvenido a Proyecto gestION</h1>
   
   <div style="border: 2px solid #E5E7EB; border-radius: 10px; padding: 16px; background-color: #1E1E1E; color: white; text-align: center;">
   
