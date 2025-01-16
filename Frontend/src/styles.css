@@ -17,7 +17,7 @@
     top: calc(50 * (100vh / 1024));
 }
 .seccion-izquierda {
-    background-color: #003350;
+    background-color: #00254B;
     color: #ffffff;
     width: 50vw;
     display: flex;

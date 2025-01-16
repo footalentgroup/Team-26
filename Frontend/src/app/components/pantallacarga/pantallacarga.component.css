@@ -3,12 +3,12 @@
     display: flex;
     width: 100vw;
     height: 100vh;
-    font-family: 'Poppins', sans-serif;
+    
 }
 
 /* Sección Izquierda */
 .seccion-izquierda-carga {
-    background-color: #003350; 
+    background-color: #00254B; 
     color: white; 
     width: 50%; 
     display: flex;
