@@ -111,7 +111,7 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 ## 🔗 Enlaces Importantes
 
 - 🚀 **Despliegue del Frontend**  
-  El frontend está desplegado y disponible en [Firebase](https://appgestion-team26n.web).
+  El frontend está desplegado y disponible en [Firebase](https://appgestion-team26n.web.app/).
 
 - 📄 **Swagger del Backend**  
   Accede a la documentación de la API del backend a través de [Swagger](https://ftg-team-26-backend-preview.vercel.app/redoc).
