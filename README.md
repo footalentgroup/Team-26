@@ -4,7 +4,7 @@
 <div style="border: 2px solid #E5E7EB; border-radius: 10px; padding: 16px; background-color: #1E1E1E; color: white; text-align: center;">
 
 <p align="center">
-  <img src="https://i.imgur.com/422lARD.png" alt="gestION Logo" width="150" style="border-radius: 20px;">
+  <img src="https://i.imgur.com/KYlj7dG.png" alt="gestION Logo" width="150" style="border-radius: 20px;">
 </p>
 <p>Facilitando la gestión de tareas y optimizando el flujo de trabajo en tu equipo.</p>
 
@@ -81,7 +81,7 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 
 | Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
 |-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-| Juan Rodriguez    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Juan Rodriguez    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/JuanCa291994)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/juan-camilo-rodriguez-desarrolladorweb/)   |
 | Enrique Avendaño  | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
 | Ricardo Ortega    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
 | Diego Poveda      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
