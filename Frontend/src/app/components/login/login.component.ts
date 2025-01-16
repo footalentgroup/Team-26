@@ -27,7 +27,8 @@ export class LoginComponent {
   /*$$$$$$$$$$$$$$$$$$FUNCION PARA ACTUALIZAR TITULO EN PAGINA $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
   updateTitle() {
     if (this.email) {
-      this.title = `Bienvenido`;
+      const name = this.email.split('@')[0];
+      this.title = `Bienvenido, ${name}`;
     } else {
       this.title = "Ingresa para comenzar";
     }
