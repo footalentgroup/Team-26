@@ -61,7 +61,7 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 
 <div style="border: 2px solid #E5E7EB; border-radius: 10px; padding: 16px; background-color: #1E1E1E; color: white;">
 
-## 👥 Equipo
+## 🧑‍🤝‍🧑 Equipo
 
 ### 📝 Project Manager
 
