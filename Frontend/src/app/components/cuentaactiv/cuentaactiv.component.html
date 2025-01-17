@@ -1,0 +1,72 @@
+<div class="container-login">
+    <div class="seccion-izquierda">
+        <div>
+            <img class="logo-inicio" src="/assets/logo2.png" alt="Logo">
+            <h1>Cuenta activada</h1>
+        </div>
+        <p class="text-footer">gestiON - 2025 | Versión 1.0.7</p>
+    </div>
+    <div class="seccion-derecha">
+        <div class="form-container">
+            <form (ngSubmit)="Confirm()">
+                <div class="form-group">
+                    <label for="password">Ingresá la contraseña que recibiste por correo</label>
+                    <div class="password-wrapper">
+                            <input  [type]="showPassword1 ? 'text' : 'password'" id="password1" [(ngModel)]="password" name="password">
+                        <span class="toggle-password" (click)="togglePasswordVisibility(1)">
+                            <img src="/assets/Eye-close.png" alt="Mostrar contraseña" *ngIf="!showPassword1"/>
+                            <img src="/assets/Eye-Open.png" alt="Ocultar contraseña" *ngIf="showPassword1"/>
+                        </span>
+                    </div>
+                    <label for="password" class="textlb" id="textini">Ingresá la contraseña que vas a usar para ingresar al sistema.</label>
+                </div>
+
+                <div class="form-group password-container">
+                    <label for="newpassword">Ingresá tu nueva contraseña</label>
+                    <div class="password-wrapper">
+                        <input  [type]="showPassword2 ? 'text' : 'password'" id="password2" [(ngModel)]="newpassword" name="newpassword">
+                        <span class="toggle-password" (click)="togglePasswordVisibility(2)">
+                            <img src="/assets/Eye-close.png" alt="Mostrar contraseña" *ngIf="!showPassword2"/>
+                            <img src="/assets/Eye-Open.png" alt="Ocultar contraseña" *ngIf="showPassword2"/>
+                        </span>
+                    </div>
+                    <label for="newpassword" class="textlb">La contraseña debe ser mayor a 3 caracteres y menor a 30 caracteres.</label>
+                </div>
+                <div class="form-group password-container">
+                    <label for="confipassword">Confirmar contraseña</label>
+                    <div class="password-wrapper">
+                        <input [type]="showPassword3 ? 'text' : 'password'" id="password3" [(ngModel)]="confipassword" name="confipassword">
+                        <span class="toggle-password" (click)="togglePasswordVisibility(3)">
+                            <img src="/assets/Eye-close.png" alt="Mostrar contraseña" *ngIf="!showPassword3"/>
+                            <img src="/assets/Eye-Open.png" alt="Ocultar contraseña" *ngIf="showPassword3"/>
+                        </span>
+                    </div>
+                    <label for="confipassword" class="textlb">Volve a ingresar tu contraseña.</label>
+                </div>
+                <button type="submit" class="boton-inicio">CONFIRMAR</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="mostrarModal" class="modaluser">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Contraseña actualizada</h2>
+        </div>
+    <div class="modal-body">
+        <div>
+            <h2>Tu contraseña fue actualizada.</h2>
+            <p>Ya podés ingresar.</p>
+        </div>
+        <div class="button-container">
+            <button type="button" class="submit-button"(click)="redirectToLogin()">
+                INGRESAR
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+
+

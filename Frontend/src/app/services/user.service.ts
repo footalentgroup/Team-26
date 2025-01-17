@@ -54,6 +54,13 @@ export class UserService {
       catchError(this.handleError)
     );
   }
+   // Método para confirmar usuario y actualizar contraseña
+  confirmUser(token: string, oldPassword: string, Password: string ): Observable<any> {
+    const url = `${this.apiUrl}/userconfirm?token=${token}&password=${Password}&email=${oldPassword}`;
+    return this.http.patch(url, {}, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   // Método para eliminar un usuario
   deleteUser(url: string): Observable<any> {

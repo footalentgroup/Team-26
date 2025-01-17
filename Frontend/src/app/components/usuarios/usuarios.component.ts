@@ -86,13 +86,21 @@ export class UsuariosComponent {
   guardarUsuario() {
     console.log("impresion de la variable nombre",this.nombre)
     const nombreParts = this.nombre.trim().split(' ');
+
+    // Obtener el año actual
+    const currentYear = new Date().getFullYear();
+
+    // Generar el password concatenando userName y el año de creación
+    const userName = nombreParts[0]; // Primer nombre del usuario
+    const userPassword = `${userName}${currentYear}`; // Generar el password
+    
     const payload = {
-      userName: nombreParts[0],
+      userName: userName,
       userLastName: nombreParts.slice(1).join(' '),
       userEmail: this.Email,
       userRole: this.Role,
       userPhone: this.Telefono,
-      userPassword:"112343243J"
+      userPassword:userPassword,
     };
 
     console.log("Datos enviados al backend:", payload);

@@ -52,12 +52,6 @@ public UrlHost:string= 'https://ftg-team-26-backend-preview.vercel.app'
   private handleError(error: any): Observable<never> {
     console.error('Ocurrió un error en la petición:', error);
     return throwError(() => new Error(error.message || 'Error en la petición HTTP.'));
-
-  // this.Postwithouttoken(url: string, payload: any) {
-    
-  //   return this.http.post(url, payload).toPromise();
-  // }
-
 }
 }
 
