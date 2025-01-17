@@ -68,6 +68,6 @@ body { margin: 0; font-family: 'Poppins', sans-serif; }
   }
   
   .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
-    min-height: .01em !important;
+    min-height: 0.01em !important;
     position: relative;
   }

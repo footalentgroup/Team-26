@@ -1,7 +1,10 @@
 <div id="calendar">
     <div class="text" id="ttagendar">Agendar visita</div>
     <div>
-      <fcalendario (selectedDateChange)="onDateSelected($event)" [currentDate]="currentDate"></fcalendario>
+      <div>
+        <!-- Componente FCalendario con escucha de fecha seleccionada y reset -->
+        <fcalendario #calendarComponent (selectedDateChange)="onDateSelected($event)"></fcalendario>
+      </div>
 
 
       

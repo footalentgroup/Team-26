@@ -162,3 +162,6 @@
     right: calc(12 * (100vw / 1440));
     position: absolute;
 }
+.bold{
+    font-weight: 700;
+}

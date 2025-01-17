@@ -3,19 +3,19 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction'; 
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'fcalendario',
   standalone: true,
   templateUrl: './fcalendario.component.html',
   styleUrls: ['./fcalendario.component.css'],
-  imports: [FullCalendarModule],
+  imports: [FullCalendarModule, CommonModule],
 })
 export class FCalendarioComponent {
-  @Input() currentDate: string="";
+  @Input() currentDate: string = ''; // Recibe la fecha desde el componente padre
   @Output() selectedDateChange = new EventEmitter<string>(); // Emisor para enviar la fecha al componente principal
 
-  // currentDate: string = ''; // Variable para almacenar la fecha seleccionada
   selectedDate: string = ''; // Variable para almacenar la fecha seleccionada del calendario en formato 'YYYY-MM-DD'
   formattedDate: string = ''; // Variable para almacenar la fecha formateada
 
@@ -48,7 +48,7 @@ export class FCalendarioComponent {
   }
 
   // Función para formatear la fecha seleccionada
-  formatDate() {
+  formatDate(): void {
     if (this.selectedDate) {
       const [year, month, day] = this.selectedDate.split('-');
       const date = new Date(+year, +month - 1, +day); 
@@ -66,9 +66,13 @@ export class FCalendarioComponent {
       };
 
       this.formattedDate = formatDate(date); 
-      
       this.currentDate = this.formattedDate; // Actualizar la fecha mostrada
-
     }
   }
+
+  resetCalendar(): void {
+    this.selectedDate = '';
+    this.formattedDate = '';
+  }
 }
+
