@@ -31,6 +31,7 @@ const getAllClients = async (req, res) => {
 
 // Create a client
 const createClient = async (req, res) => {
+    console.log("impresion de los headers",req.headers)
     try {
         const nuevoClient = new Client(req.body);
         await nuevoClient.save();
@@ -57,6 +58,7 @@ const createClient = async (req, res) => {
 
 // Update a client by id
 const updateClientById = async (req, res) => {
+    console.log("impresion de los headers",req.headers)
     const { id } = req.params;
     const { clientCompanyName, clientContactPerson, clientEmail, clientPhone, clientAddress } = req.body;
     let hasChanges = false;
@@ -227,6 +229,7 @@ const searchClients = async (req, res) => {
 
 // Delete a client by id
 const deleteClientById = async (req, res) => {
+    console.log("impresion de los headers",req.headers)
     const { id } = req.params;
     try {
         // Check if the client has any associated work orders

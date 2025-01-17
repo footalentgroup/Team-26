@@ -369,19 +369,23 @@ button.submit-button:hover {
 .confir{
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-left: calc(100 * (100vw / 1440));
+    justify-content: center;
+    align-items: center;
+    padding: calc(20 * (100vw / 1440));;
+    margin-top: calc(50 * (100vw / 1024));
     font-family: 'Poppins', sans-serif;
     color: #00254B;
+}
+.parrafosconfirmacionName{
+    font-size:  calc(24 * (100vw / 1440));
+    font-weight: 700;
+    line-height: 1.2; 
 }
 .parrafosconfirmacion{
     font-size:  calc(16 * (100vw / 1440));
     font-weight: 700;
-    margin-bottom: 14px; /* Reduce el espacio entre párrafos */
-    line-height: 1.2; 
+    line-height: 1.2;
 }
-
 /* Media query para resolución 1368px */
 @media screen and (max-width: 1368px) and (max-height: 768px) {
 .info {
