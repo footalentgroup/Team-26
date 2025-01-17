@@ -27,7 +27,8 @@ export class LoginComponent {
   /*$$$$$$$$$$$$$$$$$$FUNCION PARA ACTUALIZAR TITULO EN PAGINA $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
   updateTitle() {
     if (this.email) {
-      this.title = `Bienvenido`;
+      const name= this.email.split('@')[0];
+      this.title = `Bienvenido,${name}`;
     } else {
       this.title = "Ingresa para comenzar";
     }
@@ -79,15 +80,11 @@ export class LoginComponent {
       password: this.password
     };
 
-
     console.log("Información enviada al backend:", payload);
-
-  
 
     this.peticion.Postwithouttoken(url, payload).subscribe({
       next: (res: any) => {
         console.log("Respuesta del servidor:", res);
-
 
         if (!res.ok) {
           this.msg.Load("danger", res.msg || "Error en el login");

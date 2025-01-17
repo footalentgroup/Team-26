@@ -1,18 +1,18 @@
-
 /*seccion Derecha*/
 .seccion-derecha {
     background-color: white;
     width: calc(720 * (100vw / 1440));
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    padding: calc(40 * (100vw / 1440));
+    padding: calc(10 * (100vw / 1440));
     position: relative;
 }
 
 .form-container {
     width: 100%;
+    margin-top: calc(50 * (100vw / 1440));;
     width:calc(500 * (100vw / 1440));
     padding: calc(5 * (100vw / 1440));
 }
@@ -30,8 +30,12 @@
     width:calc(490 * (100vw / 1440));
     font-weight: 400;
     color: #AAA !important;
-    margin-bottom: 40px !important;
+    margin-bottom: 15px !important;
 }
+#textini{
+    margin-bottom: 70px !important;
+}
+
 
 .form-group input {
     width:calc(490 * (100vw / 1440));
@@ -77,24 +81,7 @@
     margin-top: calc(-50 * (100vh / 1024));
     margin-right: calc(5 * (100vw / 1440));
 }
-.form-checkbox input[type="checkbox"]:checked::before {
-    content: "✔";
-    color: white;
-    display: block;
-    text-align: center;
-    line-height: calc(18 * (100vh / 1024));
-}
-.form-checkbox input[type="checkbox"]:checked {
-    background-color: #00254B;
-    border-color: #00254B;
-}
-.form-checkbox label {
-    font-size:  calc(16 * (100vw / 1440));
-    font-weight: 300;
-    color: #00254B;
-    margin-bottom: calc(50 * (100vh / 1024));
-    font-family: 'Poppins', sans-serif;
-}
+
 
 .boton-inicio {
     width:calc(490 * (100vw / 1440));
@@ -109,33 +96,13 @@
     background-color: #999;
 }
 
-.parrafo-ayuda {
-    margin-top: calc(68 * (100vh / 1024));
-    width:calc(490 * (100vw / 1440));
-    text-align: justify;
-    margin-bottom: 0px;
-    font-weight: 300;
-    font-family: 'Poppins', sans-serif;
-    font-size: calc(14 * (100vw / 1440));
-    color: #00254B;
-}
-
-.parrafo-ayuda a {
-    color: #00254B;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.parrafo-ayuda a:hover {
-    text-decoration: underline;
-} 
-
-/*css para ocultar contraseña y mostrar */
 
 .password-container {
     position: relative;
     margin-bottom: calc(15 * (100vh / 1024));
 }
+
+
 
 /* Wrapper del input y el ícono */
 .password-wrapper {
@@ -179,3 +146,92 @@
 .password-container a:hover {
     text-decoration: underline;
 }
+
+
+
+/*estilos del modal de cofirmacion*/
+
+.modaluser {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; 
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 9999; 
+}
+
+.modal-content {
+    background: #fff;
+    width:calc(550 * (100vw / 1440));
+    height: calc(550 * (100vh / 1024));
+    font-family: 'Poppins', sans-serif;
+    animation: fadeIn 0.3s ease-in-out; 
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #00254b;
+    width: calc(549 * (100vw / 1440));
+    height: calc(70 * (100vh / 1024));
+    
+}
+
+.modal-header h2 {
+    font-size: calc(16 * (100vw / 1440));
+    font-weight: 700;
+    color: #fff;
+}
+.modal-body{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    text-align: center;
+    margin-top: calc(120 * (100vh / 1024));
+    width:calc(550 * (100vw / 1440));
+    height: calc(550 * (100vh / 1024));
+}
+.modal-body h2{
+    font-size: calc(24 * (100vw / 1440));
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+}
+.modal-body p{
+    font-size: calc(16 * (100vw / 1440));
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; 
+    margin-bottom: calc(10 * (100vh / 1024));
+    margin-top: calc(120 * (100vh / 1024));
+}
+
+button.submit-button {
+        width: calc(261 * (100vw / 1440));
+        padding: 10px;
+        border: none;
+        border-radius: 30px;
+        background: #00254b;
+        color: white;
+        font-size: calc(18 * (100vw / 1440));
+        font-weight: 700;
+        cursor: pointer;
+        text-transform: uppercase;
+}
+
+button.submit-button:hover {
+        background: #003580;
+}
+
+
+
+
+

@@ -120,10 +120,10 @@
         <!-- Vista para Confirmación Exitosa -->
         <div *ngIf="currentStep === 'exito'">
             <div class="confir">
-                <p class="parrafosconfirmacion"><strong>{{ nombre }}</strong> fue registrado exitosamente.</p>
+                <p class="parrafosconfirmacionName">{{ nombre }} fue registrado exitosamente.</p>
                 <p class="parrafosconfirmacion">
-                    Se envió un correo de activación al mail ingresado:
-                    <strong>{{ Email }}</strong>
+                    Se envió un correo de activación al mail ingresado:<br>
+                    {{ Email }}
                 </p>
             </div>
         </div>
@@ -143,7 +143,7 @@
                     ? 'Dar de Baja'
                     : currentStep === 'motivoDeBaja'
                     ? 'Dar Baja'
-                    : 'Cerrar'
+                    : 'Confirmar'
             }}
         </button>
     </div>

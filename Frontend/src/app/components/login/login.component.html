@@ -5,22 +5,23 @@
             <img class="logo-inicio" src="/assets/logo2.png" alt="Logo">
             <h1>{{ title }}</h1>
         </div>
-        <p class="text-footer">gestiON - 2024</p>
+        <p class="text-footer">gestiON - 2025 | Versión 1.0.4</p>
     </div>
     <div class="seccion-derecha">
         <div class="form-container">
             <form (ngSubmit)="Login()">
                 <div class="form-group">
                     <label for="email">Correo electrónico</label>
-                    <input type="email" id="email" placeholder="Ingresa su Email"[(ngModel)]="email" (input)="updateTitle()"name="email">
+                    <input type="email" id="email" [(ngModel)]="email" (input)="updateTitle()"name="email">
+                    <label for="email" class="textlb">Ingresá el correo electrónico que asignaste al momento de crear tu cuenta</label>
                 </div>
                 <div class="form-group password-container">
                     <label for="password">Contraseña</label>
                     <div class="password-wrapper">
-                        <input [type]="showPassword ? 'text' : 'password'" id="password" placeholder="Ingresa tu passsword"[(ngModel)]="password" name="password">
+                        <input class="inputpassword" [type]="showPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password">
                     <span class="toggle-password" (click)="togglePasswordVisibility()">
-                        <img src="/assets/Eye-Open.png" alt="Mostrar contraseña" *ngIf="!showPassword"/>
-                        <img src="/assets/Eye-close.png" alt="Ocultar contraseña" *ngIf="showPassword"/>
+                        <img src="/assets/Eye-close.png" alt="Mostrar contraseña" *ngIf="!showPassword"/>
+                        <img src="/assets/Eye-Open.png" alt="Ocultar contraseña" *ngIf="showPassword"/>
                     </span>
                     </div>
                     <a  (click)=" recuperarPassword()">Olvidé mi contraseña</a>
@@ -32,10 +33,11 @@
                 <button type="submit" class="boton-inicio">INICIAR SESIÓN</button>
             </form>
             <div class="parrafo-ayuda">
-                <p> Si aún no tienes tu cuenta, solicítala a tu empleador.
+                <p> Si aún no tienes tu cuenta, solicítala a tu empleador.</p>
+                <p>
                     Si contas con cuenta y tenes problemas para ingresar, no dudes en contactarnos en la sección
                     <a href="#">AYUDA</a>.
-                </p>
+                </p> 
             </div>
         </div>
     </div>
