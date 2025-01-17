@@ -2,8 +2,8 @@
     <div id="user">
         <div id="photo">
         <div id="infouser">
-            <h1 class="text" id="sup">Esteban Sanchez</h1>
-            <h1 class="text" id="rol">SUPERVISOR</h1>
+            <h1 class="text" id="sup">{{ userName }}</h1>
+            <h1 class="text" id="rol">{{ userRole }}</h1>
         </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
             </svg>
         <div id="item6">Reporte de Fallas</div>
 
-        <div class="text" id="btnexit">
+        <div class="text" id="btnexit" (click)="logout()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" id="icon7">
                 <path d="M15.2198 20.4L18.9257 20.4C19.4873 20.4 20.026 20.1788 20.4231 19.7849C20.8202 19.3911 21.0433 18.857 21.0433 18.3L21.0433 5.70003C21.0433 5.14307 20.8202 4.60893 20.4231 4.2151C20.026 3.82128 19.4873 3.60003 18.9257 3.60003L15.2198 3.60002M14.9566 12L2.95662 12M2.95662 12L7.54177 16.8M2.95662 12L7.54177 7.20002" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>

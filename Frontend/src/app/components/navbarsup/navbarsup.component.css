@@ -246,6 +246,7 @@
     position: absolute;
     font-weight: 700;
     border-radius: calc(28 * (100vw / 1440)) !important;
+    cursor: pointer;
 }
 #icon7{
     left: calc(43 * (100vw / 1440));

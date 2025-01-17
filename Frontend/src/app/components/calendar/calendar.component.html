@@ -1,7 +1,7 @@
 <div id="calendar">
     <div class="text" id="ttagendar">Agendar visita</div>
     <div>
-      <fcalendario (selectedDateChange)="onDateSelected($event)"></fcalendario>
+      <fcalendario (selectedDateChange)="onDateSelected($event)" [currentDate]="currentDate"></fcalendario>
 
 
       
@@ -28,7 +28,7 @@
         <div class="custom-selectA" id="custom-select">
             <select [(ngModel)]="visitDetails.visitType">
               <option value=""  disabled selected>Tipo de visita</option>
-              <option value="Instalation">Instalación</option>
+              <option value="Installation">Instalación</option>
               <option value="Inspection">Inspección</option>
               <option value="Maintenance">Mantenimiento</option>
             </select>

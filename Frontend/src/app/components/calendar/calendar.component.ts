@@ -30,6 +30,7 @@ export class CalendarComponent implements OnInit {
   private clientSubject = new Subject<string>();
   @Output() focused = new EventEmitter<void>();
 
+
   selectedDate: string = '';
   selectedTime: string = '';
   workOrderSupervisor: string = '';
@@ -184,6 +185,7 @@ export class CalendarComponent implements OnInit {
     console.log("datos vacios")
     this.clienttyping = "";
     this.visitDetails = { visitType: "", time: "", technician: "" };
+    this.currentDate = "";
     this.selectedDate = "";
     this.selectedTime = "";
     this.selectedTechnician = "";

@@ -1,4 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { CalendarOptions } from '@fullcalendar/core';
+import { FullCalendarModule } from '@fullcalendar/angular'; 
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction'; 
 
 
 @Component({
@@ -9,9 +13,10 @@ import { Component, Output, EventEmitter } from '@angular/core';
   imports: [],
 })
 export class FCalendarioComponent {
+  @Input() currentDate: string="";
   @Output() selectedDateChange = new EventEmitter<string>(); // Emisor para enviar la fecha al componente principal
 
-  currentDate: string = ''; // Variable para almacenar la fecha seleccionada
+  // currentDate: string = ''; // Variable para almacenar la fecha seleccionada
   selectedDate: string = ''; // Variable para almacenar la fecha seleccionada del calendario en formato 'YYYY-MM-DD'
   formattedDate: string = ''; // Variable para almacenar la fecha formateada
 
