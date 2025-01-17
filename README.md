@@ -38,9 +38,10 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 
 ## 🌟 Funcionalidades
 
-- ✅ **Búsqueda Inteligente de Propiedades**
-- ✅ **Registro y gestión de propiedades**
-- ✅ **Seguridad y gestión de la plataforma**
+- ✅ **Orden de Trabajo (Crear Orden,Ordenes de Trabajo Agendadas,Ordenes de Trabajo No Agendadas)**
+- ✅ **Registro y gestión de Usuarios**
+- ✅ **Registro y gestión de Clientes**
+- ✅ **Revisión de Reporte (Aprobación/Desaprobación de Reporte)**
 
 </div>
 
