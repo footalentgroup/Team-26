@@ -40,7 +40,7 @@ const clientSchema = new mongoose.Schema({
   },
   clientGeoLocation: {
     type: { type: String, default: 'Point' }, // GeoJSON type
-    coordinates: { type: [Number], required: true } // [longitude, latitude]
+    coordinates: { type: [Number] } // [longitude, latitude]
   }
 },
   {

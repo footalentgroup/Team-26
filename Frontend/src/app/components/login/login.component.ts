@@ -80,13 +80,11 @@ export class LoginComponent {
       password: this.password
     };
 
-
     console.log("Información enviada al backend:", payload);
 
     this.peticion.Postwithouttoken(url, payload).subscribe({
       next: (res: any) => {
         console.log("Respuesta del servidor:", res);
-
 
         if (!res.ok) {
           this.msg.Load("danger", res.msg || "Error en el login");
