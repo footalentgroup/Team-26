@@ -75,18 +75,18 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 
 | Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
 |-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-| Brian Azambuja    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
-| Emilia Faure      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
-| Natalia Quevedo   | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Brian Azambuja    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](Github.com/thebrianaz)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Emilia Faure      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/EmiliaFaure)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/emilia-faure/)   |
+| Natalia Quevedo   | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/natalia-a-quevedo/)   |
 
 ### ⚛️ FullStack (Front-end, back-end)
 
 | Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
 |-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
 | Juan Rodriguez    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/JuanCa291994)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/juan-camilo-rodriguez-desarrolladorweb/)   |
-| Enrique Avendaño  | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
-| Ricardo Ortega    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
-| Diego Poveda      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Enrique Avendaño  | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/wenriqueaa)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/enriqueavendano)   |
+| Ricardo Ortega    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/quejuan52)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ricardo-ortega-desarrollador-web-ingeniero-electr%C3%B3nico/)   |
+| Diego Poveda      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/DiegoPoveda25 )   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/diegopoveda-desarrollador-fullstack/)   |
 
 ### 📊 QA
 
@@ -100,7 +100,7 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 
 | Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
 |-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-| Manuel López      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Manuel López      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/manuel-alejandro-lópez-banegas-561347146)   |
 
 </div>
 
