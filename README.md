@@ -5,7 +5,7 @@
   <div style="border: 2px solid #E5E7EB; border-radius: 10px; padding: 16px; background-color: #1E1E1E; color: white; text-align: center;">
   
   <p align="center">
-    <img src="https://i.imgur.com/KYlj7dG.png" alt="gestION Logo" width="150" style="border-radius: 20px;">
+    <img src="https://i.imgur.com/8ECgH9r.png" alt="gestION Logo" width="150" style="border-radius: 20px;">
   </p>
   <p>Facilitando la gestión de tareas y optimizando el flujo de trabajo en tu equipo.</p>
   
