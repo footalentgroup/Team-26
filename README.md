@@ -75,7 +75,7 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 
 | Nombre            | GitHub                                                                                  | LinkedIn                                                                                      |
 |-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-| Brian Azambuja    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](Github.com/thebrianaz)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]()   |
+| Brian Azambuja    | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](Github.com/thebrianaz)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/brian-azambuja-703991232?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)   |
 | Emilia Faure      | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/EmiliaFaure)   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/emilia-faure/)   |
 | Natalia Quevedo   | [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)]()   | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/natalia-a-quevedo/)   |
 
