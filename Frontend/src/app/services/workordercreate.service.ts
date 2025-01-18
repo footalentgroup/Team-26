@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs'; // Asegúrate de importar `of` para retor
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:3001/api/workorder';  // URL del backend
+  private apiUrl = 'https://ftg-team-26-backend-preview.vercel.app/workorder';  // URL del backend
 
   constructor(private http: HttpClient) { }
 
