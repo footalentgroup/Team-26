@@ -136,6 +136,9 @@ export class CalendarComponent implements OnInit {
 
     const workOrderScheduledDate = `${this.selectedDate}T${this.selectedTime}:00.000+00:00`;
 
+    const traductionservicetype = {"Inspection":"Inspección", "Installation":"Instalación","Maintenance":"Mantenimiento"}
+
+
     const workOrder = {
       workOrderSupervisor: this.workOrderSupervisor,
       clientId: this.clientData._id,
