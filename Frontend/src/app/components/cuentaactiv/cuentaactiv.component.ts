@@ -52,30 +52,46 @@ export class CuentaactivComponent implements OnInit{
       this.errorMessage = 'Las contraseñas no coinciden.';
       return;
     }
-
+  
     // Validar longitud de la nueva contraseña
     if (this.newpassword.length < 4 || this.newpassword.length > 30) {
-      this.errorMessage =
-        'La contraseña debe tener entre 4 y 30 caracteres.';
+      this.errorMessage = 'La contraseña debe tener entre 4 y 30 caracteres.';
       return;
     }
-
-    this.userService.confirmUser(this.token, this.newpassword, this.password).subscribe(
+  
+    // Obtener el correo del usuario antes de enviar la nueva contraseña
+    this.userService.getUserByToken(this.token).subscribe(
       (response: any) => {
+        console.log("token22222",this.token)
         if (response.ok) {
-          // Mostrar modal de confirmación y redirigir al login
-          this.mostrarModal = true; // Mostrar modal
+          
+          const userEmail = response.data.userEmail; // Extraer el correo del usuario
+          console.log("email",response.data.userEmail)
+  
+          //Enviar la nueva contraseña junto con el correo al backend
+          this.userService.confirmUser(this.token, this.newpassword, userEmail).subscribe(
+            (response: any) => {
+              if (response.ok) {
+                // Mostrar modal de confirmación y redirigir al login
+                this.mostrarModal = true; // Mostrar modal
+              } else {
+                this.errorMessage = 'Hubo un problema al actualizar la contraseña.';
+              }
+            },
+            (error) => {
+              console.error(error);
+              this.errorMessage = 'Error al procesar la solicitud. Intente nuevamente.';
+            }
+          );
         } else {
-          this.errorMessage =
-            'Hubo un problema al actualizar la contraseña.';
+          this.errorMessage = 'No se pudo obtener la información del usuario.';
         }
       },
       (error) => {
         console.error(error);
-        this.errorMessage =
-          'Error al procesar la solicitud. Intente nuevamente.';
-      }
-    );
+        this.errorMessage = 'Error al obtener la información del usuario. Intente nuevamente.';
+    }
+  );
   }
   redirectToLogin(): void {
     this.router.navigate(['/login']);
