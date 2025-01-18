@@ -3,7 +3,6 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction'; 
-import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -11,16 +10,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './fcalendario.component.html',
   styleUrls: ['./fcalendario.component.css'],
-
-  imports: [FullCalendarModule, CommonModule],
-
   imports: [],
-
 })
 export class FCalendarioComponent {
-  @Input() currentDate: string = ''; // Recibe la fecha desde el componente padre
+  @Input() currentDate: string="";
   @Output() selectedDateChange = new EventEmitter<string>(); // Emisor para enviar la fecha al componente principal
 
+  // currentDate: string = ''; // Variable para almacenar la fecha seleccionada
   selectedDate: string = ''; // Variable para almacenar la fecha seleccionada del calendario en formato 'YYYY-MM-DD'
   formattedDate: string = ''; // Variable para almacenar la fecha formateada
 
@@ -52,19 +48,11 @@ export class FCalendarioComponent {
   //   this.formatDate();  // Mantén tu lógica de formato
   // }
 
-
-  // Función para formatear la fecha seleccionada
-  formatDate(): void {
-    if (this.selectedDate) {
-      const [year, month, day] = this.selectedDate.split('-');
-      const date = new Date(+year, +month - 1, +day); 
-=======
   // // Función para formatear la fecha seleccionada
   // formatDate() {
   //   if (this.selectedDate) {
   //     const [year, month, day] = this.selectedDate.split('-');
   //     const date = new Date(+year, +month - 1, +day); 
-
 
   //     const options: Intl.DateTimeFormatOptions = {
   //       weekday: 'long',
@@ -78,23 +66,10 @@ export class FCalendarioComponent {
   //       return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   //     };
 
-
-      this.formattedDate = formatDate(date); 
-      this.currentDate = this.formattedDate; // Actualizar la fecha mostrada
-    }
-  }
-
-  resetCalendar(): void {
-    this.selectedDate = '';
-    this.formattedDate = '';
-  }
-
   //     this.formattedDate = formatDate(date); 
       
   //     this.currentDate = this.formattedDate; // Actualizar la fecha mostrada
 
   //   }
   // }
-
 }
-

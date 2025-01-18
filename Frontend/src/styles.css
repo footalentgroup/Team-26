@@ -61,17 +61,4 @@
 
 
 html, body { height: 100%; }
-
-body { margin: 0; font-family: 'Poppins', sans-serif; }
-.fc .fc-scroller-liquid-absolute {
-    inset: 0px;
-    position: relative !important; 
-  }
-  
-  .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
-    min-height: 0.01em !important;
-    position: relative;
-  }
-
 body { margin: 0;  }
-

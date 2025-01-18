@@ -108,6 +108,3 @@
     top:calc(144 * (100vh / 1024)); 
     position: absolute;
 }
-.bold{
-    font-weight: 700;
-}
