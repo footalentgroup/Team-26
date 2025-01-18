@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class UserService {
   private apiUrl = 'http://localhost:3001/api/user'; // URL base para las operaciones relacionadas con usuarios
 
+
   constructor(private http: HttpClient, private router: Router) {}
 
   private getHeaders(): HttpHeaders {
@@ -54,13 +55,21 @@ export class UserService {
       catchError(this.handleError)
     );
   }
-   // Método para confirmar usuario y actualizar contraseña
-  confirmUser(token: string, oldPassword: string, Password: string ): Observable<any> {
-    const url = `${this.apiUrl}/userconfirm?token=${token}&password=${Password}&email=${oldPassword}`;
-    return this.http.patch(url, {}, { headers: this.getHeaders() }).pipe(
+   //Método para confirmar usuario y actualizar contraseña
+  confirmUser(token: string, Password: string, email: string ): Observable<any> {
+    const url = `${this.apiUrl}confirm?token=${token}&email=${email.trim()}&password=${Password.trim()}`;
+    return this.http.patch(url,{}).pipe(
       catchError(this.handleError)
     );
   }
+
+  getUserByToken(token: string ): Observable<any> {
+    const url = `${this.apiUrl}byconfirmation?token=${token}`;
+    return this.http.get(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
 
   // Método para eliminar un usuario
   deleteUser(url: string): Observable<any> {
