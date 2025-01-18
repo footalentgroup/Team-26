@@ -417,6 +417,85 @@ const getAllWorkOrdersPendingToApprove = async (req, res) => {
     }
 };
 
+// Get all work orders for a supervisor or technician within a week from a given date
+/**
+ * Retrieves work orders for the week based on the user's role and the provided date.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} req.header - The request headers.
+ * @param {Object} req.params - The request parameters.
+ * @param {string} req.params.date - The date to start the week from (optional).
+ * @param {Object} res - The response object.
+ * 
+ * @returns {Promise<void>} - Returns a JSON response with the work orders for the week.
+ * 
+ * @throws {Error} - Throws an error if the token is invalid or if there is an issue retrieving the work orders.
+ */
+const getWorkOrdersForWeek = async (req, res) => {
+    const token = req.header('Authorization')?.split(' ')[1];
+    const secret = process.env.SECRET_KEY;
+    const decoded = jwt.verify(token, secret);
+    const userDataToken = await User.findById(decoded.userData);
+    const validRoles = ['supervisor', 'technician'];
+    if (!validRoles.includes(userDataToken.userRole)) {
+        return res.status(400).json({
+            ok: false,
+            error: 'El rol debe ser supervisor o técnico'
+        });
+    }
+    
+    let { dateString } = req.params;
+    let date = null;
+    if (!dateString) {
+        date = new Date().toISOString().split('T')[0];
+    } else {
+         date = new Date(dateString);
+    }
+    const startDate = date ? new Date(date) : new Date();
+    console.info( 'startDate', startDate);
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 6);
+
+    try {
+        let workOrders;
+        if (userDataToken.userRole === 'supervisor') {
+            workOrders = await WorkOrder.find({
+                workOrderSupervisor: userDataToken._id,
+                workOrderScheduledDate: { $gte: startDate, $lt: endDate }
+            });
+        } else if (userDataToken.userRole === 'technician') {
+            workOrders = await WorkOrder.find({
+                workOrderAssignedTechnician: userDataToken._id,
+                workOrderScheduledDate: { $gte: startDate, $lt: endDate }
+            });
+        }
+
+        const formattedWorkOrders = await Promise.all(workOrders.map(async order => {
+            const client = await User.findById(order.clientId);
+            return {
+                clientId: order.clientId,
+                workOrderId: order._id,
+                clientCompanyName: client ? client.companyName : 'N/A',
+                clientContactPerson: order.workOrderClientContactPerson,
+                clientAddress: order.workOrderAddress,
+                clientPhone: order.workOrderClientPhone,
+                workOrderLocation: order.workOrderLocation,
+                serviceType: order.serviceType,
+                workOrderStatus: order.workOrderStatus,
+                date: new Date(order.workOrderScheduledDate).toLocaleDateString('es-ES'),
+                time: new Date(order.workOrderScheduledDate).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+                workOrderNumber: order.workOrderNumber
+            };
+        }));
+        if (formattedWorkOrders.length === 0) {
+            return res.status(202).json({ ok: false, message: 'No se encontraron órdenes de trabajo', data: [] });
+        }
+        res.status(200).json({ ok: true, message: 'Ordenes de trabajo encontradas', data: formattedWorkOrders });
+    } catch (error) {
+        res.status(500).json({ ok: false, message: error.message });
+    }
+};
+
 module.exports = {
     getAllWorkOrders,
     getWorkOrderById,
@@ -428,5 +507,6 @@ module.exports = {
     getReportWorkOrder,
     updateWorkOrderStatus,
     getAllWorkOrdersWithRejection,
-    getAllWorkOrdersPendingToApprove
+    getAllWorkOrdersPendingToApprove,
+    getWorkOrdersForWeek
 };

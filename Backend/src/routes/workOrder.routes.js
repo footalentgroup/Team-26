@@ -175,4 +175,6 @@ router.get('/workordersreject', validateToken, workOrderController.getAllWorkOrd
  */
 router.get('/workorderstoapprove', validateToken, workOrderController.getAllWorkOrdersPendingToApprove);
 
+router.get('/workordersforweek/:dateString', validateToken, workOrderController.getWorkOrdersForWeek);
+
 module.exports = router;
