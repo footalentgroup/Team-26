@@ -7,7 +7,7 @@ import { map, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TechnicianService {
-  private apiUrl = 'https://ftg-team-26-backend-preview.vercel.app/usertechnician';
+  private apiUrl = 'https://ftg-team-26-backend-preview.vercel.app/api/usertechnician';
 
   constructor(private http: HttpClient) {}
 

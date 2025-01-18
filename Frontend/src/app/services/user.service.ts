@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://ftg-team-26-backend-preview.vercel.app/user'; // URL base para las operaciones relacionadas con usuarios
+  private apiUrl = 'https://ftg-team-26-backend-preview.vercel.app/api/user'; // URL base para las operaciones relacionadas con usuarios
 
 
   constructor(private http: HttpClient, private router: Router) {}

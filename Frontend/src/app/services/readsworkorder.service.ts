@@ -13,7 +13,7 @@ interface workorder {
   providedIn: 'root',
 })
 export class WorkOrdersService {
-  private apiUrl = 'https://localhost:3001/api/workordersforweek/'; // Cambia esta URL por la de tu API
+  private apiUrl = 'https://ftg-team-26-backend-preview.vercel.app/api/workordersforweek/'; // Cambia esta URL por la de tu API
 
   constructor(private http: HttpClient) {}
 

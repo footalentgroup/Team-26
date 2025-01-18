@@ -36,7 +36,7 @@ export class LoginComponent {
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA VERIFICAR ADMINISTRADOR $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
   verificarAdmin() {
-    const url = `${this.peticion.UrlHost}/api/usercheckadmin`;
+    const url = `https://ftg-team-26-backend-preview.vercel.app/api/usercheckadmin`;
 
     this.peticion.Getwithouttoken(url).subscribe({
       next: (res: any) => {
@@ -74,7 +74,7 @@ export class LoginComponent {
       return;
     }
 
-    const url = `${this.peticion.UrlHost}/api/userlogin`;
+    const url = `https://ftg-team-26-backend-preview.vercel.app/api/userlogin`;
     const payload = {
       email: this.email,
       password: this.password

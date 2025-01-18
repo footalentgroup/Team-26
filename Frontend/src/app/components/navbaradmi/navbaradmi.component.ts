@@ -29,7 +29,7 @@ export class NavbaradmiComponent {
     console.log("Cerrando sesión del usuario");
 
     const userId = localStorage.getItem('userId'); 
-    const url = `${this.peticion.UrlHost}/api/userclosesession/${userId}`; 
+    const url = `https://ftg-team-26-backend-preview.vercel.app/api/userclosesession/${userId}`; 
   
     if (userId) {
   

@@ -8,7 +8,7 @@ import { catchError, tap} from 'rxjs/operators';
 })
 export class PeticionService {
 
-public UrlHost:string= 'https://ftg-team-26-backend-preview.vercel.app' 
+public UrlHost:string= 'https://ftg-team-26-backend-preview.vercel.app/api' 
 
   constructor(private http:HttpClient) { }
 
