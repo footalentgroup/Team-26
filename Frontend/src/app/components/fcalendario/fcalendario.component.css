@@ -1,8 +1,8 @@
 #calendar{
     left: calc(36 * (100vw / 1440));
     top: calc(66 * (100vh / 1024));
-    width: calc(400 * (100vw / 1440));
-    height: calc(400 * (100vh / 1024));
+    max-width: calc(400 * (100vw / 1440));
+    max-height: calc(400 * (100vh / 1024));
     position: absolute;
     cursor: pointer;
     box-sizing: border-box;

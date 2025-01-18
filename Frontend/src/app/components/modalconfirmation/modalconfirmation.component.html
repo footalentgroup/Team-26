@@ -7,11 +7,11 @@
   
     <div class="text" id="info">
       <!-- Mostramos los datos del cliente y la visita usando data desde el componente ModalVisitComponent -->
-      <div class="text" id="client">Cliente: {{ data.clientData?.name }}</div>
-      <div class="text" id="ubication">Dirección: {{ data.clientData?.address }}</div>
-      <div class="text" id="visitopt">Tipo de instalación: {{ data.visitDetails?.visitType }}</div>
-      <div class="text" id="hour">Horario: {{ data.selectedTime }}</div>
-      <div class="text" id="tech">Técnico asignado: {{ data.visitDetails?.technician }}</div>
+      <div class="text" id="client">Cliente: <span class="bold">{{ data.clientData?.name }}</span></div>
+      <div class="text" id="ubication">Dirección: <span class="bold">{{ data.clientData?.address }}</span></div>
+      <div class="text" id="visitopt">Tipo de instalación: <span class="bold">{{ data.visitDetails?.visitType }}</span></div>
+      <div class="text" id="hour">Horario: <span class="bold">{{ data.selectedTime }}</span></div>
+      <div class="text" id="tech">Técnico asignado: <span class="bold">{{ data.visitDetails?.technician }}</span></div>
     </div>
   
     <!-- Botones para editar o agendar -->

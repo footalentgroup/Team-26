@@ -79,8 +79,15 @@
 #iconedit{
     width: calc(15 * (100vw / 1440));
     height: calc(15 * (100vh / 1024));
+    top:calc(106 * (100vh / 1024));
+    left: calc(369 * (100vw / 1440));
+    position: absolute;
+
 }
 #icondelete{
     width: calc(15 * (100vw / 1440));
     height: calc(15 * (100vh / 1024));
+    top:calc(106 * (100vh / 1024));
+    left: calc(393 * (100vw / 1440));
+    position: absolute;
 }
