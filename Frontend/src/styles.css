@@ -19,7 +19,7 @@
 .seccion-izquierda {
     background-color: #003366;
     color: #ffffff;
-    width: 50vw;
+    width: calc(720 * (100vw / 1440));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,7 +34,7 @@
 }
 
 .seccion-izquierda h1 {
-    width: 50%;
+    width: calc(484 * (100vw / 1440));
     height: calc(20 * (100vh / 1024));
     display: flex;
     justify-content: center;
@@ -61,4 +61,17 @@
 
 
 html, body { height: 100%; }
+
+body { margin: 0; font-family: 'Poppins', sans-serif; }
+.fc .fc-scroller-liquid-absolute {
+    inset: 0px;
+    position: relative !important; 
+  }
+  
+  .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    min-height: 0.01em !important;
+    position: relative;
+  }
+
 body { margin: 0;  }
+

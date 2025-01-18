@@ -1,6 +1,6 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ModalVisitComponent } from '../modalvisit/modalvisit.component';
 import { ClientService } from '../../services/client.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -30,11 +30,12 @@ export class CalendarComponent implements OnInit {
   private clientSubject = new Subject<string>();
   @Output() focused = new EventEmitter<void>();
 
-
   selectedDate: string = '';
   selectedTime: string = '';
   workOrderSupervisor: string = '';
   private originalData: any;
+
+  @ViewChild('calendarComponent') calendarComponent!: FCalendarioComponent; // Referencia al componente hijo
 
   constructor(
     private dialog: MatDialog,
@@ -135,6 +136,9 @@ export class CalendarComponent implements OnInit {
 
     const workOrderScheduledDate = `${this.selectedDate}T${this.selectedTime}:00.000+00:00`;
 
+    const traductionservicetype = {"Inspection":"Inspección", "Installation":"Instalación","Maintenance":"Mantenimiento"}
+
+
     const workOrder = {
       workOrderSupervisor: this.workOrderSupervisor,
       clientId: this.clientData._id,
@@ -169,25 +173,29 @@ export class CalendarComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // Si el resultado es 'edit', significa que se desea conservar los cambios
-      if (result == 'edit') {
-        // Los datos no se restablecen, se mantienen como están
+      if (result === 'edit') {
         console.log('Datos editados con éxito');
       } else {
-        // Restablecer los valores a los datos originales si no se editó
         this.resetForm();
+        this.resetDateInChild(); // Reseteamos la fecha en el hijo
       }
     });
-    
   }
 
   resetForm(): void {
-    console.log("datos vacios")
-    this.clienttyping = "";
-    this.visitDetails = { visitType: "", time: "", technician: "" };
-    this.currentDate = "";
-    this.selectedDate = "";
-    this.selectedTime = "";
-    this.selectedTechnician = "";
+    console.log("datos vacíos");
+    this.clienttyping = '';
+    this.visitDetails = { visitType: '', time: '', technician: '' };
+    this.selectedDate = '';
+    this.selectedTime = '';
+    this.selectedTechnician = '';
+    this.currentDate = '';
+  }
+
+  resetDateInChild(): void {
+    // Llamamos al método resetCalendar() del componente hijo
+    if (this.calendarComponent) {
+      this.calendarComponent.resetCalendar();
+    }
   }
 }

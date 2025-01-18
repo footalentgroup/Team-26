@@ -30,7 +30,7 @@ interface ClientApiResponse {
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = 'https://ftg-team-26-backend-preview.vercel.app/api/clientbycompanyname';
+  private apiUrl = 'http://localhost:3001/api/clientbycompanyname';
 
   constructor(private http: HttpClient, private router: Router) {}
 

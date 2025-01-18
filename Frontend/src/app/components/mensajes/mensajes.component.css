@@ -22,7 +22,7 @@
 
 /* Colores para diferentes tipos de alertas */
 .alert-danger {
-    background-color: #00254B; /* Evitar Rojo, por Daltonismo */
+    background-color: #dc3545; /* Rojo */
 }
 
 .alert-success {
