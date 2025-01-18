@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/frontend",
+            "outputPath": "dist/appgestion-team26n",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -34,7 +34,7 @@
             "production": {
               "budgets": [
                 {
-                  "type": "initial"
+                  "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
                 },
