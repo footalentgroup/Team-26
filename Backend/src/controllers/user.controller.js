@@ -19,6 +19,7 @@ const auditLogData = {
 
 // Crear usuario
 const createUser = async (req, res) => {
+    console.log("headers recivido",req.headers)
     try {
         const token = req.header('Authorization')?.split(' ')[1];
         const secret = process.env.SECRET_KEY;
@@ -433,8 +434,7 @@ const confirmUser = async (req, res) => {
         // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'confirmUser', user._id, { actionDetails: 'Confirmación exitosa, Activa Usuario' });
 
-         // Redirigir al frontend con estado de éxito
-        return res.redirect(`${process.env.CLIENT_URL}/login`);
+        
 
         return res.status(200).json({
             ok: true,
@@ -445,7 +445,7 @@ const confirmUser = async (req, res) => {
         return res.status(500).json({
             ok: false,
 
-            error: 'Error interno del servidor.'
+            error: 'Error interno del servidor.'+ error.message
         });
     }
 };
@@ -789,7 +789,7 @@ try {
     }
 }
 
-const userByTokenConfirmation = async (req, res) => {
+const userByTokenConfirmation = async (req, res) => { 
     const token = req.query.token.trim();
     console.log('token ', token);
     if (!token) {
