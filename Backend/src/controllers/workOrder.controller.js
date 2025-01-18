@@ -444,13 +444,7 @@ const getWorkOrdersForWeek = async (req, res) => {
         });
     }
     
-    let { dateString } = req.params;
-    let date = null;
-    if (!dateString) {
-        date = new Date().toISOString().split('T')[0];
-    } else {
-        date = new Date(dateString).toISOString().split('T')[0];
-    }
+    const date = new Date().toISOString().split('T')[0];
     const startDate = date ? new Date(date) : new Date();
     console.info( 'startDate', startDate);
     const endDate = new Date(startDate);

@@ -175,4 +175,35 @@ router.get('/workordersreject', validateToken, workOrderController.getAllWorkOrd
  */
 router.get('/workorderstoapprove', validateToken, workOrderController.getAllWorkOrdersPendingToApprove);
 
+/**
+ * @swagger
+ * /workordersforweek:
+ *   get:
+ *     summary: Retrieve a list of work orders for the current week
+ *     tags: [WorkOrders]
+ *     parameters:
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of work orders for the current week
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: {"ok":true,"message":"Ordenes de trabajo encontradas","data":[{"clientId":"677ecbd82a3b6d215f4dfca4","workOrderId":"6789c814ad67789cbe79e910","clientCompanyName":"N/A","clientContactPerson":"Juan Perez","clientAddress":"123 Calle Principal, Ciudad, País","workOrderLocation":{"type":"Point"},"serviceType":"Maintenance","workOrderStatus":"Assigned","date":"23/1/2025","time":"14:00","workOrderNumber":"0039-2025"}]}
+ *       202:
+ *         description: No work orders found for the current week
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { "ok": false, "message": "No work orders found for the current week", "data": []}
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/workordersforweek', validateToken, workOrderController.getWorkOrdersForWeek);
+
 module.exports = router;

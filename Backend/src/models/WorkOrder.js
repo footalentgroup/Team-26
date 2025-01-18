@@ -24,7 +24,7 @@ const workOrderSchema = new mongoose.Schema({
     },
     serviceType: {
         type: String,
-        enum: ['Inspection', 'Installation', 'Maintenance'],
+        enum: ['Inspección', 'Instalación', 'Mantenimiento'],
         required: true
     },
     workOrderStatus: {
@@ -204,32 +204,32 @@ workOrderSchema.pre('save', async function (next) {
     next();
 });
 
-workOrderSchema.post('save', async function (doc, next) {
-    if (doc.workOrderStatus === 'Assigned') {
-        const TaskTemplate = mongoose.model('TaskTemplate');
-        const WorkOrderTask = mongoose.model('WorkOrderTask');
+// workOrderSchema.post('save', async function (doc, next) {
+//     if (doc.workOrderStatus === 'Assigned') {
+//         const TaskTemplate = mongoose.model('TaskTemplate');
+//         const WorkOrderTask = mongoose.model('WorkOrderTask');
 
-        const existingTasks = await WorkOrderTask.find({ workOrderId: doc._id });
-        if (existingTasks.length > 0) {
-            return next();
-        }
+//         const existingTasks = await WorkOrderTask.find({ workOrderId: doc._id });
+//         if (existingTasks.length > 0) {
+//             return next();
+//         }
 
-        const templates = await TaskTemplate.find({ serviceType: doc.serviceType });
-        if (!templates) {
-            return next();
-        }
-        const tasks = templates.map(template => ({
-            workOrderId: doc._id,
-            WorkOrderTaskOrdering: template.taskTemplateOrdering,
-            workOrderTaskDescription: template.taskTemplateDescription,
-            workOrderTaskTechnicianRecord: doc.workOrderAssignedTechnician,
-            workOrderTaskStatus: 'Pending'
-        }));
+//         const templates = await TaskTemplate.find({ serviceType: doc.serviceType });
+//         if (!templates) {
+//             return next();
+//         }
+//         const tasks = templates.map(template => ({
+//             workOrderId: doc._id,
+//             WorkOrderTaskOrdering: template.taskTemplateOrdering,
+//             workOrderTaskDescription: template.taskTemplateDescription,
+//             workOrderTaskTechnicianRecord: doc.workOrderAssignedTechnician,
+//             workOrderTaskStatus: 'Pending'
+//         }));
 
-        await WorkOrderTask.insertMany(tasks);
-    }
-    next();
-});
+//         await WorkOrderTask.insertMany(tasks);
+//     }
+//     next();
+// });
 
 workOrderSchema.pre('save', async function (next) {
     if (this.isModified('workOrderStatus') && this.workOrderStatus === 'Under Review') {
