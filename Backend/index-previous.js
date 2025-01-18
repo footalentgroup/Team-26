@@ -31,7 +31,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: `${process.env.BASE_API_URL}`, // Replace with your server URL
+                url: `${process.env.BASE_URL}`, // Replace with your server URL
             },
         ],
         components: {
