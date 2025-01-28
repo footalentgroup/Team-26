@@ -22,6 +22,7 @@ export class FormcontactoComponent {
   constructor(private router: Router) {} 
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA ENVIAR EL MENSAJE $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+
     formMensaje(event: Event): void {
     event.preventDefault();
 
@@ -35,7 +36,7 @@ export class FormcontactoComponent {
 
     this.mensajeEnviado = true;
     setTimeout(() => {
-      this.router.navigate(['/accesibilidad']);
+      this.router.navigate(['/login']);
     }, 3000);
   }
 }

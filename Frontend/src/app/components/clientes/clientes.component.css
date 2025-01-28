@@ -244,7 +244,6 @@ button.submit-button:hover {
         background: #003580;
 }
 
-  /* Animación de aparición */
 @keyframes fadeIn {
     from {
     opacity: 0;
@@ -329,7 +328,7 @@ button.submit-button:hover {
 .parrafosconfig{
     font-size:  calc(16 * (100vw / 1440));
     font-weight: 400;
-    margin-bottom: 16px; /* Reduce el espacio entre párrafos */
+    margin-bottom: 16px; 
     line-height: 1.2; 
     
 }
@@ -349,7 +348,7 @@ button.submit-button:hover {
 .parrafosconfirmacion{
     font-size:  calc(16 * (100vw / 1440));
     font-weight: 700;
-    margin-bottom: 14px; /* Reduce el espacio entre párrafos */
+    margin-bottom: 14px; 
     line-height: 1.2; 
 }
 
@@ -361,7 +360,7 @@ button.submit-button:hover {
         height: calc(570 * (100vh / 768));
 }
 .crear-clientes {
-        font-size: calc(20 * (100vw / 1368));  /* Reduce el tamaño del título */
+        font-size: calc(20 * (100vw / 1368));  
 }
 .prueba{
     display: flex;
@@ -374,15 +373,15 @@ button.submit-button:hover {
 }
 
 .parrafosconfig {
-    font-size:  calc(14 * (100vw / 1368)); /* Reduce el tamaño del texto */
-    font-weight: 400; /* Peso de texto */
-    margin-bottom: 10px; /* Reduce el espacio entre párrafos */
-    line-height: 1.2; /* Reduce la altura de línea */
+    font-size:  calc(14 * (100vw / 1368)); 
+    font-weight: 400; 
+    margin-bottom: 10px; 
+    line-height: 1.2; 
 }
 .parrafosconfirmacion{
     font-size:  calc(14 * (100vw / 1440));
     font-weight: 700;
-    margin-bottom: calc(10 * (100vh / 768)); /* Reduce el espacio entre párrafos */
+    margin-bottom: calc(10 * (100vh / 768)); 
     line-height: 1.2; 
 }
 .zoom{
@@ -391,13 +390,13 @@ button.submit-button:hover {
 
 .button-container {
         display: flex;
-        justify-content: center; /* Centra el botón */
+        justify-content: center; 
         margin-top: 0;
         margin-bottom: calc(10 * (100vh / 768));
 }
 
 .submit-button {
-        width: calc(150 * (100vw / 1368)); /* Ajusta el tamaño del botón */
+        width: calc(150 * (100vw / 1368)); 
         font-size:  calc(14 * (100vw / 1368));
         padding: 8px;
 }

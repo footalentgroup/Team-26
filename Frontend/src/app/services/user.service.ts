@@ -74,7 +74,7 @@ export class UserService {
   // Método para eliminar un usuario
   deleteUser(url: string): Observable<any> {
     const headers = this.getHeaders();
-    const fullUrl = `${this.apiUrl}/${url}`; // Construye la URL completa
+    const fullUrl = `${this.apiUrl}/${url}`; 
     return this.http.delete(fullUrl, { headers }).pipe(
       catchError(this.handleError)
     );
