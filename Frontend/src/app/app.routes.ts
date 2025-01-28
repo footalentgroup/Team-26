@@ -23,6 +23,7 @@ import { FCalendarioComponent } from './components/fcalendario/fcalendario.compo
 import { LoadingSpinerComponent } from './components/loadingspiner/loadingspiner.component';
 import { ConfirmationModalComponent } from './components/modalconfirmation/modalconfirmation.component';
 import { CuentaactivComponent } from './components/cuentaactiv/cuentaactiv.component';
+import { autenticacionGuard } from './services/autenticacion-rutas.service';
 
 
 
@@ -35,6 +36,7 @@ export const routes: Routes = [
     {path:"accesibilidad",component:AccesibilidadComponent,pathMatch:"full"},
 
     {path:"dashboardadmin",component:DashboardadminComponent,
+        canActivate: [autenticacionGuard],
         children: [ 
             { path: "usuarios", component: UsuariosComponent },
             { path: "clientes", component: ClientesComponent },
@@ -46,19 +48,17 @@ export const routes: Routes = [
     {path:"usuarios",component:UsuariosComponent,pathMatch:"full"},
     {path:"loadingspiner",component:LoadingSpinerComponent,pathMatch:"full"},
     {path:"modalconfirmation",component:ConfirmationModalComponent,pathMatch:"full"},
-    {path:"pantallacarga",component:PantallacargaComponent,pathMatch:"full"},
+    {path:"pantallacarga",component:PantallacargaComponent,canActivate: [autenticacionGuard],pathMatch:"full"},
     {path:"cuentaactiv",component:CuentaactivComponent,pathMatch:"full"},
     {path:"formcontacto",component:FormcontactoComponent,pathMatch:"full"},
     {path:"recuperarpassword",component:RecuperarpasswordComponent,pathMatch:"full"},
-    {path: "dashboardsup", component: DashboardsupComponent },
+    {path: "dashboardsup", component: DashboardsupComponent,canActivate: [autenticacionGuard] },
     {path: "navbarsup", component: NavbarsupComponent }, 
     {path: "map", component: MapComponent }, 
     {path: "agenda", component: AgendaComponent },
     {path: "calendar", component: CalendarComponent },
     {path: "modalvisit", component: ModalVisitComponent },  
-    {path: "register-admin", component: RegisterAdminComponent ,pathMatch:"full"}, 
-    {path: "dashboardsup", component: DashboardsupComponent,pathMatch:"full" },
-    {path: "navbarsup", component: NavbarsupComponent,pathMatch:"full" }, 
+    {path: "register-admin", component: RegisterAdminComponent ,pathMatch:"full"},  
     {path: "map", component: MapComponent ,pathMatch:"full"}, 
     {path: "agenda", component: AgendaComponent,pathMatch:"full" },
     {path: "calendar", component: CalendarComponent,pathMatch:"full" },

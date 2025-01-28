@@ -18,8 +18,12 @@ export class PantallacargaComponent {
     /*$$$$$$$$$$$$$$$$$$FUNCION PARA Redirigir al dashboard correspondiente $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
     setTimeout(() => {
-      
+    const token: string | null = localStorage.getItem('token');
     const userRole: string | null = localStorage.getItem('userRole');
+    if (!token) {
+      this.router.navigate(['/login']); 
+      return;
+    }
     
       switch (userRole) {
         case 'administrator':
