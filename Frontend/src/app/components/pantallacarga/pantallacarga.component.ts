@@ -14,12 +14,13 @@ export class PantallacargaComponent {
   
   
   ngOnInit(): void {
-    console.log("Cargando PantallacargaComponent...");
+
+    /*$$$$$$$$$$$$$$$$$$FUNCION PARA Redirigir al dashboard correspondiente $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
     setTimeout(() => {
+      
     const userRole: string | null = localStorage.getItem('userRole');
     
-     // Redirigir al dashboard correspondiente
       switch (userRole) {
         case 'administrator':
           this.router.navigate(['/dashboardadmin']);

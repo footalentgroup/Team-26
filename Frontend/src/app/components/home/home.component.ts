@@ -16,7 +16,7 @@ export class HomeComponent {
       this.addGlow = true;
       setTimeout(() => {
         this.router.navigate(['/accesibilidad']); 
-      }, 2000); // Tiempo para redirigir después del contorno
-    }, 3000); // Tiempo para activar el contorno
+      }, 2000); 
+    }, 3000); 
   }
 }

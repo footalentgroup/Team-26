@@ -55,14 +55,14 @@ export class ClientesComponent {
   }
 
   avanzarPaso() {
-    console.log("presion de boton", this.currentStep);
+    
     if (this.currentStep === 'crear') {
       this.currentStep = 'confirmar';
     } else if (this.currentStep === 'confirmar') {
         if (this.esEditar) {
           this.guardarCambios();
         }else {
-          console.log("entro aqui al llamdo a la funcion guardar");
+    
           this.guardarCliente();
         }
     } else if (this.currentStep === 'darDeBaja') {
@@ -83,11 +83,9 @@ export class ClientesComponent {
       clientEmail: this.Email,
       clientGeoLocation: {
         "type": "Point",
-        "coordinates": [-118.243683, 34.052235] // [longitude, latitude]
+        "coordinates": [-118.243683, 34.052235] 
       }
     };
-
-    console.log("Datos enviados al backend:", payload);
 
     this.clienteServices.createClient(payload).subscribe({
       next: (res: any) => {
@@ -107,7 +105,6 @@ export class ClientesComponent {
   editarRegistro(id: string) {
     this.esEditar = true;
     this.idseleccionado = id;
-    console.log("Editar cliente con ID:", this.idseleccionado);
     const cliente = this.datos.find((item) => item._id === id);
 
       this.Nombre = cliente.clientCompanyName;
@@ -149,7 +146,6 @@ export class ClientesComponent {
     this.clienteServices.getClient().subscribe({
       next: (res: any) => {
         this.datos = res.data;
-        console.log("Datos cargados:", this.datos);
       },
       error: (error) => {
         console.error("Error al cargar datos:", error);
@@ -160,7 +156,6 @@ export class ClientesComponent {
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA ELIMINAR UN USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
 
   EliminarM(id: string) {
-    console.log("Dar de baja usuario con ID:", id);
     
     const clientes = this.datos.find((item) => item._id === id);
 
@@ -172,7 +167,6 @@ export class ClientesComponent {
     this.idseleccionado = id;
   }
   eliminarBaja(id: string) {
-    console.log("eliminar cliente con:", id);
     
     this.clienteServices.deleteClient(id).subscribe({
       next: (res: any) => {

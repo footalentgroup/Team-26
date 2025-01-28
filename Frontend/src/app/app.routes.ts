@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { DashboardadminComponent } from './components/dashboardadmin/dashboardadmin.component';
-import { DashboardtecniComponent } from './components/dashboardtecni/dashboardtecni.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 
@@ -36,38 +35,28 @@ export const routes: Routes = [
     {path:"accesibilidad",component:AccesibilidadComponent,pathMatch:"full"},
 
     {path:"dashboardadmin",component:DashboardadminComponent,
-        children: [ // Rutas hijas
+        children: [ 
             { path: "usuarios", component: UsuariosComponent },
             { path: "clientes", component: ClientesComponent },
-            { path: "", redirectTo: "usuarios", pathMatch: "full" }, // Ruta por defecto dentro del dashboard
+            { path: "", redirectTo: "usuarios", pathMatch: "full" }, 
             ],
         },
     { path: "", redirectTo: "dashboardadmin", pathMatch: "full" },
-
-    {path:"dashboardtecni",component:DashboardtecniComponent,pathMatch:"full"},
     {path:"dropdown",component:DropdownComponent,pathMatch:"full"},
-
-
     {path:"usuarios",component:UsuariosComponent,pathMatch:"full"},
     {path:"loadingspiner",component:LoadingSpinerComponent,pathMatch:"full"},
     {path:"modalconfirmation",component:ConfirmationModalComponent,pathMatch:"full"},
-
-
     {path:"pantallacarga",component:PantallacargaComponent,pathMatch:"full"},
     {path:"cuentaactiv",component:CuentaactivComponent,pathMatch:"full"},
     {path:"formcontacto",component:FormcontactoComponent,pathMatch:"full"},
     {path:"recuperarpassword",component:RecuperarpasswordComponent,pathMatch:"full"},
-
-
     {path: "dashboardsup", component: DashboardsupComponent },
     {path: "navbarsup", component: NavbarsupComponent }, 
     {path: "map", component: MapComponent }, 
     {path: "agenda", component: AgendaComponent },
     {path: "calendar", component: CalendarComponent },
     {path: "modalvisit", component: ModalVisitComponent },  
-
     {path: "register-admin", component: RegisterAdminComponent ,pathMatch:"full"}, 
-
     {path: "dashboardsup", component: DashboardsupComponent,pathMatch:"full" },
     {path: "navbarsup", component: NavbarsupComponent,pathMatch:"full" }, 
     {path: "map", component: MapComponent ,pathMatch:"full"}, 
@@ -75,7 +64,5 @@ export const routes: Routes = [
     {path: "calendar", component: CalendarComponent,pathMatch:"full" },
     {path: "modalvisit", component: ModalVisitComponent,pathMatch:"full" },  
     {path: "fcalendario", component: FCalendarioComponent,pathMatch:"full" },  
-
-
     {path: "**", redirectTo: 'login' } 
 ];

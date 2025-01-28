@@ -19,7 +19,6 @@ export class UsuariosComponent {
   constructor(private userService: UserService, private msg: MensajesService, private router: Router) {}
 
   ngOnInit(): void {
-    console.log("Valor inicial de currentStep:", this.currentStep);
     this.cargarDatos();
   }
 
@@ -39,6 +38,7 @@ export class UsuariosComponent {
   seleccionRol: string = '';
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA CONTROLAR LA FUNCION DEL MODAL OPEN - CLOSE $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+
   abrirModal() {
     this.mostrarModal = true;
     this.currentStep = 'crear';
@@ -57,7 +57,6 @@ export class UsuariosComponent {
 
   avanzarPaso() {
 
-    console.log("Presionando botón:", this.currentStep);
     if (this.currentStep === 'crear') {
       this.currentStep = 'confirmar';
 
@@ -65,7 +64,6 @@ export class UsuariosComponent {
       if (this.esEditar) {
         this.guardarCambios();
       } else {
-        console.log("entro aqui al llamdo a la funcion guardar");
         this.guardarUsuario();
       }
     } else if (this.currentStep === 'darDeBaja') {
@@ -83,16 +81,16 @@ export class UsuariosComponent {
   }
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA GUARDAR UN NUEVO USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+
   guardarUsuario() {
     console.log("impresion de la variable nombre",this.nombre)
     const nombreParts = this.nombre.trim().split(' ');
-
     // Obtener el año actual
     const currentYear = new Date().getFullYear();
 
     // Generar el password concatenando userName y el año de creación
-    const userName = nombreParts[0]; // Primer nombre del usuario
-    const userPassword = `${userName}${currentYear}`; // Generar el password
+    const userName = nombreParts[0]; 
+    const userPassword = `${userName}${currentYear}`; 
     
     const payload = {
       userName: userName,
@@ -102,8 +100,6 @@ export class UsuariosComponent {
       userPhone: this.Telefono,
       userPassword:userPassword,
     };
-
-    console.log("Datos enviados al backend:", payload);
 
     this.userService.createUser(payload).subscribe({
       next: (res: any) => {
@@ -119,6 +115,7 @@ export class UsuariosComponent {
   }
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA EDITAR UN REGISTRO DE UN USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+
   editarRegistro(id: string) {
     this.esEditar = true;
     const usuario = this.datos.find((item) => item._id === id);
@@ -133,6 +130,7 @@ export class UsuariosComponent {
   }
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA EDITAR LOS REGISTROS DEL USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+
   guardarCambios() {
     const nombreParts = this.nombre.trim().split(" ");
     const data = {
@@ -159,11 +157,11 @@ export class UsuariosComponent {
   }
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA CARGAR LOS DATOS DEL USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+
   cargarDatos() {
     this.userService.getUsers().subscribe({
       next: (res: any) => {
         this.datos = res.data;
-        console.log("Datos cargados:", this.datos);
       },
       error: (error) => {
         console.error("Error al cargar datos:", error);
@@ -177,8 +175,8 @@ export class UsuariosComponent {
   }
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA ELIMINAR UN USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
+
   EliminarM(id: string) {
-    console.log("Dar de baja usuario con ID:", id);
     
     const usuario = this.datos.find((item) => item._id === id);
 
@@ -189,12 +187,12 @@ export class UsuariosComponent {
     this.idseleccionado = id;
     this.motivoBaja = ""; 
     this.seleccionRol = usuario.userRole;
-    console.log("Valor de seleccionRol:", this.seleccionRol);
+
   }
   eliminarBaja(id: string) {
 
-    const motivo = encodeURIComponent(this.motivoBaja); // Codifica el motivo de baja
-    const url = `${id}?userDeletionCause=${motivo}`; // Construye la URL con el motivo
+    const motivo = encodeURIComponent(this.motivoBaja); 
+    const url = `${id}?userDeletionCause=${motivo}`; 
 
     this.userService.deleteUser(url).subscribe({
       next: (res: any) => {

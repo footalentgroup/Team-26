@@ -8,7 +8,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class CreateClientService {
 
- private apiUrl = 'http://localhost:3001/api/client'; // URL base para las operaciones relacionadas con usuarios
+ private apiUrl = 'http://localhost:3001/api/client'; // URL base para las operaciones relacionadas con clientes
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -23,7 +23,7 @@ export class CreateClientService {
     });
   }
 
-   // Método para obtener todos los usuarios
+   // Método para obtener todos los clientes
   getClient(): Observable<any> {
     const url = `${this.apiUrl}`;
     return this.http.get(url, { headers: this.getHeaders() }).pipe(
@@ -31,7 +31,7 @@ export class CreateClientService {
     );
   }
 
-   // Método para obtener un usuario por su ID
+   // Método para obtener un cliente por su ID
   getClientById(userId: string): Observable<any> {
     const url = `${this.apiUrl}/${userId}`;
     return this.http.get(url, { headers: this.getHeaders() }).pipe(
@@ -39,7 +39,7 @@ export class CreateClientService {
     );
   }
 
-   // Método para crear un usuario
+   // Método para crear un cliente
   createClient(data: any): Observable<any> {
     const url = `${this.apiUrl}`;
     return this.http.post(url, data, { headers: this.getHeaders() }).pipe(
@@ -49,13 +49,13 @@ export class CreateClientService {
 
    // Método para actualizar un Client (PATCH)
   updateClient(userId: string, data: any): Observable<any> {
-    const url = `${this.apiUrl}/${userId}`; // URL incluye el ID del usuario
+    const url = `${this.apiUrl}/${userId}`; // URL incluye el ID del cliente
     return this.http.patch(url, data, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
   }
 
-   // Método para eliminar un usuario
+   // Método para eliminar un cliente
   deleteClient(userId: string): Observable<any> {
     const Url = `${this.apiUrl}/${userId}`; // Construye la URL completa
     return this.http.delete(Url, { headers:this.getHeaders() }).pipe(
