@@ -9,7 +9,6 @@ const sendEmail = async ({functionalitySendMail, documentId, emailData, tokenMai
         // Registrar en audit_logs
         const changes = { success: true, messageId: documentId, email: emailData, res: info }
         await registerAuditLog(tokenMail, functionalitySendMail, documentId, changes);
-        console.log('Correo enviado:', info.messageId);
         return { success: true, message: `Correo enviado: ${info.messageId}` };
     } catch (error) {
         // Manejo del error sin relanzarlo

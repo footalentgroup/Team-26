@@ -1,18 +1,16 @@
 const jwt = require('jsonwebtoken')
 const Client = require("../models/Client");
 const WorkOrder = require("../models/WorkOrder");
-const AuditLogController = require('../controllers/auditLog.controller'); // Audit controller
+const AuditLogController = require('../controllers/auditLog.controller'); 
 
 const escapeRegex = (text) => {
-    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special regex characters
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
 };
 
-// Get all client records
 const getAllClients = async (req, res) => {
     try {
         const clients = await Client.find()
         if (!clients || clients.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron clientes' });
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'READ', null, { actionDetails: 'get all clients' });
 
         return res.status(200).json({
@@ -29,13 +27,10 @@ const getAllClients = async (req, res) => {
     }
 }
 
-// Create a client
 const createClient = async (req, res) => {
-    console.log("impresion de los headers",req.headers)
     try {
         const nuevoClient = new Client(req.body);
         await nuevoClient.save();
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'CREATE', nuevoClient._id, { newdRecord: nuevoClient.toObject() });
 
         return res.status(201).json({ ok: true, message: 'Cliente creado con éxito', data: nuevoClient });
@@ -56,9 +51,7 @@ const createClient = async (req, res) => {
     }
 }
 
-// Update a client by id
 const updateClientById = async (req, res) => {
-    console.log("impresion de los headers",req.headers)
     const { id } = req.params;
     const { clientCompanyName, clientContactPerson, clientEmail, clientPhone, clientAddress } = req.body;
     let hasChanges = false;
@@ -77,7 +70,6 @@ const updateClientById = async (req, res) => {
                 message: 'No se encontró ningún cliente con el id proporcionado'
             })
         if (originalData) {
-            // Identify changes
             for (let key in updateDataById) {
                 if (originalData[key] !== updateDataById[key]) {
                     hasChanges = true;
@@ -96,18 +88,16 @@ const updateClientById = async (req, res) => {
                 ok: false,
                 message: 'No se puede actualizar el cliente, no encontrado o no se detectaron cambios'
             })
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'UPDATE', client._id, { updateRecord: changes });
 
         const clientUpdated = await Client.findById(id);
-        
+
         return res.status(200).json({
             ok: true,
             message: 'Cliente actualizado',
             data: clientUpdated
         })
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             ok: false,
             message: 'No se puede actualizar el cliente, por favor contacte al soporte',
@@ -116,7 +106,6 @@ const updateClientById = async (req, res) => {
     }
 }
 
-// Get client by Id
 const getClientById = async (req, res) => {
     const id = req.params.id
     try {
@@ -125,7 +114,6 @@ const getClientById = async (req, res) => {
             ok: false,
             message: `No se encontró cliente para ${id}`
         })
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'READ', id, { actionDetails: 'Retrieved client by id' });
 
         return res.status(200).json({
@@ -134,7 +122,6 @@ const getClientById = async (req, res) => {
             data: client
         })
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             ok: false,
             message: 'No se puede encontrar el cliente, por favor contacte al soporte',
@@ -143,7 +130,6 @@ const getClientById = async (req, res) => {
     }
 }
 
-// Get client by Email
 const getClientByEmail = async (req, res) => {
     const clientEmail = req.query.clientEmail
     try {
@@ -154,7 +140,6 @@ const getClientByEmail = async (req, res) => {
             ok: false,
             message: `No se encontró cliente para ${clientEmail}`
         })
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'READ', client._id, { actionDetails: `get client by email: ${clientEmail}` });
 
         return res.status(200).json({
@@ -163,7 +148,6 @@ const getClientByEmail = async (req, res) => {
             data: client
         })
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             ok: false,
             message: 'No se puede encontrar el cliente, por favor contacte al soporte'
@@ -179,7 +163,7 @@ const searchClients = async (req, res) => {
             return res.status(400).json({ ok: false, message: 'Se requiere una consulta de búsqueda.' });
         }
 
-        const searchRegex = new RegExp(querySearch, 'i'); // 'i' makes it case-insensitive
+        const searchRegex = new RegExp(querySearch, 'i'); 
 
         const results = await Client.aggregate([
             {
@@ -207,14 +191,13 @@ const searchClients = async (req, res) => {
             },
             {
                 $project: {
-                    geoLocationString: 0, // Exclude this temporary field from the output
+                    geoLocationString: 0, 
                 },
             },
         ]);
         if (results.length === 0) {
             return res.status(404).json({ ok: false, message: 'No se encontraron clientes.' });
         }
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'READ', null, { actionDetails: `get Clients through global search: ${querySearch}` });
 
         return res.status(200).json({
@@ -222,22 +205,18 @@ const searchClients = async (req, res) => {
             data: results
         })
     } catch (error) {
-        console.error(error);
         res.status(500).json({ ok: false, message: 'Error del servidor', data: error });
     }
 };
 
-// Delete a client by id
 const deleteClientById = async (req, res) => {
-    console.log("impresion de los headers",req.headers)
     const { id } = req.params;
     try {
-        // Check if the client has any associated work orders
         const hasWorkOrders = await WorkOrder.exists({ clientId: id });
         if (hasWorkOrders) {
             return res.status(400).json({
-            ok: false,
-            message: 'No se puede eliminar el cliente, tiene órdenes de trabajo asociadas'
+                ok: false,
+                message: 'No se puede eliminar el cliente, tiene órdenes de trabajo asociadas'
             });
         }
 
@@ -247,7 +226,6 @@ const deleteClientById = async (req, res) => {
                 ok: false,
                 message: 'No se puede eliminar el cliente, no encontrado'
             })
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'DELETE', id, { deletedRecord: client.toObject() });
         return res.status(200).json({
             ok: true,
@@ -255,7 +233,7 @@ const deleteClientById = async (req, res) => {
             data: client
         })
     } catch (error) {
-        console.log(error)
+
         return res.status(500).json({
             ok: false,
             message: 'No se puede eliminar el cliente, por favor contacte al soporte',
@@ -269,11 +247,11 @@ const registerAuditLog = async (req, action, documentId, changes) => {
     const secret = process.env.SECRET_KEY;
     const decoded = jwt.verify(token, secret);
     const auditLogData = {
-        auditLogUser: decoded.userData || 'anonymous why?',         // User who performed the action (can be null)
-        auditLogAction: action,                                     // Action performed e.g., "CREATE", "UPDATE", "DELETE"
-        auditLogModel: 'Client',                                    // Affected model, e.g., "User"
-        auditLogDocumentId: documentId,                             // ID of the affected document (can be null)
-        auditLogChanges: changes                                    // Changes made or additional information (not mandatory)
+        auditLogUser: decoded.userData || 'anonymous why?',         
+        auditLogAction: action,                                     
+        auditLogModel: 'Client',                                    
+        auditLogDocumentId: documentId,                             
+        auditLogChanges: changes                                    
     }
     await AuditLogController.createAuditLog(auditLogData);
 };
@@ -285,14 +263,13 @@ const searchClientsByCompanyName = async (req, res) => {
     }
 
     try {
-        const searchPattern = new RegExp('.*' + escapeRegex(clientCompanyName) + '.*', 'i'); // Match any substring case-insensitive
+        const searchPattern = new RegExp('.*' + escapeRegex(clientCompanyName) + '.*', 'i'); 
         const clients = await Client.find({ clientCompanyName: { $regex: searchPattern } });
 
         if (clients.length === 0) {
             return res.status(404).json({ ok: false, message: 'No se encontraron clientes con el nombre de la empresa proporcionado.' });
         }
 
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'READ', null, { actionDetails: `search clients by company name: ${clientCompanyName}` });
 
         return res.status(200).json({
@@ -301,7 +278,7 @@ const searchClientsByCompanyName = async (req, res) => {
             data: clients
         });
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({ ok: false, message: 'Error del servidor', data: error });
     }
 };

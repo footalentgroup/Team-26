@@ -76,7 +76,6 @@ const createWorkOrder = async (req, res) => {
         });
     }
     const workOrder = req.body;
-    console.log('createWorkOrder ', req.body, workOrder);
     try {
         if (!workOrder) {
             return res.status(400).json({
@@ -103,7 +102,6 @@ const createWorkOrder = async (req, res) => {
             // Reutilizar la función de envío de correos
             const reqMail = { token : token, functionalitySendMail: 'createWorkOrder', documentId: newWorkOrder._id, emailData : emailData };
             const result = await mail.sendEmail(reqMail);
-            console.log('result sendMail', result);
             if (!result.success) {
                 return res.status(201).json({ ok: true, message: 'Orden de trabajo creada exitosamente. No fue posible enviar correo al tecnico asignado.', data: newWorkOrder });
             } else {
@@ -330,7 +328,6 @@ const updateWorkOrderStatus = async (req, res) => {
                     if (originalData[key] !== updateDataById[key]) {
                         hasChanges = true;
                         changes[key] = { old: originalData[key], new: updateDataById[key] }
-                        console.log('changes', changes);
                     }
                 }
             }
@@ -357,7 +354,7 @@ const updateWorkOrderStatus = async (req, res) => {
         }
     }
     catch (error) {
-        console.log(error)
+        
         return res.status(500).json({
             ok: false,
             message: 'No se puede actualizar el Orden de trabajo, por favor contacte al soporte',

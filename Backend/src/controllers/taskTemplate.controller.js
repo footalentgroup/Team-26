@@ -87,7 +87,7 @@ const updateTaskTemplateById = async (req, res) => {
             data: taskTemplate
         })
     } catch (error) {
-        console.log(error)
+        
         return res.status(500).json({
             ok: false,
             message: 'No se puede actualizar la plantilla de tarea, por favor contacte al soporte',
@@ -114,7 +114,7 @@ const getTaskTemplateById = async (req, res) => {
             data: taskTemplate
         })
     } catch (error) {
-        console.log(error)
+        
         return res.status(500).json({
             ok: false,
             message: 'No se puede encontrar la plantilla de tarea, por favor contacte al soporte',
@@ -161,7 +161,7 @@ const getTaskTemplateByServiceType = async (req, res) => {
             data: taskTemplateData
         })
     } catch (error) {
-        console.log(error)
+        
         return res.status(500).json({
             ok: false,
             message: 'No se puede encontrar la plantilla de tarea, por favor contacte al soporte'
@@ -217,7 +217,7 @@ const searchTaskTemplates = async (req, res) => {
             data: results
         })
     } catch (error) {
-        console.error(error);
+        
         res.status(500).json({ ok: false, message: 'Error del servidor', data: error });
     }
 };
@@ -240,7 +240,7 @@ const deleteTaskTemplateById = async (req, res) => {
             data: taskTemplate
         })
     } catch (error) {
-        console.log(error)
+        
         return res.status(500).json({
             ok: false,
             message: 'No se puede eliminar la plantilla de tarea, por favor contacte al soporte',
