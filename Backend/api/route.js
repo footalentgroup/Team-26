@@ -1,4 +1,3 @@
-// api/api-docs.js
 import swaggerUi from "swagger-ui-express";
 const swaggerJsdoc = require('swagger-jsdoc');
 
@@ -12,7 +11,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: `${process.env.BASE_URL}/api` || 'http://localhost:3001', // Replace with your server URL
+                url: `${process.env.BASE_URL}/api` || 'http://localhost:3001', 
             },
         ],
         components: {
@@ -29,13 +28,13 @@ const swaggerOptions = {
             },
         ],
     },
-    apis: ['./src/routes/*.js'], // Adjust to the location of your route files
+    apis: ['./src/routes/*.js'], 
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 const options = {
     swaggerOptions: {
-        docExpansion: 'none', // Colapsar encabezados
+        docExpansion: 'none', 
     },
 };
 

@@ -16,7 +16,7 @@ const generateToken = (userData = {}) => {
 
         return token
     } catch(error) {
-        console.log(error)
+        
 
         return false
     }
