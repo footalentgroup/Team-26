@@ -61,13 +61,11 @@ export class LoginComponent {
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA REDIRECCIONAR A FORMULARIO DE RECUPERACIÓN DE CONTRASEÑA $$$$$$$$$$$$$$$$$$$$$$$*/
   recuperarPassword() {
-    console.log("Ingresando a recuperación de contraseña...");
     this.router.navigate(['/recuperarpassword']);
   }
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA REALIZAR LOGIN $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
   Login() {
-    console.log("Intentando iniciar sesión...");
 
     if (!this.email || !this.password) {
       this.msg.Load("danger", "Por favor ingresa tu correo y contraseña.");
@@ -80,9 +78,7 @@ export class LoginComponent {
       password: this.password
     };
 
-    console.log("Información enviada al backend:", payload);
-
-    this.peticion.Postwithouttoken(url, payload).subscribe({
+      this.peticion.Postwithouttoken(url, payload).subscribe({
       next: (res: any) => {
         console.log("Respuesta del servidor:", res);
 
@@ -95,16 +91,11 @@ export class LoginComponent {
 
       this.msg.Load("dark", res.msg || "Bienvenido");
 
-
         localStorage.setItem("token", res.token);
         localStorage.setItem("userId", res.userId);
         localStorage.setItem("userRole", res.userRole);
         localStorage.setItem("userName", res.userName);
-        console.log("Rol guardado en localStorage:", res.userRole);
-
-        console.log("Redirigiendo a /pantallacarga...");
         this.router.navigate(["/pantallacarga"]);
-        console.log("Redirigido a pantalla de carga correctamente.");
       },
       error: (error) => {
         console.error("Error en la petición de login:", error);

@@ -23,7 +23,7 @@ export class CuentaactivComponent implements OnInit{
   showPassword3: boolean = false;
 
   mostrarModal: boolean = false;
-  errorMessage: string = ''; // Mensaje de error para validaciones
+  errorMessage: string = ''; 
 
   token:string="";
 
@@ -31,12 +31,12 @@ export class CuentaactivComponent implements OnInit{
   constructor(private router: Router, private userService: UserService,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Capturar el token desde la URL
     this.token = this.route.snapshot.queryParamMap.get('token') || '';
-    console.log('Token:', this.token);
+
   }
 
     /*$$$$$$$$$$$$$$$$$$ MÉTODO PARA ALTERNAR LA VISIBILIDAD DE LA CONTRASEÑA $$$$$$$$$$$$$$$$$$$$$$$*/
+
     togglePasswordVisibility(field: number): void {
       if (field === 1) {
           this.showPassword1 = !this.showPassword1;
@@ -47,33 +47,25 @@ export class CuentaactivComponent implements OnInit{
       }
   }
   Confirm(): void {
-    // Validar que las contraseñas coincidan
+
     if (this.newpassword !== this.confipassword) {
       this.errorMessage = 'Las contraseñas no coinciden.';
       return;
     }
   
-    // Validar longitud de la nueva contraseña
     if (this.newpassword.length < 4 || this.newpassword.length > 30) {
       this.errorMessage = 'La contraseña debe tener entre 4 y 30 caracteres.';
       return;
     }
   
-    // Obtener el correo del usuario antes de enviar la nueva contraseña
     this.userService.getUserByToken(this.token).subscribe(
       (response: any) => {
-        console.log("token22222",this.token)
         if (response.ok) {
-          
-          const userEmail = response.data.userEmail; // Extraer el correo del usuario
-          console.log("email",response.data.userEmail)
-  
-          //Enviar la nueva contraseña junto con el correo al backend
+          const userEmail = response.data.userEmail; 
           this.userService.confirmUser(this.token, this.newpassword, userEmail).subscribe(
             (response: any) => {
               if (response.ok) {
-                // Mostrar modal de confirmación y redirigir al login
-                this.mostrarModal = true; // Mostrar modal
+                this.mostrarModal = true; 
               } else {
                 this.errorMessage = 'Hubo un problema al actualizar la contraseña.';
               }

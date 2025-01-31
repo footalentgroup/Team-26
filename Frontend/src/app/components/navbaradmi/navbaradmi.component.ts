@@ -16,7 +16,6 @@ export class NavbaradmiComponent {
   userRole: string = '';
 
   ngOnInit() {
-    // Recuperar los datos desde el localStorage
     this.userName = localStorage.getItem('userName') || 'Usuario'; 
     this.userRole = localStorage.getItem('userRole') || '';
   }
@@ -26,8 +25,7 @@ export class NavbaradmiComponent {
       this.router.navigate([ruta]);
   }
   logout() {
-    console.log("Cerrando sesión del usuario");
-
+    
     const userId = localStorage.getItem('userId'); 
     const url = `${this.peticion.UrlHost}/api/userclosesession/${userId}`; 
   
@@ -36,15 +34,13 @@ export class NavbaradmiComponent {
       this.peticion.Patch(url, {}).subscribe({
         next: (res: any) => {
           if (res.ok) {
-        
+            
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
             localStorage.removeItem('userRole');
             localStorage.removeItem('userName');
-  
-            
             this.router.navigate(['/login']);
-            console.log('Sesión cerrada exitosamente.');
+
           } else {
             console.error('Error al cerrar sesión:', res.message);
           }
