@@ -172,7 +172,7 @@ A continuación, sigue los pasos descritos para instalar las dependencias y ejec
 
  - navegar al directorio del Backend (cd /Banckend) 
  - con el comando (npm install) realizo la instalacion de las dependencias necesarias para el correcto funcionamiento del Backend 
- -  desde la carpeta Backend ejecute la consola de su preferencia y coloque el siguiente comando (npm star o node app.js) para ejecutar el servidor del backend
+ -  desde la carpeta Backend ejecute la consola de su preferencia y coloque el siguiente comando (npm star o node index.js) para ejecutar el servidor del backend
  - Por defecto, el backend estará disponible en http://localhost:3001, si deseas cambiar el puerto de ejecución edita el archivo .env y modifica la variable PORT.
 -------------------------------------------------------------------------------------------------
 ### 🎨Instalar las dependencias y ejecución del Frontend
