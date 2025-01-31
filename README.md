@@ -155,9 +155,7 @@ Asegúrate de tener instalado lo siguiente archivos en tu sistema operativo:
 -----------------
 ## 🚀Intalación y ejecución del Banckend - Frontend
 
-Primero, debes descargar o clonar este repositorio de manera local en tu equipo. Una vez descargado, ubícate en la carpeta del proyecto
-
-Dentro del repositorio, encontrarás la siguiente estructura de directorios:
+Primero, debes descargar o clonar este repositorio de manera local en tu equipo. Una vez descargado, ubícate en la carpeta del proyecto. Dentro del repositorio, encontrarás la siguiente estructura de directorios:
 
 Team26/
    - Backend/
