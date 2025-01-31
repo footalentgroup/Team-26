@@ -1,0 +1,187 @@
+#installation{
+    width: calc(902 * (100vw / 1440)) ;
+    height: calc(900 * (100vh / 1024)) ;
+    background-color: #FFFFFF;
+    left: calc(408 * (100vw / 1440)) ;
+    top: calc(25 * (100vh / 1024));
+    border-radius: calc(28 * (100vw / 1440)) !important;
+    position: absolute;
+}
+#ttmain{
+    width: calc(325 * (100vw / 1440)) ;
+    height: calc(40 * (100vh / 1024)) ;
+    font-size: calc(24 * (100vw / 1440));
+    color: #00254B;
+    font-weight: 600;
+    left: calc(45 * (100vw / 1440)) ;
+    top: calc(18 * (100vh / 1024));
+    position: absolute;
+    justify-content: center;
+    align-content: center;
+}
+#search{
+    width: calc(792 * (100vw / 1440)) ;
+    height: calc(44 * (100vh / 1024)) ;
+    border: #00254B solid 1px;
+    left: calc(45 * (100vw / 1440)) ;
+    top: calc(108 * (100vh / 1024));
+    position: absolute;
+    border-radius: calc(28 * (100vw / 1440));
+}
+#iconsearch{
+    width: calc(34 * (100vw / 1440));
+    height: calc(34 * (100vw / 1440));
+    align-items: center;
+    position: absolute;
+    top:  calc(-5 * (100vh / 1024));
+    left: calc(5 * (100vw / 1440)) ;
+}
+#filter{
+    width: calc(164 * (100vw / 1440));
+    height: calc(34 * (100vh / 1024)); 
+    position: absolute;
+    justify-content: right;
+    align-content: center;
+    top: calc(5 * (100vh / 1024));
+    right: calc(70 * (100vw / 1440));
+    font-size: calc(16 * (100vw / 1440));
+    color: #737373;
+    display: flex;
+}
+#iconfilter{
+    width: calc(24 * (100vw / 1440));
+    height: calc(24 * (100vw / 1440));
+    position: absolute;
+    top:  calc(3 * (100vh / 1024));
+    right: calc(15 * (100vw / 1440)) ;
+}
+#subtitleins{
+    width: calc(399 * (100vw / 1440)) ;
+    height: calc(20 * (100vh / 1024)) ;
+    font-size: calc(16 * (100vw / 1440));
+    color: #00254B;
+    font-weight: 600;
+    left: calc(45 * (100vw / 1440)) ;
+    top: calc(163 * (100vh / 1024));
+    padding-left: calc(34 * (100vw / 1440));
+    position: absolute;
+    justify-content: center;
+    align-content: center;
+}
+#iconsubtt{
+    width: calc(24 * (100vw / 1440));
+    height: calc(24 * (100vw / 1440));
+    align-items: center;
+    position: absolute;
+    top:  calc(-5 * (100vh / 1024));
+    left: calc(5 * (100vw / 1440)) ;
+}
+#table{
+    width: calc(792 * (100vw / 1440));
+    height: calc(640 * (100vh / 1024));
+    top:  calc(205 * (100vh / 1024));
+    left: calc(45 * (100vw / 1440)) ;
+    position: absolute;
+    border: solid 1px #00254B;
+}
+#tabtitle{
+    width: calc(792 * (100vw / 1440));
+    height: calc(40 * (100vh / 1024));
+    position: absolute;
+    background-color:  #00254B;
+}
+.text{
+    font-size: calc(18 * (100vw / 1440));
+    color: #FFFFFF;
+    font-weight: 600;
+}
+#client{
+    left: calc(38 * (100vw / 1440)) ;
+    position: absolute;
+}
+#ot{
+    left: calc(184 * (100vw / 1440)) ;
+    position: absolute;   
+}
+#date{
+    left: calc(284 * (100vw / 1440)) ;
+    position: absolute; 
+}
+#hour{
+    left: calc(419 * (100vw / 1440)) ;
+    position: absolute;  
+}
+#state{
+    left: calc(546 * (100vw / 1440)) ;
+    position: absolute;
+}
+#action{
+    left: calc(693 * (100vw / 1440)) ;
+    position: absolute;
+}
+#grid{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    gap: 0;
+
+}
+.griditem{
+    border: solid 1px #e0e0e0;
+    width: calc(132 * (100vw / 1440));
+    height: calc(40 * (100vh / 1024));
+}
+
+
+
+
+
+
+
+#clientitem{
+    width: calc(132 * (100vw / 1440));
+    height: calc(40 * (100vh / 1024));
+    top:calc(40 * (100vh / 1024)) ;
+    position: absolute;
+    border: solid 1px #e0e0e0;
+}
+#otitem{
+    width: calc(132 * (100vw / 1440));
+    height: calc(40 * (100vh / 1024));
+    left:calc(132 * (100vw / 1440));
+    top:calc(40 * (100vh / 1024)) ;
+    position: absolute;
+    border: solid 1px #e0e0e0; 
+}
+#dateitem{
+    width: calc(132 * (100vw / 1440));
+    height: calc(40 * (100vh / 1024));
+    left:calc(264 * (100vw / 1440));
+    top:calc(40 * (100vh / 1024)) ;
+    position: absolute;
+    border: solid 1px #e0e0e0;  
+}
+#houritem{
+    width: calc(132 * (100vw / 1440));
+    height: calc(40 * (100vh / 1024));
+    left:calc(396 * (100vw / 1440));
+    top:calc(40 * (100vh / 1024)) ;
+    position: absolute;
+    border: solid 1px #e0e0e0; 
+}
+#stateitem{
+    width: calc(132 * (100vw / 1440));
+    height: calc(40 * (100vh / 1024));
+    left:calc(528 * (100vw / 1440));
+    top:calc(40 * (100vh / 1024)) ;
+    position: absolute;
+    border: solid 1px #e0e0e0; 
+}
+#actionitem{
+    width: calc(132 * (100vw / 1440));
+    height: calc(40 * (100vh / 1024));
+    left:calc(660 * (100vw / 1440));
+    top:calc(40 * (100vh / 1024)) ;
+    position: absolute;
+    border: solid 1px #e0e0e0;  
+}

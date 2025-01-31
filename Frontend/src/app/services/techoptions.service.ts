@@ -25,7 +25,6 @@ export class TechnicianService {
 
     return this.http.get<any>(this.apiUrl, { headers }).pipe(
       map((data) => {
-        console.log('Respuesta completa del servidor:', data); // Verifica la respuesta completa
         if (data && Array.isArray(data.data)) {
           // Filtra los usuarios por el rol pasado como parámetro
           return data.data.filter((user: any) => user.userRole === role); // Filtrado por el rol correcto

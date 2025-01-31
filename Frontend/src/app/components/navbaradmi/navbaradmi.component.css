@@ -1,10 +1,10 @@
 #navbar{
     width: calc(326 * (100vw / 1440)) ;
     height: calc(900 * (100vh / 1024)) ;
-    background-color: #FFFFFF !important;
+    background-color: #FFFFFF ;
     top: calc(25 * (100vh / 1024)) ;
     left: calc(67 * (100vw / 1440));
-    border-radius: calc(28 * (100vw / 1440)) !important;
+    border-radius: calc(28 * (100vw / 1440)) ;
     position: absolute;
     float: left;
 }
@@ -26,7 +26,7 @@
 #photo{
     width: calc(68 * (100vh / 1024));
     height: calc(68 * (100vh / 1024));
-    background-color: black !important;
+    background-color: black ;
     position: absolute;
     border-radius: 100%;
     left: 0;
@@ -49,11 +49,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(24 * (100vh / 1024)) ;
-    color: #00254B !important;
+    color: #00254B ;
     position: absolute;
     left: calc(76 * (100vw / 1440));
     top: calc(12 * (100vh / 1024));
-    font-weight: 500 !important;
+    font-weight: 500 ;
 
 
 
@@ -65,12 +65,12 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vh / 1024));
-    color: #003366 !important;
+    color: #003366 ;
     position: absolute;
     left: calc(76 * (100vw / 1440));
     top: calc(42 * (100vh / 1024));
     padding-top:calc(2 * (100vh / 1024)) ;
-    font-weight: 500 !important;
+    font-weight: 500 ;
 
 
 
@@ -86,11 +86,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(24 * (100vw / 1440)) ;
-    color: #003366 !important;
+    color: #003366 ;
     position: absolute;
     left: calc(26 * (100vw / 1440));
     top: calc(137 * (100vh / 1024));
-    font-weight: 700 !important;
+    font-weight: 700 ;
 }
 
 
@@ -101,11 +101,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1440)) ;
-    color: #333333 !important;
+    color: #333333 ;
     position: absolute;
     left: calc(61 * (100vw / 1440));
     top: calc(212 * (100vh / 1024));
-    font-weight: 400 !important;
+    font-weight: 400 ;
     cursor:pointer;
 }
 #icon1{
@@ -114,7 +114,7 @@
     left: calc(26 * (100vw / 1440));
     top: calc(209 * (100vh / 1024));
     position: absolute;
-    color: #00254B !important;
+    color: #00254B ;
 
 }
 #item2{
@@ -124,11 +124,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1440)) ;
-    color: #333333 !important;
+    color: #333333 ;
     position: absolute;
     left: calc(61 * (100vw / 1440));
     top: calc(250 * (100vh / 1024));
-    font-weight: 400 !important;
+    font-weight: 400 ;
     cursor:pointer;
 }
 #icon2{
@@ -137,7 +137,7 @@
     left: calc(26 * (100vw / 1440));
     top: calc(248 * (100vh / 1024));
     position: absolute;
-    color: #00254B !important;
+    color: #00254B ;
 }
 #item3{
     width: calc(72 * (100vw / 1440));
@@ -146,11 +146,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1440)) ;
-    color: #333333 !important;
+    color: #333333 ;
     position: absolute;
     left: calc(61 * (100vw / 1440));
     top: calc(287 * (100vh / 1024));
-    font-weight: 400 !important;
+    font-weight: 400 ;
     cursor:pointer;
 }
 #icon3{
@@ -159,7 +159,7 @@
     left: calc(26 * (100vw / 1440));
     top: calc(285 * (100vh / 1024));
     position: absolute;
-    color: #00254B !important;
+    color: #00254B ;
 }
 #config{
     width: calc(210 * (100vw / 1440));
@@ -168,11 +168,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(24 * (100vw / 1440)) ;
-    color: #00254B !important;
+    color: #00254B ;
     position: absolute;
     left: calc(26 * (100vw / 1440));
     top: calc(441 * (100vh / 1024));
-    font-weight: 700 !important;
+    font-weight: 700 ;
 }
 #item4{
     width: calc(59 * (100vw / 1440));
@@ -181,11 +181,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1440)) ;
-    color: #333333 !important;
+    color: #333333 ;
     position: absolute;
     left: calc(61 * (100vw / 1440));
     top: calc(521 * (100vh / 1024));
-    font-weight: 400 !important;
+    font-weight: 400 ;
 }
 #icon4{
     width: calc(24 * (100vw / 1440));
@@ -201,11 +201,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1440)) ;
-    color: #333333 !important;
+    color: #333333 ;
     position: absolute;
     left: calc(61 * (100vw / 1440));
     top: calc(560 * (100vh / 1024));
-    font-weight: 400 !important;
+    font-weight: 400 ;
 }
 #icon5{
     width: calc(24 * (100vw / 1440));
@@ -221,11 +221,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1440)) ;
-    color: #333333 !important;
+    color: #333333 ;
     position: absolute;
     left: calc(61 * (100vw / 1440));
     top: calc(599 * (100vh / 1024));
-    font-weight: 400 !important;
+    font-weight: 400 ;
 }
 #icon6{
     width: calc(24 * (100vw / 1440));
@@ -245,11 +245,11 @@
     justify-content: center;
     align-items: center;
     font-size: calc(16 * (100vw / 1440)) ;
-    color: #FFFFFF !important;
+    color: #FFFFFF ;
     position: absolute;
     font-weight: 700;
     cursor: pointer;
-    border-radius: calc(28 * (100vw / 1440)) !important;
+    border-radius: calc(28 * (100vw / 1440)) ;
 }
 #icon7{
     left: calc(43 * (100vw / 1440));

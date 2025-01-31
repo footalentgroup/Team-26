@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { PeticionService } from '../../services/peticion.service';
 
 
 @Component({
   selector: 'app-navbarsup',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './navbarsup.component.html',
   styleUrl: './navbarsup.component.css'
 })
@@ -26,7 +26,6 @@ export class NavbarsupComponent {
       this.router.navigate([ruta]);
   }
   logout() {
-    console.log("Cerrando sesión del usuario");
 
     const userId = localStorage.getItem('userId'); 
     const url = `${this.peticion.UrlHost}/api/userclosesession/${userId}`; 
@@ -44,7 +43,6 @@ export class NavbarsupComponent {
   
             
             this.router.navigate(['/login']);
-            console.log('Sesión cerrada exitosamente.');
           } else {
             console.error('Error al cerrar sesión:', res.message);
           }

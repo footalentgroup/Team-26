@@ -5,7 +5,7 @@
     background-color: #FFFFFF;
     left: calc(408 * (100vw / 1440)) ;
     top: calc(25 * (100vh / 1024));
-    border-radius: calc(28 * (100vw / 1440)) !important;
+    border-radius: calc(28 * (100vw / 1440)) ;
     position: absolute;
 
 }
@@ -23,11 +23,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(24 * (100vw / 1424)) ;
-    color: #00254B !important;
+    color: #00254B ;
     position: absolute;
     left: calc(35 * (100vw / 1440));
     top: calc(23 * (100vh / 1024));
-    font-weight: 600 !important;
+    font-weight: 600 ;
     position: absolute;
 }
 #ttdatos{
@@ -37,18 +37,18 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1424)) ;
-    color: #00254B !important;
+    color: #00254B ;
     position: absolute;
     left: calc(502 * (100vw / 1440));
     top: calc(66 * (100vh / 1024));
-    font-weight: 600 !important;
+    font-weight: 600 ;
     position: absolute;
 }
 #inputclient {
   width: calc(220 * (100vw / 1440));
   height: calc(38 * (100vh / 1024));
-  left:  calc(502 * (100vw / 1440))  !important;
-  top:  calc(102 * (100vh / 1024))  !important;
+  left:  calc(502 * (100vw / 1440))  ;
+  top:  calc(102 * (100vh / 1024))  ;
   border-radius: calc(28 * (100vw / 1440));
   border-color: #00254B;
   position: absolute;
@@ -57,7 +57,7 @@
   align-items: center;
   font-size: calc(14 * (100vw / 1424));
   padding-left: calc(5 * (100vw / 1440));
-  z-index: 2; /* Asegura que el input esté sobre el select */
+  z-index: 2; 
 }
 #visit{
     width: calc(228 * (100vw / 1440));
@@ -66,11 +66,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1424)) ;
-    color: #00254B !important;
+    color: #00254B ;
     position: absolute;
     left: calc(502 * (100vw / 1440));
     top: calc(152 * (100vh / 1024));
-    font-weight: 600 !important;
+    font-weight: 600 ;
     position: absolute;
 }
 #horario{
@@ -81,11 +81,11 @@
         justify-content: left;
         align-items: center;
         font-size: calc(16 * (100vw / 1424)) ;
-        color: #00254B !important;
+        color: #00254B ;
         position: absolute;
         left: calc(502 * (100vw / 1440));
         top: calc(227 * (100vh / 1024));
-        font-weight: 600 !important;
+        font-weight: 600 ;
         position: absolute;
 
 }
@@ -96,11 +96,11 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vw / 1424)) ;
-    color: #00254B !important;
+    color: #00254B ;
     position: absolute;
     left: calc(502 * (100vw / 1440));
     top: calc(308 * (100vh / 1024));
-    font-weight: 600 !important;
+    font-weight: 600 ;
     position: absolute;
 }
 
@@ -115,19 +115,17 @@
   justify-content: center;
   align-items: center;
   font-size: calc(16 * (100vw / 1440));
-  color: #FFFFFF !important;
+  color: #FFFFFF ;
   font-weight: 700;
   border-radius: calc(28 * (100vw / 1440));
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Cuando el botón tiene datos seleccionados */
 #btnagendar.has-data {
   background-color: #00254B;
 }
 
-/* Efecto hover cuando el botón tiene datos seleccionados */
 #btnagendar.has-data:hover {
   background-color: #14599A;
   transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -137,7 +135,7 @@
     top: calc(183 * (100vh / 1024));
     left: calc(502 * (100vw / 1440));
     border-radius: calc(28 * (100vh / 1024));
-    border-color: #00254B !important;
+    border-color: #00254B ;
     display: flex;
     justify-content: space-between;
   }
@@ -195,7 +193,7 @@
     top: calc(260 * (100vh / 1024));
     left: calc(502 * (100vw / 1440));
     border-radius: calc(28 * (100vh / 1024));
-    border-color: #00254B !important;
+    border-color: #00254B ;
     display: flex;
     justify-content: space-between;
 
@@ -218,7 +216,7 @@
     top: calc(339 * (100vh / 1024));
     left: calc(502 * (100vw / 1440));
     border-radius: calc(28 * (100vh / 1024));
-    border-color: #00254B !important;
+    border-color: #00254B ;
     display: flex;
     justify-content: space-between;
 

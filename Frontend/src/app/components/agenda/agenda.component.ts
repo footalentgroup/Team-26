@@ -37,7 +37,6 @@ export class AgendaComponent implements OnInit, ControlValueAccessor {
           date: order.date,
           time: order.time,
         }));
-        console.log('Órdenes de trabajo:', this.workOrders);
       },
       error: (err) => {
         console.error('Error al obtener las órdenes de trabajo:', err);

@@ -1,7 +1,7 @@
 #background{
     width: 100%;
     min-height: 100vh;
-    background-color:  #003366 !important;
+    background-color:  #003366 ;
     position: absolute;
     top:0;
     left: 0;
@@ -10,7 +10,7 @@
 
     width: calc(1376 * (100vw / 1440));
     height: calc(950 *(100vh / 1024));
-    background-color: #14599A !important;
+    background-color: #14599A ;
     left:  calc(32 * (100vw / 1440));
     top: calc(37 * (100vh / 1024));
     border-radius: calc(28 * (100vw / 1440) );

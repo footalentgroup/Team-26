@@ -5,7 +5,7 @@
     box-shadow: 0 4px 6px #0000001a;
     font-family: 'Poppins', sans-serif;
     left: calc(406 * (100vw / 1440)) ;
-    border-radius: calc(28 * (100vw / 1440)) !important;
+    border-radius: calc(28 * (100vw / 1440)) ;
     top: calc(25 * (100vh / 1024));
     position: absolute;
     overflow: hidden;
@@ -41,8 +41,8 @@ h2 {
     top: calc(52 * (100vh / 1024));
 }
 .barra {
-    width: calc(620 * (100vw / 1440)) !important;
-    height: calc(49 * (100vh / 1024)) !important;
+    width: calc(620 * (100vw / 1440)) ;
+    height: calc(49 * (100vh / 1024)) ;
     border: solid 1px #00254B;
     border-radius: 28px 0px 0px 28px;
     position: relative;
@@ -345,7 +345,7 @@ button.submit-button:hover {
 .cuadroeliminacion{
     height:calc(140 * (100vw / 1024));
     color: #00254B;
-    border-color: #00254B !important;
+    border-color: #00254B ;
 }
 .lbtitulo{
     margin-bottom: calc(20 * (100vw / 1024));

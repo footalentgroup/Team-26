@@ -2,7 +2,6 @@
     <div class="text" id="ttagendar">Agendar visita</div>
     <div>
       <div>
-        <!-- Componente FCalendario con escucha de fecha seleccionada y reset -->
         <fcalendario #calendarComponent (selectedDateChange)="onDateSelected($event)"></fcalendario>
       </div>
 
@@ -70,16 +69,15 @@
 
 <div class="custom-selectA" id="custom-select2">
   <select [(ngModel)]="selectedTechnician" (ngModelChange)="onTechnicianSelected()">
-    <!-- Opción predeterminada deshabilitada -->
+
     <option value="" selected disabled>Técnicos</option>
-    
-    <!-- Itera sobre los técnicos para mostrarlos en las opciones -->
+
     <option *ngFor="let technician of technicians" [value]="technician._id">
       {{ technician.userFullName }}
     </option>
   </select>
   
-  <!-- Icono del selector (flecha) -->
+
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M19.1999 13.6858C20.4672 14.6327 21.5999 17.0168 21.5999 18.4857C21.5999 18.9434 21.266 19.3144 20.8541 19.3144H20.3999M15.5999 9.80456C16.4197 9.33031 16.9713 8.44389 16.9713 7.42865C16.9713 6.4134 16.4197 5.52699 15.5999 5.05274M3.14567 19.3144H16.2827C16.6946 19.3144 17.0285 18.9434 17.0285 18.4857C17.0285 15.6091 14.6252 13.2772 9.71419 13.2772C4.80317 13.2772 2.3999 15.6091 2.3999 18.4857C2.3999 18.9434 2.7338 19.3144 3.14567 19.3144ZM12.457 7.42865C12.457 8.94349 11.229 10.1715 9.71419 10.1715C8.19935 10.1715 6.97133 8.94349 6.97133 7.42865C6.97133 5.91381 8.19935 4.68579 9.71419 4.68579C11.229 4.68579 12.457 5.91381 12.457 7.42865Z" stroke="black" stroke-width="2" stroke-linecap="round"/>
   </svg>         

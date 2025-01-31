@@ -4,7 +4,7 @@
     background-color: #FFFFFF;
     left: calc(411 * (100vw / 1440)) ;
     top: calc(524 * (100vh / 1024));
-    border-radius: calc(28 * (100vw / 1440)) !important;
+    border-radius: calc(28 * (100vw / 1440)) ;
     position: absolute;
 }
 #ttmap{
@@ -14,11 +14,11 @@
         justify-content: left;
         align-items: center;
         font-size: calc(24 * (100vw / 1424)) ;
-        color: #00254B !important;
+        color: #00254B ;
         position: absolute;
         left: calc(35 * (100vw / 1440));
         top: calc(23 * (100vh / 1024));
-        font-weight: 600 !important;
+        font-weight: 600 ;
 
 }
 #mapview{
