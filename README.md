@@ -135,3 +135,56 @@ Centralizar toda la información de cada cliente e instalación para garantizar 
 
 </div>
 
+# 📌Instrucciones para instalar y ejecutar el Backend y Frontend del proyecto Team 26 
+
+-----
+## 🔹Resumen
+
+Este documento explica los pasos necesarios para instalar y ejecutar el backend y frontend del proyecto Team 26 en tu entorno local. Asegúrate de cumplir con los requisitos previos antes de continuar con la instalación.
+
+-----------------
+## ⚙️Requisitos previos
+
+Asegúrate de tener instalado lo siguiente archivos en tu sistema operativo:
+
+- [Node.js](https://nodejs.org/) (versión recomendada: 16 o superior)
+- [Git](https://git-scm.com/)
+- [angular](https://v17.angular.io/guide/setup-local)(version recomendada: 17)
+- Un navegador web moderno (Google Chrome, Firefox, Edge, etc.)
+- 
+-----------------
+## 🚀Intalación y ejecución del Banckend - Frontend
+
+Primero, debes descargar o clonar este repositorio de manera local en tu equipo. Una vez descargado, ubícate en la carpeta del proyecto
+
+Dentro del repositorio, encontrarás la siguiente estructura de directorios:
+
+Team26/
+   - Backend/
+   - Frontend/
+
+Utilizando la terminal (PowerShell, Git Bash o cualquier otra consola de tu preferencia), navega hasta el directorio raíz del proyecto con el comando:
+
+ - cd team26/
+
+A continuación, sigue los pasos descritos para instalar las dependencias y ejecutar el backend y frontend correctamente
+
+-----------------
+### ⚡Instalar las dependencias y ejecución del banckend 
+
+ - navegar al directorio del Backend (cd /Banckend) 
+ - con el comando (npm install) realizo la instalacion de las dependencias necesarias para el correcto funcionamiento del Backend 
+ -  desde la carpeta Backend ejecute la consola de su preferencia y coloque el siquiente comando (npm star o node app.js) para ejecutar el servidor del backend
+ - Por defecto, el backend estará disponible en http://localhost:3001, si deseas cambiar el puerto de ejecución edita el archivo .env y modifica la variables PORT.
+-------------------------------------------------------------------------------------------------
+### 🎨Instalar las dependencias y ejecución del Frontend
+
+ - navegar al directorio del Frontend (cd /Frontend)
+ - con el comando (npm install) realizo la instalacion de las dependencias necesarias para el correcto funcionamiento del Frontend
+ - desde la carpeta Frontend ejecute la consola de su preferencia y coloque el siquiente comando (ng serve) para ejecutar el servidor de frontend
+ - Por defecto, el Frontend estará disponible en http://localhost:4200
+-----------------
+### 🔎Notas adicionales
+
+  - Asegúrate de ejecutar backend y frontend simultáneamente para que el proyecto funcione correctamente.  
+  - Si experimentas errores, revisa que tienes la versión correcta de Node.js, Angular y que todas las dependencias fueron instaladas correctamente.
