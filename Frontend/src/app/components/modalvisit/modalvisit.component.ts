@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dial
 import { OrderService } from '../../services/workordercreate.service';
 import { LoadingSpinerComponent } from '../loadingspiner/loadingspiner.component';
 import { ConfirmationModalComponent } from '../../components/modalconfirmation/modalconfirmation.component';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
 
 @Component({
   selector: 'app-modalvisit',
@@ -26,7 +27,6 @@ export class ModalVisitComponent {
   }
 
   ngOnInit(): void {
-    console.log('Orden de trabajo recibida:', this.workOrder);
   }
 
   // Crear la orden de trabajo
@@ -38,9 +38,7 @@ export class ModalVisitComponent {
 
     // Llamada al servicio para crear la orden
     this.orderService.createOrder(this.workOrder).subscribe({
-      next: response => {
-        console.log('Orden de trabajo creada con éxito', response);
-        
+      next: response => {       
         // Cierra el spinner cuando la respuesta llega
         spinnerRef.close();
         
@@ -61,6 +59,13 @@ export class ModalVisitComponent {
         console.error('Error al crear la orden de trabajo', error);
         // Cierra el spinner si hay un error
         spinnerRef.close();
+
+        this.dialog.open(ErrorModalComponent, {
+          data: {
+            message: "La Fecha no debe ser anterior al dia actual, se debe agendar visita a partir de hoy"
+          }
+        })
+
         
       }
     });

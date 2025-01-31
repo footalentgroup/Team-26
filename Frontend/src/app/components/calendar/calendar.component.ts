@@ -52,7 +52,6 @@ export class CalendarComponent implements OnInit {
     this.techoptions.getUsersByRole('technician').subscribe({
       next: (data) => {
         this.technicians = data.filter(user => user.userIsActive);
-        console.log('Técnicos activos:', this.technicians);
       },
       error: (error) => {
         console.error('Error al obtener los técnicos:', error);
@@ -88,7 +87,6 @@ export class CalendarComponent implements OnInit {
   }
 
   handleClientSelection(client: ClientOption): void {
-    console.log('Datos del cliente:', client);
     this.clientData = {
       name: client.clientName,
       address: client.Address,
@@ -174,7 +172,6 @@ export class CalendarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'edit') {
-        console.log('Datos editados con éxito');
       } else {
         this.resetForm();
         this.resetDateInChild(); // Reseteamos la fecha en el hijo
@@ -183,7 +180,6 @@ export class CalendarComponent implements OnInit {
   }
 
   resetForm(): void {
-    console.log("datos vacíos");
     this.clienttyping = '';
     this.visitDetails = { visitType: '', time: '', technician: '' };
     this.selectedDate = '';

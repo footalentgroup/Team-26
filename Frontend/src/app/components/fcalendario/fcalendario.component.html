@@ -1,18 +1,9 @@
 <div>
-    <!-- Componente FullCalendar -->
-
     <full-calendar [options]="calendarOptions" id="calendar"></full-calendar>
-  </div>
-  
-  <!-- Mostrar la fecha seleccionada si existe -->
+  </div>  
   <div id="date" *ngIf="formattedDate">
     <p>{{ formattedDate }}</p>
   </div>
-
-    <!-- <full-calendar [options]="calendarOptions" id="calendar"></full-calendar> -->
-
-
-<!-- Mostrar la fecha seleccionada -->
 <div id="date">
     <p>{{ currentDate }}</p>
 

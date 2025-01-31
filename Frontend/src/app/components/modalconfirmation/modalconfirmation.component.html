@@ -6,7 +6,6 @@
     </div>
   
     <div class="text" id="info">
-      <!-- Mostramos los datos del cliente y la visita usando data desde el componente ModalVisitComponent -->
       <div class="text" id="client">Cliente: <span class="bold">{{ data.clientData?.name }}</span></div>
       <div class="text" id="ubication">Dirección: <span class="bold">{{ data.clientData?.address }}</span></div>
       <div class="text" id="visitopt">Tipo de instalación: <span class="bold">{{ data.visitDetails?.visitType }}</span></div>
@@ -14,12 +13,7 @@
       <div class="text" id="tech">Técnico asignado: <span class="bold">{{ data.visitDetails?.technician }}</span></div>
     </div>
   
-    <!-- Botones para editar o agendar -->
-
-
-  
-    <!-- Icono para cerrar el modal -->
-    <div (click)="onClose()">
+    <div id="close" (click)="onClose()">
         <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M28.5 9.5L9.5 28.5M28.5 28.5L9.5 9.5" stroke="#00254B" stroke-width="2" stroke-linecap="round"/>
             </svg>

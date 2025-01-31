@@ -111,3 +111,12 @@
 .bold{
     font-weight: 700;
 }
+#close{
+    width: calc(24 * (100vw / 1440));
+    height:calc(24 * (100vh / 1024));
+    left: calc(30 * (100vw / 1440));
+    top: calc(30 * (100vh / 1024));
+    position: absolute;
+    cursor: pointer;
+
+}

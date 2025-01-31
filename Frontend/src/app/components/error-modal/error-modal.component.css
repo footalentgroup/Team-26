@@ -1,0 +1,38 @@
+#errormodal{
+    width: calc(200 * (100vw/1440));
+    height:calc(150 * (100vh/1024));
+    justify-content: center;
+    align-items: center;
+}
+#error{
+    width: calc(200 * (100vw/1440));
+    height:calc(40 * (100vh/1024));
+    background-color: #008080;
+    padding-left: calc(10 * (100vw / 1440));
+
+}
+#tterror{
+    font-size: calc(24 * (100vw / 1440));
+    color: #FFFFFF;
+    font-weight: 700;
+}
+#message{
+    width: calc(200 * (100vw/1440));
+    height:calc(100 * (100vh/1024));
+    font-size: calc(14 * (100vw / 1440));
+    color: #00254B;
+    padding: calc(10 * (100vh / 1024));
+
+
+}
+#X{
+    width: calc(24 * (100vw/1440));
+    height:calc(24 * (100vh/1024));
+    top:calc(0 * (100vh/1024)) ;
+    left: calc(160 * (100vw / 1440));
+    font-size: calc(24 * (100vw / 1440));
+    position: absolute;
+    color: #FFFFFF;
+    font-weight: 700;
+    cursor: pointer;
+}

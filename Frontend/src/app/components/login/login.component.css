@@ -29,8 +29,8 @@
     font-size: calc(14 * (100vw / 1440));
     width:calc(490 * (100vw / 1440));
     font-weight: 400;
-    color: #AAA !important;
-    margin-bottom: 40px !important;
+    color: #AAA ;
+    margin-bottom: 40px ;
 }
 
 .form-group input {

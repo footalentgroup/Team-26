@@ -22,6 +22,15 @@
     display: flex;
 }
 .fc-toolbar-title {
-    text-transform: uppercase; /* Convierte el texto a mayúsculas */
+    text-transform: uppercase; 
+  }
+  .fc .fc-scroller-liquid-absolute {
+    inset: 0px;
+    position: relative; 
+  }
+  
+  .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    min-height: 0.01em;
+    position: relative;
   }
   

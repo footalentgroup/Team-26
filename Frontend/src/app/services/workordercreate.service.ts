@@ -14,7 +14,6 @@ export class OrderService {
   createOrder(orderData: any): Observable<any> {
     // Recupera el token desde el almacenamiento local (puedes cambiarlo si lo guardas en otro lugar)
     const token = localStorage.getItem('token');
-    console.log(localStorage.getItem('token'));
 
     if (!token) {
       console.error('No se encontró el token');  
@@ -39,20 +38,11 @@ export class OrderService {
     // Asegúrate de que la fecha esté en el formato correcto
     orderData.workOrderScheduledDate = new Date(orderData.workOrderScheduledDate).toISOString();
 
-    console.log('Datos de la orden de trabajo antes de enviarlos:', orderData);
-
         // Configura las cabeceras para la solicitud, incluyendo el token de autorización
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`  // Incluye el token en la cabecera Authorization
         });
-
-
-    // // Configura las cabeceras para la solicitud, incluyendo el token de autorización
-    // const headers = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    //   'Authorization': `Bearer ${token}`  // Incluye el token en la cabecera Authorization
-    // });
 
     // Realiza la solicitud POST para crear la orden de trabajo
     return this.http.post<any>(this.apiUrl, orderData, { headers });
