@@ -4,7 +4,7 @@
     background-color: #FFFFFF;
     left: calc(408 * (100vw / 1440)) ;
     top: calc(25 * (100vh / 1024));
-    border-radius: calc(28 * (100vw / 1440)) !important;
+    border-radius: calc(28 * (100vw / 1440));
     position: absolute;
 }
 #ttmain{

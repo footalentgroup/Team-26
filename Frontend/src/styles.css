@@ -38,11 +38,11 @@
     justify-content: center;
     align-items: center;
     font-size: calc(40 * (100vw / 1440)) ;
-    color: #fff !important;
+    color: #fff;
     position: absolute;
     left: calc(118 * (100vw / 1440));
     top: calc(512 * (100vh / 1024));
-    font-weight: 500 !important;
+    font-weight: 500;
     position: absolute;
 }
 
