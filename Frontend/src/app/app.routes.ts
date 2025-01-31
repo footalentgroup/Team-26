@@ -28,6 +28,7 @@ import { DashboardadjustComponent } from './components/dashboardadjust/dashboard
 import { AdjustComponent } from './components/adjust/adjust.component';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 import { autenticacionGuard } from './services/autenticacion-rutas.service';
+import { AdjustadminComponent } from './components/adjustadmin/adjustadmin.component';
 
 
 
@@ -66,7 +67,8 @@ export const routes: Routes = [
     {path:"cuentaactiv",component:CuentaactivComponent,pathMatch:"full"},
     {path:"formcontacto",component:FormcontactoComponent,pathMatch:"full"},
     {path:"recuperarpassword",component:RecuperarpasswordComponent,pathMatch:"full"},
-    {path:"dashboardadjust",component:DashboardadjustComponent,pathMatch:"full"},
+    {path:"adjustadmin",component:AdjustadminComponent,canActivate: [autenticacionGuard],pathMatch:"full"},
+    {path:"dashboardadjust",component:DashboardadjustComponent,canActivate: [autenticacionGuard],pathMatch:"full"},
     {path:"adjust",component:AdjustComponent,pathMatch:"full"},
     {path: "dashboardsup", component: DashboardsupComponent },
     {path:"dropdown",component:DropdownComponent,pathMatch:"full"},
