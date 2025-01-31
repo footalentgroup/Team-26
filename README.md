@@ -151,7 +151,7 @@ Asegúrate de tener instalado lo siguiente archivos en tu sistema operativo:
 - [Git](https://git-scm.com/)
 - [angular](https://v17.angular.io/guide/setup-local)(version recomendada: 17)
 - Un navegador web moderno (Google Chrome, Firefox, Edge, etc.)
-- 
+
 -----------------
 ## 🚀Intalación y ejecución del Banckend - Frontend
 
