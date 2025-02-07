@@ -13,30 +13,6 @@ const router = express.Router()
  *   description: Work order management
  */
 
-
-// /**
-//  * @swagger
-//  * /workorder:
-//  *   get:
-//  *     summary: Retrieve a list of work orders
-//  *     tags: [WorkOrders]
-//  *     security:
-//  *       - bearerAuth: []
-//  *     responses:
-//  *       200:
-//  *         description: A list of work orders
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               type: array
-//  *               items:
-//  *                 $ref: '#/components/schemas/WorkOrder'
-//  *       401:
-//  *         description: Unauthorized
-//  *       500:
-//  *         description: Internal server error
-//  */
-
 router.get('/workorder', validateToken, workOrderController.getAllWorkOrders);
 
 router.get('/workorder/:id', validateToken, workOrderController.getWorkOrderById);
@@ -84,7 +60,6 @@ router.delete('/workorder/:id', validateToken, workOrderController.deleteWorkOrd
 
 router.get('/workorderbyclient/:id', validateToken, workOrderController.getAllWorkOrdersByClient);
 
-// getAllWorkOrdersByTechnician,
 router.get('/workorderreport/:id', validateToken, workOrderController.getReportWorkOrder);
 
 

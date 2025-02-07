@@ -17,12 +17,11 @@ app.use(cors())
 app.use('/', api)
 
 app.listen(port, () => {
-    console.log(`Servidor conectado en el puerto ${port}`)
+    
 })
 
 const swaggerJsdoc = require('swagger-jsdoc');
 
-// Swagger configuration
 const swaggerOptions = {
     definition: {
         openapi: '3.0.0',
@@ -33,7 +32,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: `/api`, // Replace with your server URL
+                url: `/api`, 
             },
         ],
         components: {
@@ -50,33 +49,29 @@ const swaggerOptions = {
             },
         ],
     },
-    apis: ['./src/routes/*.js'], // Adjust to the location of your route files
+    apis: ['./src/routes/*.js'], 
 };
 
-// Initialize Swagger documentation
+
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 const options = {
     swaggerOptions: {
-        docExpansion: 'none', // Colapsar encabezados
+        docExpansion: 'none', 
     },
 };
 
-// Configura Swagger UI con rutas de archivos estáticos
 app.use(
   '/api-docs',
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, options )
 );
-console.log(`swaggerSpec ${process.env.BASE_URL}/api-docs`)
 
 
-// Endpoint para servir swagger.json dinámico
 app.get('/swagger.json', (req, res) => {
     res.json(swaggerSpec);
   });
 
-// Endpoint para ReDoc
 app.get('/redoc', (req, res) => {
     res.send(`
       <!DOCTYPE html>
@@ -94,21 +89,3 @@ app.get('/redoc', (req, res) => {
     `);
   });
   
-
-// try {
-//   module.exports.SwaggerUIBundle = require("./swagger-ui-bundle.js")
-//   module.exports.SwaggerUIStandalonePreset = require("./swagger-ui-standalone-preset.js")
-// } catch(e) {
-//   // swallow the error if there's a problem loading the assets.
-//   // allows this module to support providing the assets for browserish contexts,
-//   // without exploding in a Node context.
-//   //
-//   // see https://github.com/swagger-api/swagger-ui/issues/3291#issuecomment-311195388
-//   // for more information.
-// }
-
-// // `absolutePath` and `getAbsoluteFSPath` are both here because at one point,
-// // we documented having one and actually implemented the other.
-// // They were both retained so we don't break anyone's code.
-// module.exports.absolutePath = require("./absolute-path.js")
-// module.exports.getAbsoluteFSPath = require("./absolute-path.js")

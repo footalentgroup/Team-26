@@ -14,25 +14,21 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 
-// Configuración de CORS
 const corsOptions = {
-    origin: 'http://localhost:4200', // Cambia por tu dominio de frontend
+    origin: 'http://localhost:4200', 
     methods: ['GET', 'POST', 'PUT', 'PATCH','DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type','Authorization' ], // Encabezados personalizados permitidos
+    allowedHeaders: ['Content-Type','Authorization' ], 
 };
 
-  // Middleware de CORS
 app.use(cors(corsOptions));
 
 
 
 app.use('/', api)
 
-app.listen(port, () => {
-    console.log(`Servidor conectado en el puerto ${port}`)
+app.listen(port, () => {    
 })
 
-// Swagger configuration
 const swaggerOptions = {
     definition: {
         openapi: '3.0.0',
@@ -43,7 +39,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: `${process.env.BASE_API_URL}`, // Replace with your server URL
+                url: `${process.env.BASE_API_URL}`, 
         },
         ],
         components: {
@@ -60,12 +56,9 @@ const swaggerOptions = {
             },
         ],
     },
-    apis: ['./src/routes/*.js'], // Adjust to the location of your route files
+    apis: ['./src/routes/*.js'], 
 };
 
-// Initialize Swagger documentation
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-// Use Swagger-UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-console.log(`swaggerSpec ${process.env.BASE_URL}/api-docs`)

@@ -2,24 +2,21 @@ const { ObjectId } = require('mongodb');
 const User = require('../models/User');
 const WorkOrder = require('../models/WorkOrder');
 const jwt = require('jsonwebtoken');
-const mail = require('./mail.controller'); // Para enviar correos electrónicos
+const mail = require('./mail.controller'); 
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../middlewares/jwtGenerate');
-const AuditLogController = require('../controllers/auditLog.controller'); // Controlador de auditoría
-const temporalID = new ObjectId(); // ID o nombre del usuario
+const AuditLogController = require('../controllers/auditLog.controller'); 
+const temporalID = new ObjectId(); 
 
 const auditLogData = {
-    //En espera de accciones en el frontend para capturar usuario logeado
-    auditLogUser: temporalID // ID o nombre del usuario
-    , auditLogAction: 'CREATE'      // Acción realizada e.g., "CREATE", "UPDATE", "DELETE"
-    , auditLogModel: 'User'        // Modelo afectado, e.g., "User"
-    , auditLogDocumentId: null          // ID del documento afectado (puede ser nulo)
-    , auditLogChanges: null          // Cambios realizados o información adicional (no obligatorio)
+    auditLogUser: temporalID        
+    , auditLogAction: 'CREATE'      
+    , auditLogModel: 'User'         
+    , auditLogDocumentId: null      
+    , auditLogChanges: null         
 }
 
-// Crear usuario
 const createUser = async (req, res) => {
-    console.log("headers recivido",req.headers)
     try {
         const token = req.header('Authorization')?.split(' ')[1];
         const secret = process.env.SECRET_KEY;
@@ -33,7 +30,6 @@ const createUser = async (req, res) => {
             });
         }
 
-        // Crear usuario
         const nuevoUser = new User(req.body);
 
         if (!nuevoUser.userName) {
@@ -54,15 +50,6 @@ const createUser = async (req, res) => {
                 message: 'Se requiere email'
             });
         }
-        // if (!nuevoUser.userPassword) {
-        //     return res.status(400).json({
-        //         ok: false,
-        //         message: 'Se requiere password'
-        //     });
-        // }
-
-        // En caso de que no se proporcione un rol, asignará el rol por defecto: technician
-        // En caso de que se proporcione un rol, verificar que sea válido        
         if (nuevoUser.userRole) {
             const validRoles = ['supervisor', 'technician'];
 
@@ -76,7 +63,6 @@ const createUser = async (req, res) => {
 
         const userEmail = nuevoUser.userEmail;
 
-        // Buscar al usuario por email
         let user = await User.findOne({ userEmail: nuevoUser.userEmail });
         if (user) {
             return res.status(404).json({
@@ -86,7 +72,6 @@ const createUser = async (req, res) => {
         }
         const findUserFullName = `${nuevoUser.userName} ${nuevoUser.userLastName}`;
 
-        // Buscar al usuario por name
         user = await User.findOne({ userFullName: findUserFullName });
         if (user) {
             return res.status(404).json({
@@ -94,28 +79,23 @@ const createUser = async (req, res) => {
                 message: 'Ya existe registro con este nombre y apellido'
             });
         }
-        // Generar un token de confirmación con expiración de CONFIRMATION_EXPIRATION hora
         const confirmationToken = jwt.sign(
             { userEmail },
-            process.env.SECRET_KEY, // Usa una clave secreta de tu entorno
+            process.env.SECRET_KEY, 
             { expiresIn: `${process.env.CONFIRMATION_EXPIRATION}h` }
         );
-        //Encrioptar la contraseña
-        const hashedPassword = null;
         if(nuevoUser.userPassword !== null){
             let hashedPassword = await bcrypt.hash(nuevoUser.userPassword, 10);;
             nuevoUser.userPassword = hashedPassword;
         } 
 
         nuevoUser.userConfirmationToken = confirmationToken;
-        nuevoUser.userConfirmationTokenExpires = new Date(Date.now() + process.env.CONFIRMATION_EXPIRATION * 3600000); // hora en milisegundos
+        nuevoUser.userConfirmationTokenExpires = new Date(Date.now() + process.env.CONFIRMATION_EXPIRATION * 3600000); 
 
         await nuevoUser.save();
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'CREATE', nuevoUser._id, { newdRecord: nuevoUser.toObject() });
 
-        // Enviar correo de confirmación
-        const confirmationLink = `${process.env.CLIENT_URL}/cuentaactiv?token=${confirmationToken}`; // Enlace de confirmación
+        const confirmationLink = `${process.env.CLIENT_URL}/cuentaactiv?token=${confirmationToken}`; 
         const emailData = {
             to: userEmail,
             subject: `Bienvenido ${nuevoUser.userFullName} a gestiON`,
@@ -129,15 +109,12 @@ const createUser = async (req, res) => {
             <a href="${confirmationLink}">Confirmar Cuenta</a>
             <p>Este enlace expirará en ${process.env.CONFIRMATION_EXPIRATION} hora.</p>`
         }
-        // Reutilizar la función de envío de correos
         const reqMail = { token : token, functionalitySendMail: 'userCreate', documentId: nuevoUser._id, emailData : emailData };
         const result = await mail.sendEmail(reqMail);
-        console.log('result sendMail', result);
         if (!result.success) {
             const userDelete = await User.findOne({ userEmail: userEmail });
             if (userDelete) {
                 await User.findByIdAndDelete(userDelete._id)
-                // Register in audit_logs (req, action, documentId, changes) 
                 await registerAuditLog(req, 'DELETE', userDelete._id, { deleteRecord: userDelete.toObject() });
             }
             return res.status(201).json({ ok: false, message: 'Usuario No fue creado. No fue posible enviar correo.' });
@@ -145,7 +122,7 @@ const createUser = async (req, res) => {
             return res.status(201).json({ ok: true, message: 'Usuario creado exitosamente. Por favor, revisa tu correo para confirmar tu cuenta.' });
         }
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             ok: false,
             error: `Error interno del servidor ${error.code} ${error.message}`
@@ -157,19 +134,16 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Buscar al usuario por email
         const user = await User.findOne({ userEmail: email });
 
         if (!user) {
             return res.status(404).json({
                 ok: false,
-                message: 'User not found'
+                message: 'User no registrado'
             });
         }
 
-        // Verificar si el usuario está inactivo
         if (!user.userIsActive) {
-            // Register in audit_logs (req, action, documentId, changes) 
             await registerAuditLog(req, 'LOGIN', user._id, { actionDetails: 'Intento fallido, Usuario bloqueado' });
 
             return res.status(403).json({
@@ -178,30 +152,23 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Comparar la contraseña
         const isPasswordValid = await bcrypt.compareSync(password, user.userPassword);
 
         if (!isPasswordValid) {
-            // Incrementar intentos fallidos
             user.failedAttempts += 1;
 
-            // Register in audit_logs (req, action, documentId, changes) 
             await registerAuditLog(req, 'LOGIN', user._id, { actionDetails: 'Intento fallido, Clave incorrecta' });
 
-            // Registrar el intento fallido
             user.userLoginAttempts.push({
                 status: 'failed',
                 cause: 'Credenciales inválidas',
             });
 
-            // Bloquear al usuario si supera el límite de intentos
             if (user.failedAttempts >= 3) {
-                // Register in audit_logs (req, action, documentId, changes) 
                 await registerAuditLog(req, 'LOGIN', user._id, { actionDetails: 'Tercer Intento fallido, procede a inactivar' });
                 user.userIsActive = false;
             }
 
-            // Registrar en audit_logs
             await user.save();
 
             return res.status(401).json({
@@ -210,10 +177,8 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Si la contraseña es válida, reiniciar los intentos fallidos
         user.failedAttempts = 0;
 
-        // Registrar el intento exitoso
         const token = await generateToken(user._id, user.userEmail, user.userRole);
 
         user.userLoginAttempts.push({
@@ -221,12 +186,10 @@ const loginUser = async (req, res) => {
             token,
         });
 
-        // Registrar el token de la Sesiòn
         user.userLoginToken = token;
 
         await user.save();
-        auditLogData.auditLogChanges = { newRecord: user.toObject() } // Detalles del nuevo registro
-        // Register in audit_logs (req, action, documentId, changes) 
+        auditLogData.auditLogChanges = { newRecord: user.toObject() } 
         await registerAuditLog(req, 'LOGIN', user._id, { actionDetails: 'Registrar token sesiòn, login exitoso' });
 
 
@@ -240,7 +203,7 @@ const loginUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
+        
         res.status(500).json({
             ok: false,
             message: 'Ocurrió un error durante el inicio de sesión'
@@ -251,10 +214,8 @@ const loginUser = async (req, res) => {
 const closeUserSession = async (req, res) => {
     const { id } = req.params;
     try {
-        // Buscar al usuario por ID
         const user = await User.findById(id);
-        console.log(`userId: ${id}, user: ${user}`)
-
+        
         if (!user) {
             return res.status(404).json({
                 ok: false,
@@ -262,7 +223,6 @@ const closeUserSession = async (req, res) => {
             });
         }
 
-        // Asignar null al token de sesión
         user.userLoginToken = null;
 
         await user.save();
@@ -274,7 +234,7 @@ const closeUserSession = async (req, res) => {
             message: 'Sesión cerrada exitosamente'
         });
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             ok: false,
             message: 'Error interno del servidor'
@@ -290,7 +250,7 @@ const hasAdministrator = async (req, res) => {
         }
         return res.status(200).json({ hasAdministrator: true });
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             ok: false,
             message: 'Error al verificar administradores'
@@ -302,7 +262,6 @@ const registerAdmin = async (req, res) => {
     const { userName, userLastName, userEmail, userPassword } = req.body;
 
     try {
-        // Verificar si ya existe al menos un administrador
         const adminExists = await User.exists({ userRole: 'administrator' });
         if (adminExists) {
             return res.status(403).json({
@@ -311,7 +270,6 @@ const registerAdmin = async (req, res) => {
             });
         }
 
-        // Crear nuevo usuario administrador
         const hashedPassword = await bcrypt.hash(userPassword, 10);
         const newUser = new User({
             userName,
@@ -323,10 +281,8 @@ const registerAdmin = async (req, res) => {
 
         await newUser.save();
 
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'CREATE', newUser._id, { newRecord: newUser.toObject() });
-        // Enviar correo de confirmación
-        const confirmationLink = `${process.env.BASE_URL  || 'http://localhost:4200'}/cuentaactivconfirm?token=${confirmationToken}`; // Enlace de confirmación
+        const confirmationLink = `${process.env.BASE_URL  || 'http://localhost:4200'}/cuentaactivconfirm?token=${confirmationToken}`; 
         const emailData = {
             to: userEmail,
             subject: `Bienvenido ${userLastName} a gestiON`,
@@ -337,15 +293,12 @@ const registerAdmin = async (req, res) => {
               <a href="${confirmationLink}">Confirmar Cuenta</a>
               <p>Este enlace expirará en ${process.env.CONFIRMATION_EXPIRATION} hora.</p>`
         }
-        // Reutilizar la función de envío de correos
         const reqMail = { token : token, functionalitySendMail: 'userRegisterAdmin', documentId: nuevoUser._id, emailData : emailData };
         const result = await mail.sendEmail(reqMail);
-        console.log('result sendMail', result);
         if (!result.success) {
             const userDelete = await User.findOne({ userEmail: userEmail });
             if (userDelete) {
                 await User.findByIdAndDelete(userDelete._id)
-                // Register in audit_logs (req, action, documentId, changes) 
                 await registerAuditLog(req, 'DELETE', userDelete._id, { deleteRecord: userDelete.toObject() });
             }
             return res.status(201).json({ ok: false, message: 'Administrador No fue creado. No fue posible enviar correo.' });
@@ -354,7 +307,7 @@ const registerAdmin = async (req, res) => {
         }
 
     } catch (error) {
-        console.error(error);
+        
         res.status(500).json({
             ok: false,
             message: 'Error al registrar administrador'
@@ -366,7 +319,6 @@ const confirmUser = async (req, res) => {
     const token = req.query.token.trim();
     const userEmailConfirm = req.query.email.trim();
     const userPasswordConfirm = req.query.password.trim();
-    console.log('token ', token);
     if (!token) {
         return res.status(400).json({
             ok: false,
@@ -387,13 +339,11 @@ const confirmUser = async (req, res) => {
     }
     try {
 
-        // Verificar el token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if(userEmailConfirm !== decoded.userEmail)return res.status(400).json({
             ok: false,
             error: 'Token no registrado para este usuario.'
         });
-        console.log('decoded token ', decoded);
         const user = await User.findOne({
             userEmail: decoded.userEmail,
             userConfirmationToken: token,
@@ -404,14 +354,12 @@ const confirmUser = async (req, res) => {
             error: 'Token inválido o expirado.'
         });
 
-        // Verificar si el token está expirado
         if (new Date() > user.userConfirmationTokenExpires) {
             user.userIsActive = false;
             user.userConfirmationToken = null;
             user.userConfirmationTokenExpires = null;
             await user.save();
 
-            // Register in audit_logs (req, action, documentId, changes) 
             await registerAuditLog(req, 'confirmUser', user._id, { actionDetails: 'Token expirado, inactivar usuario' });
 
             return res.status(400).json({
@@ -421,27 +369,22 @@ const confirmUser = async (req, res) => {
         }
 
 
-        // Actualizar la contraseña del usuario
         const hashedPassword = await bcrypt.hash(userPasswordConfirm, 10);
         user.userPassword = hashedPassword;
 
-        // Activar el usuario
         user.userIsActive = true;
         user.userConfirmationToken = null;
         user.userConfirmationTokenExpires = null;
         await user.save();
 
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'confirmUser', user._id, { actionDetails: 'Confirmación exitosa, Activa Usuario' });
-
-        
 
         return res.status(200).json({
             ok: true,
             message: 'Cuenta confirmada exitosamente.'
         });
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             ok: false,
 
@@ -450,7 +393,6 @@ const confirmUser = async (req, res) => {
     }
 };
 
-// Buscar registro por Id
 const getUserById = async (req, res) => {
     const id = req.params.id
     try {
@@ -479,7 +421,6 @@ const getUserById = async (req, res) => {
             ok: false,
             message: `No fue encontrado usuario para ${id}`
         })
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'READ', user._id, { actionDetails: 'Get user by id' });
 
         return res.status(200).json({
@@ -488,7 +429,7 @@ const getUserById = async (req, res) => {
             data: user
         })
     } catch (error) {
-        console.log(error)
+        
         return res.status(500).json({
             ok: false,
             message: 'No fue encontrado usuario, por favor contactar a soporte',
@@ -497,7 +438,6 @@ const getUserById = async (req, res) => {
     }
 }
 
-// Get all supervisor records
 const getAllSupervisor = async (req, res) => {
     try {
         const token = req.header('Authorization')?.split(' ')[1];
@@ -513,7 +453,6 @@ const getAllSupervisor = async (req, res) => {
         }
         const users = await User.find({ userRole: 'supervisor' })
         if (!users || users.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron supervisores' });
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'REAd', null, { actionDetails: 'get all supervisors' });
 
         return res.status(200).json({
@@ -530,7 +469,6 @@ const getAllSupervisor = async (req, res) => {
     }
 }
 
-// Get all technician records
 const getAllTechnician = async (req, res) => {
     try {
         const token = req.header('Authorization')?.split(' ')[1];
@@ -546,7 +484,6 @@ const getAllTechnician = async (req, res) => {
         }
         const users = await User.find({ userRole: 'technician' })
         if (!users || users.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron técnicos' });
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'REAd', null, { actionDetails: 'get all technicians' });
 
         return res.status(200).json({
@@ -563,7 +500,6 @@ const getAllTechnician = async (req, res) => {
     }
 }
 
-
 const registerAuditLog = async (req, action, documentId, changes) => {
     const token = req.header('Authorization')?.split(' ')[1];
     const secret = process.env.SECRET_KEY;
@@ -576,16 +512,15 @@ const registerAuditLog = async (req, action, documentId, changes) => {
         auditLogUser = documentId
     }
     const auditLogData = {
-        auditLogUser: auditLogUser,                             // User who performed the action (can be null)
-        auditLogAction: action,                                 // Action performed e.g., "CREATE", "UPDATE", "DELETE"
-        auditLogModel: 'User',                                  // Affected model, e.g., "User"
-        auditLogDocumentId: documentId,                         // ID of the affected document (can be null)
-        auditLogChanges: changes                                // Changes made or additional information (not mandatory)
+        auditLogUser: auditLogUser,                             
+        auditLogAction: action,                                 
+        auditLogModel: 'User',                                  
+        auditLogDocumentId: documentId,                         
+        auditLogChanges: changes                                
     }
     await AuditLogController.createAuditLog(auditLogData);
 };
 
-// Get all user records
 const getAllUsers = async (req, res) => {
     try {
         const token = req.header('Authorization')?.split(' ')[1];
@@ -601,7 +536,6 @@ const getAllUsers = async (req, res) => {
         }
         const users = await User.find()
         if (!users || users.length === 0) return res.status(404).json({ ok: false, message: 'No se encontraron usuarios' });
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'REAd', null, { actionDetails: 'get all users' });
 
         return res.status(200).json({
@@ -618,7 +552,6 @@ const getAllUsers = async (req, res) => {
     }
 }
 
-// Update a user by id
 const updateUserById = async (req, res) => {
     const { id } = req.params;
     const { userName, userLastName, userEmail, userRole, userIsActive, userPassword } = req.body;
@@ -647,7 +580,6 @@ const updateUserById = async (req, res) => {
                 const hashedPassword = await bcrypt.hash(userPassword, 10);
                 updateDataById.userPassword = hashedPassword
 };
-            // Identify changes
             for (let key in updateDataById) {
                 if (originalData[key] !== updateDataById[key]) {
                     hasChanges = true;
@@ -657,7 +589,6 @@ const updateUserById = async (req, res) => {
                     else {
                         changes[key] = { old: originalData[key], new: updateDataById[key] }
                     };
-                    console.log('changes', changes);
                 }
             }
         }
@@ -672,7 +603,6 @@ const updateUserById = async (req, res) => {
                 ok: false,
                 message: 'No se puede actualizar el usuario, no encontrado o no se detectaron cambios'
             })
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'UPDATE', id, { updateRecord: changes });
 
         return res.status(200).json({
@@ -681,7 +611,7 @@ const updateUserById = async (req, res) => {
             data: user
         })
     } catch (error) {
-        console.log(error)
+        
         return res.status(500).json({
             ok: false,
             message: 'No se puede actualizar el usuario, por favor contacte al soporte',
@@ -690,7 +620,6 @@ const updateUserById = async (req, res) => {
     }
 }
 
-// Delete a user by id
 const deleteUserById = async (req, res) => {
     const { id } = req.params;
     if (!req.query.userDeletionCause) {
@@ -709,10 +638,8 @@ const deleteUserById = async (req, res) => {
         });
     }
 
-    console.log('deleteUserById token ', token);
 try {
         const decoded = jwt.verify(token, secret);
-        console.log('deleteUserById decoded and id ', decoded, id);
 
         if (decoded.userData === id) {
             return res.status(401).json({
@@ -743,7 +670,6 @@ try {
         }
         const workOrderCount = await WorkOrder.countDocuments({ workOrderSupervisor: userValidate._id });
         if (workOrderCount > 0) {
-            // Register in audit_logs (req, action, documentId, changes) 
             userValidate.userIsActive = false;
             userValidate.userDeletionCause = userDeletionCause;
             await userValidate.save();
@@ -772,7 +698,6 @@ try {
                 ok: false,
                 message: 'No se puede eliminar el usuario, no encontrado'
             })
-        // Register in audit_logs (req, action, documentId, changes) 
         await registerAuditLog(req, 'DELETE', id, { DeletionCause: userDeletionCause, deletedRecord: user.toObject() });
         return res.status(200).json({
             ok: true,
@@ -780,7 +705,7 @@ try {
             data: user
         })
     } catch (error) {
-        console.log(error)
+        
         return res.status(500).json({
             ok: false,
             message: 'No se puede eliminar el usuario, por favor contacte al soporte',
@@ -791,7 +716,6 @@ try {
 
 const userByTokenConfirmation = async (req, res) => { 
     const token = req.query.token.trim();
-    console.log('token ', token);
     if (!token) {
         return res.status(400).json({
             ok: false,
@@ -800,9 +724,7 @@ const userByTokenConfirmation = async (req, res) => {
     }
     try {
 
-        // Verificar el token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        console.log('decoded token ', decoded);
         const user = await User.findOne({
             userEmail: decoded.userEmail,
             userConfirmationToken: token,
@@ -813,14 +735,12 @@ const userByTokenConfirmation = async (req, res) => {
             error: 'Token inválido o expirado.'
         });
 
-        // Verificar si el token está expirado
         if (new Date() > user.userConfirmationTokenExpires) {
             user.userIsActive = false;
             user.userConfirmationToken = null;
             user.userConfirmationTokenExpires = null;
             await user.save();
 
-            // Register in audit_logs (req, action, documentId, changes) 
             await registerAuditLog(req, 'userByTokenConfirmation', user._id, { actionDetails: 'Token expirado, inactivar usuario y limpiar token de confirmación' });
 
             return res.status(400).json({
@@ -835,7 +755,7 @@ const userByTokenConfirmation = async (req, res) => {
             data: user
         });
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             ok: false,
 
