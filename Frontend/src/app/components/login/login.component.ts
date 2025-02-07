@@ -107,8 +107,8 @@ export class LoginComponent {
         console.log("Redirigido a pantalla de carga correctamente.");
       },
       error: (error) => {
-        console.error("Error en la petición de login:", error);
-        this.msg.Load("danger", "Error en el servidor. Intente nuevamente más tarde.");
+        console.error("Error en la petición de login:", error.message);
+        this.msg.Load("danger", error.message || "Error en el servidor. Intente nuevamente más tarde.");
       }
     });
   }

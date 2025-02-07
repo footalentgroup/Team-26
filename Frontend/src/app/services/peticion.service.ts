@@ -51,7 +51,7 @@ public UrlHost:string= 'https://ftg-team-26-backend-preview.vercel.app/api'
 
   private handleError(error: any): Observable<never> {
     console.error('Ocurrió un error en la petición:', error);
-    return throwError(() => new Error(error.message || 'Error en la petición HTTP.'));
+    return throwError(() => new Error(error.error.message || 'Error en la petición HTTP.'));
 }
 }
 
