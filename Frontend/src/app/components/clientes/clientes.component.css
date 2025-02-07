@@ -65,7 +65,7 @@ h2 {
     width:calc(140 * (100vw / 1440));
     height: calc(50 * (100vh / 1024));
     font-size: calc(16 * (100vw / 1440));
-    background-color: #003366;
+    background-color: #00254B;
     color: #fff;
     border: none;
     border-radius: 0px 28px 28px 0px;
@@ -98,7 +98,7 @@ h2 {
 }
 
 .clientes-table th {
-    background-color: #003366;
+    background-color: #00254B;
     color: white;
     font-size: calc(16 * (100vw / 1440));
     font-weight: 600;
@@ -136,7 +136,7 @@ h2 {
         height: calc(450 * (100vh / 768));
     }
     .clientes-table th {
-        background-color: #003366;
+        background-color: #00254B;
         color: white;
         font-weight: 600;
         position: sticky; 

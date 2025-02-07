@@ -65,7 +65,7 @@
     justify-content: left;
     align-items: center;
     font-size: calc(16 * (100vh / 1024));
-    color: #003366 !important;
+    color: #00254B !important;
     position: absolute;
     left: calc(76 * (100vw / 1440));
     top: calc(42 * (100vh / 1024));
@@ -86,7 +86,7 @@
     justify-content: left;
     align-items: center;
     font-size: calc(24 * (100vw / 1440)) ;
-    color: #003366 !important;
+    color: #00254B !important;
     position: absolute;
     left: calc(26 * (100vw / 1440));
     top: calc(137 * (100vh / 1024));

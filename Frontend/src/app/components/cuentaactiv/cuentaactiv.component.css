@@ -22,7 +22,7 @@
     font-size: calc(16 * (100vw / 1440));
     font-weight: 500;
     margin-bottom: calc(5 * (100vh / 1024));
-    color: #003366;
+    color: #00254B;
     font-family: 'Poppins', sans-serif;
 }
 .textlb{
@@ -86,7 +86,7 @@
 .boton-inicio {
     width:calc(490 * (100vw / 1440));
     padding: calc(10 * (100vw / 1440));
-    background-color: #003366;
+    background-color: #00254B;
     border: none;
     color: #fff;
     font-size: calc(18 * (100vw / 1440));;
