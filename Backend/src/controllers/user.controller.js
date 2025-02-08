@@ -19,7 +19,7 @@ const auditLogData = {
 
 // Crear usuario
 const createUser = async (req, res) => {
-    console.log("headers recivido",req.headers)
+    // console.log("headers recivido",req.headers)
     try {
         const token = req.header('Authorization')?.split(' ')[1];
         const secret = process.env.SECRET_KEY;
@@ -126,7 +126,7 @@ const createUser = async (req, res) => {
         // Reutilizar la función de envío de correos
         const reqMail = { token : token, functionalitySendMail: 'userCreate', documentId: nuevoUser._id, emailData : emailData };
         const result = await mail.sendEmail(reqMail);
-        console.log('result sendMail', result);
+        // console.log('result sendMail', result);
         if (!result.success) {
             const userDelete = await User.findOne({ userEmail: userEmail });
             if (userDelete) {
@@ -139,7 +139,7 @@ const createUser = async (req, res) => {
             return res.status(201).json({ ok: true, message: 'Usuario creado exitosamente. Por favor, revisa tu correo para confirmar tu cuenta.' });
         }
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({
             ok: false,
             error: `Error interno del servidor ${error.code} ${error.message}`
@@ -234,7 +234,7 @@ const loginUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({
             ok: false,
             message: 'Ocurrió un error durante el inicio de sesión'
@@ -247,7 +247,7 @@ const closeUserSession = async (req, res) => {
     try {
         // Buscar al usuario por ID
         const user = await User.findById(id);
-        console.log(`userId: ${id}, user: ${user}`)
+        // console.log(`userId: ${id}, user: ${user}`)
 
         if (!user) {
             return res.status(404).json({
@@ -268,7 +268,7 @@ const closeUserSession = async (req, res) => {
             message: 'Sesión cerrada exitosamente'
         });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({
             ok: false,
             message: 'Error interno del servidor'
@@ -284,7 +284,7 @@ const hasAdministrator = async (req, res) => {
         }
         return res.status(200).json({ hasAdministrator: true });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({
             ok: false,
             message: 'Error al verificar administradores'
@@ -334,7 +334,7 @@ const registerAdmin = async (req, res) => {
         // Reutilizar la función de envío de correos
         const reqMail = { token : token, functionalitySendMail: 'userRegisterAdmin', documentId: nuevoUser._id, emailData : emailData };
         const result = await mail.sendEmail(reqMail);
-        console.log('result sendMail', result);
+        // console.log('result sendMail', result);
         if (!result.success) {
             const userDelete = await User.findOne({ userEmail: userEmail });
             if (userDelete) {
@@ -348,7 +348,7 @@ const registerAdmin = async (req, res) => {
         }
 
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({
             ok: false,
             message: 'Error al registrar administrador'
@@ -360,7 +360,7 @@ const confirmUser = async (req, res) => {
     const token = req.query.token.trim();
     const userEmailConfirm = req.query.email.trim();
     const userPasswordConfirm = req.query.password.trim();
-    console.log('token ', token);
+    // console.log('token ', token);
     if (!token) {
         return res.status(400).json({
             ok: false,
@@ -387,7 +387,7 @@ const confirmUser = async (req, res) => {
             ok: false,
             error: 'Token no registrado para este usuario.'
         });
-        console.log('decoded token ', decoded);
+        // console.log('decoded token ', decoded);
         const user = await User.findOne({
             userEmail: decoded.userEmail,
             userConfirmationToken: token,
@@ -435,7 +435,7 @@ const confirmUser = async (req, res) => {
             message: 'Cuenta confirmada exitosamente.'
         });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({
             ok: false,
 
@@ -482,7 +482,7 @@ const getUserById = async (req, res) => {
             data: user
         })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(500).json({
             ok: false,
             message: 'No fue encontrado usuario, por favor contactar a soporte',
@@ -615,7 +615,7 @@ const getAllUsers = async (req, res) => {
 // Update a user by id
 const updateUserById = async (req, res) => {
     const { id } = req.params;
-    const { userName, userLastName, userEmail, userRole, userIsActive, userPassword } = req.body;
+    const { userName, userLastName, userEmail, userRole, userIsActive, userPassword, userPhone } = req.body;
     let hasChanges = false;
     try {
         const token = req.header('Authorization')?.split(' ')[1];
@@ -637,6 +637,7 @@ const updateUserById = async (req, res) => {
             if (userEmail && userDataToken.userRole === 'administrator') updateDataById.userEmail = userEmail;
             if (userRole && userDataToken.userRole === 'administrator' && userRole !== 'administrator' && userDataToken._id !== originalData._id) updateDataById.userRole = userRole;
             if (userIsActive && userDataToken.userRole === 'administrator' && userDataToken._id !== originalData._id) updateDataById.userIsActive = userIsActive;
+            if (userPhone && userDataToken.userRole === 'administrator' && userDataToken._id !== originalData._id) updateDataById.userPhone = userPhone;
             if (userPassword) {
                 const hashedPassword = await bcrypt.hash(userPassword, 10);
                 updateDataById.userPassword = hashedPassword
@@ -651,7 +652,7 @@ const updateUserById = async (req, res) => {
                     else {
                         changes[key] = { old: originalData[key], new: updateDataById[key] }
                     };
-                    console.log('changes', changes);
+                    // console.log('changes', changes);
                 }
             }
         }
@@ -675,7 +676,7 @@ const updateUserById = async (req, res) => {
             data: user
         })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(500).json({
             ok: false,
             message: 'No se puede actualizar el usuario, por favor contacte al soporte',
@@ -703,10 +704,10 @@ const deleteUserById = async (req, res) => {
         });
     }
 
-    console.log('deleteUserById token ', token);
+    // console.log('deleteUserById token ', token);
 try {
         const decoded = jwt.verify(token, secret);
-        console.log('deleteUserById decoded and id ', decoded, id);
+        // console.log('deleteUserById decoded and id ', decoded, id);
 
         if (decoded.userData === id) {
             return res.status(401).json({
@@ -774,7 +775,7 @@ try {
             data: user
         })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(500).json({
             ok: false,
             message: 'No se puede eliminar el usuario, por favor contacte al soporte',
@@ -785,7 +786,7 @@ try {
 
 const userByTokenConfirmation = async (req, res) => { 
     const token = req.query.token.trim();
-    console.log('token ', token);
+    // console.log('token ', token);
     if (!token) {
         return res.status(400).json({
             ok: false,
@@ -796,7 +797,7 @@ const userByTokenConfirmation = async (req, res) => {
 
         // Verificar el token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        console.log('decoded token ', decoded);
+        // console.log('decoded token ', decoded);
         const user = await User.findOne({
             userEmail: decoded.userEmail,
             userConfirmationToken: token,
@@ -829,7 +830,7 @@ const userByTokenConfirmation = async (req, res) => {
             data: user
         });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({
             ok: false,
 
