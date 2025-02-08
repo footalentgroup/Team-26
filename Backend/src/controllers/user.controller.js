@@ -10,11 +10,11 @@ const temporalID = new ObjectId(); // ID o nombre del usuario
 
 const auditLogData = {
     //En espera de accciones en el frontend para capturar usuario logeado
-    auditLogUser: temporalID // ID o nombre del usuario
+    auditLogUser: temporalID        // ID o nombre del usuario
     , auditLogAction: 'CREATE'      // Acción realizada e.g., "CREATE", "UPDATE", "DELETE"
-    , auditLogModel: 'User'        // Modelo afectado, e.g., "User"
-    , auditLogDocumentId: null          // ID del documento afectado (puede ser nulo)
-    , auditLogChanges: null          // Cambios realizados o información adicional (no obligatorio)
+    , auditLogModel: 'User'         // Modelo afectado, e.g., "User"
+    , auditLogDocumentId: null      // ID del documento afectado (puede ser nulo)
+    , auditLogChanges: null         // Cambios realizados o información adicional (no obligatorio)
 }
 
 // Crear usuario
@@ -54,12 +54,6 @@ const createUser = async (req, res) => {
                 message: 'Se requiere email'
             });
         }
-        // if (!nuevoUser.userPassword) {
-        //     return res.status(400).json({
-        //         ok: false,
-        //         message: 'Se requiere password'
-        //     });
-        // }
 
         // En caso de que no se proporcione un rol, asignará el rol por defecto: technician
         // En caso de que se proporcione un rol, verificar que sea válido        
@@ -163,7 +157,7 @@ const loginUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 ok: false,
-                message: 'User not found'
+                message: 'Correo no registrado para usuario en gestiON'
             });
         }
 
