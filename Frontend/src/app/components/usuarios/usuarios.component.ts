@@ -121,14 +121,14 @@ export class UsuariosComponent {
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA EDITAR UN REGISTRO DE UN USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
   editarRegistro(id: string) {
     this.esEditar = true;
-    const usuario = this.datos.find((item) => item._id === id);
+    this.modalTitle = "Editar Usuario";
+    this.mostrarModal = true;
+  const usuario = this.datos.find((item) => item._id === id);
     
       this.nombre = usuario.userName + " " + (usuario.userLastName || "");
       this.Email = usuario.userEmail;
       this.Role = usuario.userRole;
       this.Telefono = usuario.userPhone;
-      this.modalTitle = "Editar Usuario";
-      this.mostrarModal = true;
       this.idseleccionado = id;
   }
 
