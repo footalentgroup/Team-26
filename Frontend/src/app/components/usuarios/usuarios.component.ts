@@ -16,7 +16,7 @@ declare let $: any;
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent {
-  constructor(private userService: UserService, private msg: MensajesService, private router: Router) {}
+  constructor(private userService: UserService, private msg: MensajesService, private router: Router) { }
 
   ngOnInit(): void {
     console.log("Valor inicial de currentStep:", this.currentStep);
@@ -25,7 +25,7 @@ export class UsuariosComponent {
 
   mostrarModal: boolean = false;
   esEditar: boolean = false;
-  motivoBaja: string = ""; 
+  motivoBaja: string = "";
   modalTitle: string = "Nuevo Usuario";
 
   currentStep: 'crear' | 'confirmar' | 'exito' | 'darDeBaja' | 'motivoDeBaja' | 'exitoBaja' | null = null;
@@ -37,6 +37,7 @@ export class UsuariosComponent {
   Telefono: string = "";
   idseleccionado: string = "";
   seleccionRol: string = '';
+  searchText: string = '';
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA CONTROLAR LA FUNCION DEL MODAL OPEN - CLOSE $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
   abrirModal() {
@@ -52,7 +53,7 @@ export class UsuariosComponent {
     this.Email = '';
     this.Role = '';
     this.Telefono = '';
-    this.seleccionRol = '';   
+    this.seleccionRol = '';
   }
 
   avanzarPaso() {
@@ -75,7 +76,7 @@ export class UsuariosComponent {
         this.msg.Load('danger', 'Por favor, ingrese un motivo válido.');
         return;
       }
-      this.eliminarBaja( this.idseleccionado);
+      this.eliminarBaja(this.idseleccionado);
     } else if (this.currentStep === 'exito' || this.currentStep === 'exitoBaja') {
       this.cargarDatos();
       this.cerrarModal();
@@ -84,7 +85,7 @@ export class UsuariosComponent {
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA GUARDAR UN NUEVO USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
   guardarUsuario() {
-    console.log("impresion de la variable nombre",this.nombre)
+    console.log("impresion de la variable nombre", this.nombre)
     const nombreParts = this.nombre.trim().split(' ');
 
     // Obtener el año actual
@@ -93,14 +94,14 @@ export class UsuariosComponent {
     // Generar el password concatenando userName y el año de creación
     const userName = nombreParts[0]; // Primer nombre del usuario
     const userPassword = `${userName}${currentYear}`; // Generar el password
-    
+
     const payload = {
       userName: userName,
       userLastName: nombreParts.slice(1).join(' '),
       userEmail: this.Email,
       userRole: this.Role,
       userPhone: this.Telefono,
-      userPassword:userPassword,
+      userPassword: userPassword,
     };
 
     console.log("Datos enviados al backend:", payload);
@@ -122,14 +123,15 @@ export class UsuariosComponent {
   editarRegistro(id: string) {
     this.esEditar = true;
     const usuario = this.datos.find((item) => item._id === id);
-    
-      this.nombre = usuario.userName + " " + (usuario.userLastName || "");
-      this.Email = usuario.userEmail;
-      this.Role = usuario.userRole;
-      this.Telefono = usuario.userPhone;
-      this.modalTitle = "Editar Usuario";
-      this.mostrarModal = true;
-      this.idseleccionado = id;
+
+    this.nombre = usuario.userName + " " + (usuario.userLastName || "");
+    this.Email = usuario.userEmail;
+    this.Role = usuario.userRole;
+    this.Telefono = usuario.userPhone;
+    this.modalTitle = "Editar Usuario";
+    this.mostrarModal = true;
+    this.idseleccionado = id;
+    this.currentStep = 'confirmar'
   }
 
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA EDITAR LOS REGISTROS DEL USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
@@ -162,7 +164,11 @@ export class UsuariosComponent {
   cargarDatos() {
     this.userService.getUsers().subscribe({
       next: (res: any) => {
-        this.datos = res.data;
+        this.datos = res.data.sort((a: any, b: any) => {
+          const nameA = `${a.userName} ${a.userLastName}`.toLowerCase();
+          const nameB = `${b.userName} ${b.userLastName}`.toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
         console.log("Datos cargados:", this.datos);
       },
       error: (error) => {
@@ -171,6 +177,18 @@ export class UsuariosComponent {
       }
     });
   }
+  searchTextChange() {
+    console.log("Valor de searchText:", this.searchText);
+    if (this.searchText === "")  {
+      this.cargarDatos();
+    } else
+    if ( this.datos.length > 0) {
+      this.datos = this.datos.filter((item) => {
+        const fullSearch = `${item.userName} ${item.userLastName} ${item.userPhone} ${item.userEmail}`.toLowerCase();
+        return fullSearch.includes(this.searchText.toLowerCase());
+      });
+    }
+  }  
 
   cambio(role: string) {
     this.seleccionRol = role;
@@ -179,7 +197,7 @@ export class UsuariosComponent {
   /*$$$$$$$$$$$$$$$$$$ FUNCION PARA ELIMINAR UN USUARIO $$$$$$$$$$$$$$$$$$$$$$$$$$$$*/
   EliminarM(id: string) {
     console.log("Dar de baja usuario con ID:", id);
-    
+
     const usuario = this.datos.find((item) => item._id === id);
 
     this.nombre = usuario.userName + " " + (usuario.userLastName || "");
@@ -187,7 +205,7 @@ export class UsuariosComponent {
     this.mostrarModal = true;
     this.currentStep = 'darDeBaja';
     this.idseleccionado = id;
-    this.motivoBaja = ""; 
+    this.motivoBaja = "";
     this.seleccionRol = usuario.userRole;
     console.log("Valor de seleccionRol:", this.seleccionRol);
   }
